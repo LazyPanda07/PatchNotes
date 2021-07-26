@@ -1,0 +1,2 @@
+# PatchNotes
+Patch notes generator.
