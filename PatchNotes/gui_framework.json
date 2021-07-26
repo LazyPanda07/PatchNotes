@@ -1,0 +1,9 @@
+{
+  "Settings": {
+    "usingDefaultCreators": true
+  },
+
+  "Threading": {
+    "threadsCount": 0
+  }
+}

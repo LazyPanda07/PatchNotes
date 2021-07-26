@@ -1,0 +1,3 @@
+[submodule "GUIFrameworkLibrary"]
+	path = GUIFrameworkLibrary
+	url = https://github.com/LazyPanda07/GUIFramework.git

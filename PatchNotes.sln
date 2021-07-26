@@ -5,14 +5,38 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PatchNotes", "PatchNotes\PatchNotes.vcxproj", "{49D8DF64-590C-464F-8F6A-CEDA284691CB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{92BC1F4A-6119-4E96-A4F4-A9DB0209836F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GUIFramework", "GUIFrameworkLibrary\GUIFramework\GUIFramework.vcxproj", "{4abc2b87-48db-4481-8d94-4de3de15a82e}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ThreadPool", "GUIFrameworkLibrary\ThreadPool\ThreadPool.vcxproj", "{bde48484-5593-484f-9f84-fc01f8cf83a9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JSON", "GUIFrameworkLibrary\JSON\JSON.vcxproj", "{f6b57139-d9f3-4b02-aa92-4e1f417649da}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4abc2b87-48db-4481-8d94-4de3de15a82e}.ProductionRelease|x64.ActiveCfg = ProductionRelease|x64
+		{4abc2b87-48db-4481-8d94-4de3de15a82e}.ProductionRelease|x64.Build.0 = ProductionRelease|x64
+		{4abc2b87-48db-4481-8d94-4de3de15a82e}.Release|x64.ActiveCfg = Release|x64
+		{4abc2b87-48db-4481-8d94-4de3de15a82e}.Release|x64.Build.0 = Release|x64
+		{4abc2b87-48db-4481-8d94-4de3de15a82e}.Debug|x64.ActiveCfg = Debug|x64
+		{4abc2b87-48db-4481-8d94-4de3de15a82e}.Debug|x64.Build.0 = Debug|x64
+		{bde48484-5593-484f-9f84-fc01f8cf83a9}.ProductionRelease|x64.ActiveCfg = ProductionRelease|x64
+		{bde48484-5593-484f-9f84-fc01f8cf83a9}.ProductionRelease|x64.Build.0 = ProductionRelease|x64
+		{bde48484-5593-484f-9f84-fc01f8cf83a9}.Release|x64.ActiveCfg = Release|x64
+		{bde48484-5593-484f-9f84-fc01f8cf83a9}.Release|x64.Build.0 = Release|x64
+		{bde48484-5593-484f-9f84-fc01f8cf83a9}.Debug|x64.ActiveCfg = Debug|x64
+		{bde48484-5593-484f-9f84-fc01f8cf83a9}.Debug|x64.Build.0 = Debug|x64
+		{f6b57139-d9f3-4b02-aa92-4e1f417649da}.ProductionRelease|x64.ActiveCfg = ProductionRelease|x64
+		{f6b57139-d9f3-4b02-aa92-4e1f417649da}.ProductionRelease|x64.Build.0 = ProductionRelease|x64
+		{f6b57139-d9f3-4b02-aa92-4e1f417649da}.Release|x64.ActiveCfg = Release|x64
+		{f6b57139-d9f3-4b02-aa92-4e1f417649da}.Release|x64.Build.0 = Release|x64
+		{f6b57139-d9f3-4b02-aa92-4e1f417649da}.Debug|x64.ActiveCfg = Debug|x64
+		{f6b57139-d9f3-4b02-aa92-4e1f417649da}.Debug|x64.Build.0 = Debug|x64
 		{49D8DF64-590C-464F-8F6A-CEDA284691CB}.Debug|x64.ActiveCfg = Debug|x64
 		{49D8DF64-590C-464F-8F6A-CEDA284691CB}.Debug|x64.Build.0 = Debug|x64
 		{49D8DF64-590C-464F-8F6A-CEDA284691CB}.Debug|x86.ActiveCfg = Debug|Win32
@@ -27,5 +51,10 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D284BC63-E3AA-4FCD-AFA2-61A903623B30}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{f6b57139-d9f3-4b02-aa92-4e1f417649da} = {92BC1F4A-6119-4E96-A4F4-A9DB0209836F}
+		{bde48484-5593-484f-9f84-fc01f8cf83a9} = {92BC1F4A-6119-4E96-A4F4-A9DB0209836F}
+		{4abc2b87-48db-4481-8d94-4de3de15a82e} = {92BC1F4A-6119-4E96-A4F4-A9DB0209836F}
 	EndGlobalSection
 EndGlobal
