@@ -8,7 +8,7 @@ namespace views
 	class ProjectConfigurationView : public BaseView
 	{
 	private:
-		static std::unique_ptr<gui_framework::BaseComposite> createConfigurationDialog();
+		static std::unique_ptr<gui_framework::BaseComposite> createConfigurationDialog(const std::shared_ptr<controllers::BaseController>& controller);
 
 	public:
 		ProjectConfigurationView(const std::shared_ptr<controllers::BaseController>& controller);
