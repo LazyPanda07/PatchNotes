@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -92,7 +92,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)GUIFrameworkLibrary\JSON\src;$(SolutionDir)GUIFrameworkLibrary\ThreadPool\src;$(SolutionDir)GUIFrameworkLibrary\GUIFramework\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GUIFrameworkLibrary\JSON\src;$(SolutionDir)GUIFrameworkLibrary\ThreadPool\src;$(SolutionDir)GUIFrameworkLibrary\GUIFramework\src;$(ProjectDir)src</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -108,7 +108,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)GUIFrameworkLibrary\JSON\src;$(SolutionDir)GUIFrameworkLibrary\ThreadPool\src;$(SolutionDir)GUIFrameworkLibrary\GUIFramework\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GUIFrameworkLibrary\JSON\src;$(SolutionDir)GUIFrameworkLibrary\ThreadPool\src;$(SolutionDir)GUIFrameworkLibrary\GUIFramework\src;$(ProjectDir)src</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -128,7 +128,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)GUIFrameworkLibrary\JSON\src;$(SolutionDir)GUIFrameworkLibrary\ThreadPool\src;$(SolutionDir)GUIFrameworkLibrary\GUIFramework\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GUIFrameworkLibrary\JSON\src;$(SolutionDir)GUIFrameworkLibrary\ThreadPool\src;$(SolutionDir)GUIFrameworkLibrary\GUIFramework\src;$(ProjectDir)src</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -144,7 +144,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)GUIFrameworkLibrary\JSON\src;$(SolutionDir)GUIFrameworkLibrary\ThreadPool\src;$(SolutionDir)GUIFrameworkLibrary\GUIFramework\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GUIFrameworkLibrary\JSON\src;$(SolutionDir)GUIFrameworkLibrary\ThreadPool\src;$(SolutionDir)GUIFrameworkLibrary\GUIFramework\src;$(ProjectDir)src</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -168,10 +168,28 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Controllers\BaseController.cpp" />
+    <ClCompile Include="src\Controllers\ProjectConfigurationController.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
+    <ClCompile Include="src\Models\BaseModel.cpp" />
+    <ClCompile Include="src\Models\Interfaces\IEventNotifier.cpp" />
+    <ClCompile Include="src\Models\ProjectConfigurationModel.cpp" />
+    <ClCompile Include="src\Views\BaseView.cpp" />
+    <ClCompile Include="src\Views\ProjectConfigurationView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="gui_framework.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Controllers\BaseController.h" />
+    <ClInclude Include="src\Controllers\ProjectConfigurationController.h" />
+    <ClInclude Include="src\Models\BaseModel.h" />
+    <ClInclude Include="src\Models\Interfaces\IEventNotifier.h" />
+    <ClInclude Include="src\Models\ProjectConfigurationModel.h" />
+    <ClInclude Include="src\ProjectConfiguration.h" />
+    <ClInclude Include="src\Views\BaseView.h" />
+    <ClInclude Include="src\Views\Interfaces\IObserver.h" />
+    <ClInclude Include="src\Views\ProjectConfigurationView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
