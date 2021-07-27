@@ -2,7 +2,11 @@
 
 #include "GUIFramework.h"
 #include "Composites/SeparateWindow.h"
+#include "Composites/DialogBox.h"
 #include "Utility/Holders/WindowHolder.h"
+
+#include "Views/ProjectConfigurationView.h"
+#include "Controllers/ProjectConfigurationController.h"
 
 #include "PatchNotesConstants.h"
 

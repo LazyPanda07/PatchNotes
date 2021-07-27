@@ -14,4 +14,9 @@ namespace controllers
 	{
 		model->updateModel(data);
 	}
+
+	shared_ptr<models::BaseModel>& BaseController::getModel()
+	{
+		return model;
+	}
 }

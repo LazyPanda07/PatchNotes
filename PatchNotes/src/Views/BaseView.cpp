@@ -10,4 +10,9 @@ namespace views
 	{
 
 	}
+
+	unique_ptr<gui_framework::BaseComposite>& BaseView::getWindow()
+	{
+		return window;
+	}
 }

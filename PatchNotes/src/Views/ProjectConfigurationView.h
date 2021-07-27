@@ -18,5 +18,3 @@ namespace views
 		~ProjectConfigurationView();
 	};
 }
-
-CREATE_DEFAULT_WINDOW_FUNCTION(projectConfiguration)

@@ -9,11 +9,6 @@ using namespace std;
 
 namespace models
 {
-	ProjectConfigurationModel::ProjectConfigurationModel(const shared_ptr<views::interfaces::IObserver>& projectConfigurationView)
-	{
-		this->addObserver(projectConfigurationView);
-	}
-
 	json::JSONBuilder ProjectConfigurationModel::processData(const json::JSONParser& data)
 	{
 		json::JSONBuilder builder(utility::getCodepage());

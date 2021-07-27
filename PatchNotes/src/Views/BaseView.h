@@ -20,6 +20,8 @@ namespace views
 
 		virtual void update(const json::JSONParser& data) override = 0;
 
+		virtual std::unique_ptr<gui_framework::BaseComposite>& getWindow() final;
+
 		virtual ~BaseView() = default;
 	};
 }

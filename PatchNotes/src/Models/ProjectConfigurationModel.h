@@ -7,7 +7,7 @@ namespace models
 	class ProjectConfigurationModel : public BaseModel
 	{
 	public:
-		ProjectConfigurationModel(const std::shared_ptr<views::interfaces::IObserver>& projectConfigurationView);
+		ProjectConfigurationModel() = default;
 
 		json::JSONBuilder processData(const json::JSONParser& data) override;
 

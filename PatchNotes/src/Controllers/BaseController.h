@@ -18,6 +18,8 @@ namespace controllers
 
 		virtual void sendDataToModel(const json::JSONParser& data) const final;
 
+		virtual std::shared_ptr<models::BaseModel>& getModel() final;
+
 		virtual ~BaseController() = default;
 	};
 }

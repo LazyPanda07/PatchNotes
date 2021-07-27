@@ -7,6 +7,8 @@
 
 using namespace std;
 
+CREATE_DEFAULT_WINDOW_FUNCTION(projectConfiguration)
+
 namespace views
 {
 	unique_ptr<gui_framework::BaseComposite> ProjectConfigurationView::createConfigurationDialog()
@@ -28,7 +30,7 @@ namespace views
 		builder.
 			addComponent<gui_framework::EditControl>(L"ProjectName", 200, 20, DialogBox::DialogBoxBuilder::alignment::center, name).
 			addComponent<gui_framework::EditControl>(L"ProjectVersion", 200, 20, DialogBox::DialogBoxBuilder::alignment::center, version).
-			addComponent<gui_framework::Button>(L"Submit", 200, 20, DialogBox::DialogBoxBuilder::alignment::left);
+			addComponent<gui_framework::Button>(L"Submit", 150, 40, DialogBox::DialogBoxBuilder::alignment::center, submit, 0, 5);
 
 		return unique_ptr<gui_framework::BaseComposite>(builder.build());
 	}

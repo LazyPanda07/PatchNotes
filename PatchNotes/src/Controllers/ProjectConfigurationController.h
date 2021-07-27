@@ -1,13 +1,14 @@
 #pragma once
 
+#include "BaseController.h"
+
 namespace controllers
 {
-	class ProjectConfigurationController
+	class ProjectConfigurationController : public BaseController
 	{
-	private:
-
-
 	public:
+		ProjectConfigurationController();
 
+		~ProjectConfigurationController() = default;
 	};
 }
