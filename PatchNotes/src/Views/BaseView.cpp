@@ -4,8 +4,9 @@ using namespace std;
 
 namespace views
 {
-	BaseView::BaseView(const shared_ptr<controllers::BaseController>& controller) noexcept :
-		controller(controller)
+	BaseView::BaseView(const shared_ptr<controllers::BaseController>& controller, unique_ptr<gui_framework::BaseComposite>&& window) noexcept :
+		controller(controller),
+		window(move(window))
 	{
 
 	}

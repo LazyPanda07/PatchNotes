@@ -36,3 +36,6 @@
 
 # Binaries
 bin/
+
+# PatchNotes data
+data/

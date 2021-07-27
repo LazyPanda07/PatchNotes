@@ -1,6 +1,8 @@
 #pragma once
 
-#include <memory>
+#include "pch.h"
+
+#include "BaseComposites/BaseComposite.h"
 
 #include "Controllers/BaseController.h"
 #include "Interfaces/IObserver.h"
@@ -11,9 +13,10 @@ namespace views
 	{
 	protected:
 		std::shared_ptr<controllers::BaseController> controller;
+		std::unique_ptr<gui_framework::BaseComposite> window;
 
 	public:
-		BaseView(const std::shared_ptr<controllers::BaseController>& controller) noexcept;
+		BaseView(const std::shared_ptr<controllers::BaseController>& controller, std::unique_ptr<gui_framework::BaseComposite>&& window) noexcept;
 
 		virtual void update(const json::JSONParser& data) override = 0;
 
