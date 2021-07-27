@@ -17,12 +17,12 @@ namespace controllers
 
 		if (projectName.empty())
 		{
-			throw runtime_error(R"(Поле "Название проекта" не может быть пустым)");
+			throw runtime_error(json::utility::toUTF8JSON(R"(Поле "Название проекта" не может быть пустым)", 1251));
 		}
 
 		if (projectVersion.empty())
 		{
-			throw runtime_error(R"(Поле "Версия проекта" не может быть пустым)");
+			throw runtime_error(json::utility::toUTF8JSON(R"(Поле "Версия проекта" не может быть пустым)", 1251));
 		}
 
 		builder.

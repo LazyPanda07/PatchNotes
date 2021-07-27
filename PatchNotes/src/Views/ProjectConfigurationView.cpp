@@ -31,7 +31,17 @@ namespace views
 
 		DialogBox* dialogBox = builder.build();
 
-		dynamic_cast<gui_framework::Button*>(dialogBox->findChild(L"Add"))->setOnClick([dialogBox, &controller]() { controller->receiveData(dialogBox); });
+		dynamic_cast<gui_framework::Button*>(dialogBox->findChild(L"Add"))->setOnClick([dialogBox, &controller]()
+			{
+				try
+				{
+					controller->receiveData(dialogBox);
+				}
+				catch (const runtime_error& e)
+				{
+					BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), CP_UTF8), L"Îøèáêà", BaseDialogBox::messageBoxType::ok, dialogBox);
+				}
+			});
 
 		dialogBox->show();
 
