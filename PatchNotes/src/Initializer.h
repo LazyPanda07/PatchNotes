@@ -15,13 +15,13 @@ private:
 
 private:
 	std::shared_ptr<controllers::BaseController> projectConfigurationController;
-	std::shared_ptr<views::interfaces::IObserver> projectConfigurationView;
+	views::interfaces::IObserver* projectConfigurationViewRawPointer;
 
 private:
 	void createMenus();
 
 public:
-	Initializer() = default;
+	Initializer();
 
 	void initialization(std::unique_ptr<gui_framework::WindowHolder>& holder);
 

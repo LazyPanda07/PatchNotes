@@ -55,7 +55,7 @@ namespace views
 		{
 			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), L"Успех", BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window.get())) == BaseDialogBox::messageBoxResponse::ok)
 			{
-				
+				controller->getModel()->removeObserver(this);
 			}
 		}
 		else

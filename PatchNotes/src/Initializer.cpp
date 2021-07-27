@@ -10,7 +10,35 @@ using namespace std;
 
 CREATE_DEFAULT_WINDOW_FUNCTION(patchNotes)
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Initializer::createMenus()
+{
+	auto& menu = mainWindow->createMainMenu(L"PatchNotesMenu");
+	auto createProjectConfiguration = [this]()
+	{
+		if (projectConfigurationViewRawPointer)
+		{
+			projectConfigurationController->getModel()->removeObserver(projectConfigurationViewRawPointer);
+
+			projectConfigurationViewRawPointer = nullptr;
+		}
+
+		projectConfigurationController = make_shared<controllers::ProjectConfigurationController>();
+		unique_ptr<views::interfaces::IObserver> projectConfigurationView = make_unique<views::ProjectConfigurationView>(projectConfigurationController);
+
+		projectConfigurationViewRawPointer = projectConfigurationView.get();
+
+		projectConfigurationController->getModel()->addObserver(move(projectConfigurationView));
+	};
+
+	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Создать новую конфигурацию", createProjectConfiguration)));
+}
+
+Initializer::Initializer() :
+	mainWindow(nullptr),
+	projectConfigurationViewRawPointer(nullptr)
+{
+
+}
 
 void Initializer::initialization(unique_ptr<gui_framework::WindowHolder>& holder)
 {
@@ -28,23 +56,3 @@ void Initializer::initialization(unique_ptr<gui_framework::WindowHolder>& holder
 	createMenus();
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Initializer::createMenus()
-{
-	auto& menu = mainWindow->createMainMenu(L"PatchNotesMenu");
-	auto createProjectConfiguration = [this]()
-	{
-		if (projectConfigurationController)
-		{
-			projectConfigurationController->getModel()->removeObserver(projectConfigurationView);
-		}
-
-		projectConfigurationController = make_shared<controllers::ProjectConfigurationController>();
-		projectConfigurationView = make_shared<views::ProjectConfigurationView>(projectConfigurationController);
-
-		projectConfigurationController->getModel()->addObserver(projectConfigurationView);
-	};
-
-	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Создать новую конфигурацию", createProjectConfiguration)));
-}

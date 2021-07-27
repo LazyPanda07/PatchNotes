@@ -11,14 +11,14 @@ namespace models
 		class IEventNotifier
 		{
 		private:
-			std::vector<std::shared_ptr<views::interfaces::IObserver>> observers;
+			std::vector<std::unique_ptr<views::interfaces::IObserver>> observers;
 
 		public:
 			IEventNotifier() = default;
 
-			virtual void addObserver(const std::shared_ptr<views::interfaces::IObserver>& observer) final;
+			virtual void addObserver(std::unique_ptr<views::interfaces::IObserver>&& observer) final;
 
-			virtual void removeObserver(const std::shared_ptr<views::interfaces::IObserver>& observer) final;
+			virtual void removeObserver(views::interfaces::IObserver* observer) final;
 
 			virtual void notify(const json::JSONParser& data) final;
 
