@@ -33,6 +33,8 @@ namespace views
 
 		dynamic_cast<gui_framework::Button*>(dialogBox->findChild(L"Add"))->setOnClick([dialogBox, &controller]() { controller->receiveData(dialogBox); });
 
+		dialogBox->show();
+
 		return unique_ptr<gui_framework::BaseComposite>(dialogBox);
 	}
 
@@ -49,6 +51,6 @@ namespace views
 
 	ProjectConfigurationView::~ProjectConfigurationView()
 	{
-
+		
 	}
 }

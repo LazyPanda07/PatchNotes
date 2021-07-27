@@ -17,7 +17,7 @@ namespace models
 		const string& projectName = data.get<string>("projectName");
 		const string& projectVersion = data.get<string>("projectVersion");
 
-		filesystem::path projectFile(filesystem::path(dataFolder) /= filesystem::path(projectName + '_' + projectVersion) /= ".json");
+		filesystem::path projectFile(filesystem::path(dataFolder) /= projectName + '_' + projectVersion + ".json");
 
 		if (filesystem::exists(projectFile))
 		{

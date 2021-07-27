@@ -8,7 +8,7 @@ namespace utility
 {
 	uint32_t getCodepage()
 	{
-		return static_cast<uint32_t>(gui_framework::GUIFramework::get().getJSONSettings().get<uint64_t>("codepage"));
+		return static_cast<uint32_t>(gui_framework::GUIFramework::get().getJSONSettings().get<int64_t>("codepage"));
 	}
 
 	pair<int, int> getScreenCenter(uint16_t width, uint16_t height)
