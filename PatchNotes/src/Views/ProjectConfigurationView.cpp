@@ -22,7 +22,7 @@ namespace views
 
 		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> name(L"Название проекта");
 		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> version(L"Версия проекта");
-		gui_framework::utility::AdditionalCreationData<gui_framework::Button> add(L"Добавить", []() {  });
+		gui_framework::utility::AdditionalCreationData<gui_framework::Button> add(L"Добавить", []() {});
 
 		builder.
 			addComponent<gui_framework::EditControl>(L"ProjectName", 200, 20, DialogBox::DialogBoxBuilder::alignment::center, name).
@@ -46,11 +46,26 @@ namespace views
 
 	void ProjectConfigurationView::update(const json::JSONParser& data)
 	{
+		using gui_framework::BaseDialogBox;
 
+		bool success = data.get<bool>("success");
+		string message = data.get<string>("message");
+
+		if (success)
+		{
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), L"Успех", BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window.get())) == BaseDialogBox::messageBoxResponse::ok)
+			{
+				
+			}
+		}
+		else
+		{
+			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), L"Ошибка", BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window.get()));
+		}
 	}
 
 	ProjectConfigurationView::~ProjectConfigurationView()
 	{
-		
+
 	}
 }

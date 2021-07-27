@@ -35,8 +35,15 @@ void Initializer::createMenus()
 	auto& menu = mainWindow->createMainMenu(L"PatchNotesMenu");
 	auto createProjectConfiguration = [this]()
 	{
+		if (projectConfigurationController)
+		{
+			projectConfigurationController->getModel()->removeObserver(projectConfigurationView);
+		}
+
 		projectConfigurationController = make_shared<controllers::ProjectConfigurationController>();
 		projectConfigurationView = make_shared<views::ProjectConfigurationView>(projectConfigurationController);
+
+		projectConfigurationController->getModel()->addObserver(projectConfigurationView);
 	};
 
 	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Создать новую конфигурацию", createProjectConfiguration)));
