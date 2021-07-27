@@ -174,6 +174,7 @@
     <ClCompile Include="src\Models\BaseModel.cpp" />
     <ClCompile Include="src\Models\Interfaces\IEventNotifier.cpp" />
     <ClCompile Include="src\Models\ProjectConfigurationModel.cpp" />
+    <ClCompile Include="src\PatchNotesUtility.cpp" />
     <ClCompile Include="src\Views\BaseView.cpp" />
     <ClCompile Include="src\Views\ProjectConfigurationView.cpp" />
   </ItemGroup>
@@ -186,7 +187,9 @@
     <ClInclude Include="src\Models\BaseModel.h" />
     <ClInclude Include="src\Models\Interfaces\IEventNotifier.h" />
     <ClInclude Include="src\Models\ProjectConfigurationModel.h" />
+    <ClInclude Include="src\PatchNotesConstants.h" />
     <ClInclude Include="src\ProjectConfiguration.h" />
+    <ClInclude Include="src\PatchNotesUtility.h" />
     <ClInclude Include="src\Views\BaseView.h" />
     <ClInclude Include="src\Views\Interfaces\IObserver.h" />
     <ClInclude Include="src\Views\ProjectConfigurationView.h" />

@@ -39,6 +39,9 @@
     <ClCompile Include="src\Models\Interfaces\IEventNotifier.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\PatchNotesUtility.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="gui_framework.json" />
@@ -69,6 +72,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\Models\Interfaces\IEventNotifier.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PatchNotesUtility.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PatchNotesConstants.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

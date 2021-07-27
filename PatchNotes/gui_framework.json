@@ -5,5 +5,7 @@
 
   "Threading": {
     "threadsCount": 0
-  }
+  },
+
+  "codepage": 1251
 }
