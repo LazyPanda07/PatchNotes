@@ -4,15 +4,24 @@ using namespace std;
 
 namespace views
 {
-	BaseView::BaseView(const shared_ptr<controllers::BaseController>& controller, unique_ptr<gui_framework::BaseComposite>&& window) noexcept :
+	BaseView::BaseView(const shared_ptr<controllers::BaseController>& controller, gui_framework::BaseComposite* window, bool clean) noexcept :
 		controller(controller),
-		window(move(window))
+		window(window),
+		clean(clean)
 	{
 
 	}
 
-	unique_ptr<gui_framework::BaseComposite>& BaseView::getWindow()
+	gui_framework::BaseComposite* BaseView::getWindow()
 	{
 		return window;
+	}
+
+	BaseView::~BaseView()
+	{
+		if (clean)
+		{
+			delete window;
+		}
 	}
 }

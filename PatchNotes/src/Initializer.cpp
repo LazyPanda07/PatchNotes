@@ -33,6 +33,14 @@ void Initializer::createMenus()
 	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Создать новую конфигурацию", createProjectConfiguration)));
 }
 
+void Initializer::createUI()
+{
+	patchNotesController = make_shared<controllers::PatchNotesController>();
+	unique_ptr<views::interfaces::IObserver> patchNotesView = make_unique<views::PatchNotesView>(patchNotesController, mainWindow);
+
+	patchNotesController->getModel()->addObserver(move(patchNotesView));
+}
+
 Initializer::Initializer() :
 	mainWindow(nullptr),
 	projectConfigurationViewRawPointer(nullptr)
@@ -53,6 +61,8 @@ void Initializer::initialization(unique_ptr<gui_framework::WindowHolder>& holder
 
 	mainWindow->setExitMode(gui_framework::BaseComponent::exitMode::quit);
 
-	createMenus();
+	this->createMenus();
+
+	this->createUI();
 }
 

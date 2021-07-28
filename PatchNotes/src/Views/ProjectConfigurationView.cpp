@@ -11,7 +11,7 @@ CREATE_DEFAULT_WINDOW_FUNCTION(projectConfiguration)
 
 namespace views
 {
-	unique_ptr<gui_framework::BaseComposite> ProjectConfigurationView::createConfigurationDialog(const shared_ptr<controllers::BaseController>& controller)
+	gui_framework::BaseComposite* ProjectConfigurationView::createConfigurationDialog(const shared_ptr<controllers::BaseController>& controller)
 	{
 		using gui_framework::DialogBox;
 		using gui_framework::BaseDialogBox;
@@ -45,11 +45,11 @@ namespace views
 
 		dialogBox->show();
 
-		return unique_ptr<gui_framework::BaseComposite>(dialogBox);
+		return dialogBox;
 	}
 
 	ProjectConfigurationView::ProjectConfigurationView(const shared_ptr<controllers::BaseController>& controller) :
-		BaseView(controller, ProjectConfigurationView::createConfigurationDialog(controller))
+		BaseView(controller, ProjectConfigurationView::createConfigurationDialog(controller), true)
 	{
 
 	}
@@ -63,19 +63,14 @@ namespace views
 
 		if (success)
 		{
-			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), L"Успех", BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window.get())) == BaseDialogBox::messageBoxResponse::ok)
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), L"Успех", BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
 			{
 				controller->getModel()->removeObserver(this);
 			}
 		}
 		else
 		{
-			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), L"Ошибка", BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window.get()));
+			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), L"Ошибка", BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
 		}
-	}
-
-	ProjectConfigurationView::~ProjectConfigurationView()
-	{
-
 	}
 }

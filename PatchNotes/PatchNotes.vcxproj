@@ -169,14 +169,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Controllers\BaseController.cpp" />
+    <ClCompile Include="src\Controllers\PatchNotesController.cpp" />
     <ClCompile Include="src\Controllers\ProjectConfigurationController.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Initializer.cpp" />
     <ClCompile Include="src\Models\BaseModel.cpp" />
     <ClCompile Include="src\Models\Interfaces\IEventNotifier.cpp" />
+    <ClCompile Include="src\Models\PatchNotesModel.cpp" />
     <ClCompile Include="src\Models\ProjectConfigurationModel.cpp" />
     <ClCompile Include="src\PatchNotesUtility.cpp" />
     <ClCompile Include="src\Views\BaseView.cpp" />
+    <ClCompile Include="src\Views\PatchNotesView.cpp" />
     <ClCompile Include="src\Views\ProjectConfigurationView.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -184,16 +187,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Controllers\BaseController.h" />
+    <ClInclude Include="src\Controllers\PatchNotesController.h" />
     <ClInclude Include="src\Controllers\ProjectConfigurationController.h" />
     <ClInclude Include="src\Initializer.h" />
     <ClInclude Include="src\Models\BaseModel.h" />
     <ClInclude Include="src\Models\Interfaces\IEventNotifier.h" />
+    <ClInclude Include="src\Models\PatchNotesModel.h" />
     <ClInclude Include="src\Models\ProjectConfigurationModel.h" />
     <ClInclude Include="src\PatchNotesConstants.h" />
     <ClInclude Include="src\ProjectConfiguration.h" />
     <ClInclude Include="src\PatchNotesUtility.h" />
     <ClInclude Include="src\Views\BaseView.h" />
     <ClInclude Include="src\Views\Interfaces\IObserver.h" />
+    <ClInclude Include="src\Views\PatchNotesView.h" />
     <ClInclude Include="src\Views\ProjectConfigurationView.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

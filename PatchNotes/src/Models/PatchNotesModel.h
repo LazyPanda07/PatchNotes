@@ -4,14 +4,14 @@
 
 namespace models
 {
-	class ProjectConfigurationModel : public BaseModel
+	class PatchNotesModel : public BaseModel
 	{
 	private:
 		json::JSONBuilder processData(const json::JSONParser& data) override;
 
 	public:
-		ProjectConfigurationModel() = default;
+		PatchNotesModel() = default;
 
-		~ProjectConfigurationModel() = default;
+		~PatchNotesModel() = default;
 	};
 }

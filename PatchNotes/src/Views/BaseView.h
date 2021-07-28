@@ -13,15 +13,16 @@ namespace views
 	{
 	protected:
 		std::shared_ptr<controllers::BaseController> controller;
-		std::unique_ptr<gui_framework::BaseComposite> window;
+		gui_framework::BaseComposite* window;
+		bool clean;
 
 	public:
-		BaseView(const std::shared_ptr<controllers::BaseController>& controller, std::unique_ptr<gui_framework::BaseComposite>&& window) noexcept;
+		BaseView(const std::shared_ptr<controllers::BaseController>& controller, gui_framework::BaseComposite* window, bool clean = false) noexcept;
 
 		virtual void update(const json::JSONParser& data) override = 0;
 
-		virtual std::unique_ptr<gui_framework::BaseComposite>& getWindow() final;
+		virtual gui_framework::BaseComposite* getWindow() final;
 
-		virtual ~BaseView() = default;
+		virtual ~BaseView();
 	};
 }
