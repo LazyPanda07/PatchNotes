@@ -7,9 +7,11 @@
 
 #include "Views/ProjectConfigurationView.h"
 #include "Views/PatchNotesView.h"
+#include "Views/CategoryConfigurationView.h"
 
 #include "Controllers/ProjectConfigurationController.h"
 #include "Controllers/PatchNotesController.h"
+#include "Controllers/CategoryConfigurationController.h"
 
 class Initializer
 {
@@ -21,6 +23,9 @@ private:
 	views::interfaces::IObserver* projectConfigurationViewRawPointer;
 
 	std::shared_ptr<controllers::BaseController> patchNotesController;
+
+	std::shared_ptr<controllers::BaseController> categoryConfigurationController;
+	views::interfaces::IObserver* categoryConfigurationViewRawPointer;
 
 private:
 	void createMenus();

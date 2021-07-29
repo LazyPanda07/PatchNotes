@@ -42,7 +42,7 @@ namespace views
 				}
 				catch (const exceptions::ValidationException& e)
 				{
-					BaseDialogBox::createMessageBox(e.getMessage(), L"Ошибка", BaseDialogBox::messageBoxType::ok, dialogBox);
+					BaseDialogBox::createMessageBox(e.getMessage(), errorTitle, BaseDialogBox::messageBoxType::ok, dialogBox);
 				}
 			});
 
@@ -66,14 +66,14 @@ namespace views
 
 		if (success)
 		{
-			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), successTitle.data(), BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), successTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
 			{
 				controller->getModel()->removeObserver(this);
 			}
 		}
 		else
 		{
-			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), errorTitle.data(), BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
+			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), errorTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
 		}
 	}
 }

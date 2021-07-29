@@ -30,8 +30,30 @@ void Initializer::createMenus()
 
 		projectConfigurationController->getModel()->addObserver(move(projectConfigurationView));
 	};
+	auto createCategoryConfiguration = [this]()
+	{
+		if (categoryConfigurationViewRawPointer)
+		{
+			categoryConfigurationController->getModel()->removeObserver(categoryConfigurationViewRawPointer);
+
+			categoryConfigurationViewRawPointer = nullptr;
+		}
+
+		gui_framework::BaseComposite* ui = dynamic_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"));
+		gui_framework::DropDownListComboBox* currentProject = dynamic_cast<gui_framework::DropDownListComboBox*>(ui->findChild(L"ProjectNameAndVersion"));
+		const wstring& projectNameAndVersion = currentProject->getCurrentSelectionIndex() == -1 ? L"" : currentProject->getValue(currentProject->getCurrentSelectionIndex());
+
+		categoryConfigurationController = make_shared<controllers::CategoryConfigurationController>();
+		unique_ptr<views::interfaces::IObserver> categoryConfigurationView = make_unique<views::CategoryConfigurationView>(categoryConfigurationController, projectNameAndVersion);
+
+		categoryConfigurationViewRawPointer = categoryConfigurationView.get();
+
+		categoryConfigurationController->getModel()->addObserver(move(categoryConfigurationView));
+	};
 
 	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Создать новую конфигурацию", createProjectConfiguration)));
+
+	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Создать новую категорию", createCategoryConfiguration)));
 }
 
 void Initializer::createUI()
@@ -44,7 +66,8 @@ void Initializer::createUI()
 
 Initializer::Initializer() :
 	mainWindow(nullptr),
-	projectConfigurationViewRawPointer(nullptr)
+	projectConfigurationViewRawPointer(nullptr),
+	categoryConfigurationViewRawPointer(nullptr)
 {
 
 }
