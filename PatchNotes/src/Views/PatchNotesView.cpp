@@ -53,6 +53,14 @@ namespace views
 			currentCategory->setCurrentSelection(0);
 		}
 
+		EditControl* element = new EditControl(L"Element", width / 4, 50, patchNotesWindow, width / 2);
+
+		element->setPlaceholder(L"Элемент");
+
+		new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width, height - 170), patchNotesWindow, true);
+
+		new Button(L"AddNotes", L"Добавить", -5, height - 100, patchNotesWindow, []() { MessageBoxW(nullptr, nullptr, nullptr, MB_OK); }, 200, 40);
+
 		return patchNotesWindow;
 	}
 

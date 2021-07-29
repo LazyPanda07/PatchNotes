@@ -27,11 +27,11 @@ namespace views
 		builder.
 			addComponent<gui_framework::EditControl>(L"ProjectName", 200, 20, DialogBox::DialogBoxBuilder::alignment::center, name).
 			addComponent<gui_framework::EditControl>(L"ProjectVersion", 200, 20, DialogBox::DialogBoxBuilder::alignment::center, version).
-			addComponent<gui_framework::Button>(L"Add", 150, 40, DialogBox::DialogBoxBuilder::alignment::center, add, 0, 5);
+			addComponent<gui_framework::Button>(L"AddConfiguration", 150, 40, DialogBox::DialogBoxBuilder::alignment::center, add, 0, 5);
 
 		DialogBox* dialogBox = builder.build();
 
-		dynamic_cast<gui_framework::Button*>(dialogBox->findChild(L"Add"))->setOnClick([dialogBox, &controller]()
+		dynamic_cast<gui_framework::Button*>(dialogBox->findChild(L"AddConfiguration"))->setOnClick([dialogBox, &controller]()
 			{
 				try
 				{
