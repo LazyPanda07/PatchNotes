@@ -13,6 +13,8 @@ namespace views
 	private:
 		static std::vector<std::wstring> getAvailableProjectsFiles();
 
+		static std::vector<std::wstring> getProjectCategories(const std::wstring& projectName);
+
 	public:
 		PatchNotesView(const std::shared_ptr<controllers::BaseController>& controller, gui_framework::BaseComponent* parent);
 

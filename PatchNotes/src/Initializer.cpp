@@ -5,6 +5,7 @@
 #include "MenuItems/MenuItem.h"
 
 #include "PatchNotesConstants.h"
+#include "PatchNotesUtility.h"
 
 using namespace std;
 
@@ -50,8 +51,12 @@ Initializer::Initializer() :
 
 void Initializer::initialization(unique_ptr<gui_framework::WindowHolder>& holder)
 {
-	gui_framework::GUIFramework& instance = gui_framework::GUIFramework::get();
-	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch notes", gui_framework::utility::ComponentSettings(300, 200, 800, 600), "patchNotes"));
+	gui_framework::GUIFramework::get();
+
+	auto [x, y] = utility::getScreenCenter(1024, 768);
+	gui_framework::utility::ComponentSettings settings(x, y, 1024, 768);
+	
+	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch notes", settings, "patchNotes"));
 
 	dataFolder = (filesystem::current_path() /= "data").string();
 
@@ -60,6 +65,10 @@ void Initializer::initialization(unique_ptr<gui_framework::WindowHolder>& holder
 	mainWindow = dynamic_cast<gui_framework::SeparateWindow*>(holder->get());
 
 	mainWindow->setExitMode(gui_framework::BaseComponent::exitMode::quit);
+
+	gui_framework::utility::removeStyle(mainWindow->getHandle(), WS_THICKFRAME);
+
+	gui_framework::utility::removeStyle(mainWindow->getHandle(), WS_MAXIMIZEBOX);
 
 	this->createMenus();
 
