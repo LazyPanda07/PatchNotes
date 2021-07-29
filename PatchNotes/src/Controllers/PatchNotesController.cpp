@@ -18,7 +18,7 @@ namespace controllers
 		json::JSONBuilder builder(codepage);
 		gui_framework::DropDownListComboBox* currentProject = dynamic_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectNameAndVersion"));
 		gui_framework::DropDownListComboBox* currentCategory = dynamic_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectCategory"));
-		string element = gui_framework::utility::to_string(dynamic_cast<gui_framework::EditControl*>(window->findChild(L"Element"))->getText(), codepage);
+		string item = gui_framework::utility::to_string(dynamic_cast<gui_framework::EditControl*>(window->findChild(L"Item"))->getText(), codepage);
 		wstring textNotes = dynamic_cast<gui_framework::RichEdit*>(window->findChild(L"Notes"))->getText();
 
 		if (currentProject->getCurrentSelectionIndex() == -1)
@@ -31,7 +31,7 @@ namespace controllers
 			throw exceptions::ValidationException("Не удалось определить категорию");
 		}
 
-		validation::emptyValidation(element, dynamic_cast<gui_framework::EditControl*>(window->findChild(L"Element"))->getPlaceholder());
+		validation::emptyValidation(item, dynamic_cast<gui_framework::EditControl*>(window->findChild(L"Element"))->getPlaceholder());
 
 		validation::emptyValidation(textNotes, L"Примечания");
 
@@ -49,7 +49,7 @@ namespace controllers
 		builder.
 			append("projectFile", gui_framework::utility::to_string(currentProject->getValue(currentProject->getCurrentSelectionIndex()), codepage)).
 			append("category", gui_framework::utility::to_string(currentCategory->getValue(currentCategory->getCurrentSelectionIndex()), codepage)).
-			append("element", move(element)).
+			append("item", move(item)).
 			append("notes", move(notes));
 
 		return builder;

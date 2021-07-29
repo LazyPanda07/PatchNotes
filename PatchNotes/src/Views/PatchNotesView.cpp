@@ -58,7 +58,7 @@ namespace views
 			currentCategory->setCurrentSelection(0);
 		}
 
-		EditControl* element = new EditControl(L"Element", width / 4, 50, patchNotesWindow, width / 2);
+		EditControl* element = new EditControl(L"Item", width / 4, 50, patchNotesWindow, width / 2);
 
 		element->setPlaceholder(L"Ёлемент");
 
