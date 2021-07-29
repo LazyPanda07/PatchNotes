@@ -2,6 +2,7 @@
 
 #include "Models/ProjectConfigurationModel.h"
 #include "PatchNotesUtility.h"
+#include "Validation.h"
 
 using namespace std;
 
@@ -11,19 +12,14 @@ namespace controllers
 	{
 		uint32_t codepage = utility::getCodepage();
 		json::JSONBuilder builder(codepage);
+		gui_framework::EditControl* projectNameEditControl = dynamic_cast<gui_framework::EditControl*>(window->findChild(L"ProjectName"));
+		gui_framework::EditControl* projectVersionEditControl = dynamic_cast<gui_framework::EditControl*>(window->findChild(L"ProjectVersion"));
+		string projectName = gui_framework::utility::to_string(projectNameEditControl->getText(), codepage);
+		string projectVersion = gui_framework::utility::to_string(projectVersionEditControl->getText(), codepage);
 
-		string projectName = gui_framework::utility::to_string(dynamic_cast<gui_framework::EditControl*>(window->findChild(L"ProjectName"))->getText(), codepage);
-		string projectVersion = gui_framework::utility::to_string(dynamic_cast<gui_framework::EditControl*>(window->findChild(L"ProjectVersion"))->getText(), codepage);
+		validation::emptyValidation(projectName, projectNameEditControl->getPlaceholder());
 
-		if (projectName.empty())
-		{
-			throw runtime_error(json::utility::toUTF8JSON(R"(Поле "Название проекта" не может быть пустым)", 1251));
-		}
-
-		if (projectVersion.empty())
-		{
-			throw runtime_error(json::utility::toUTF8JSON(R"(Поле "Версия проекта" не может быть пустым)", 1251));
-		}
+		validation::emptyValidation(projectVersion, projectVersionEditControl->getPlaceholder());
 
 		builder.
 			append("projectName", move(projectName)).

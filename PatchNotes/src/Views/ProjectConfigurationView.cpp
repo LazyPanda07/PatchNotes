@@ -5,6 +5,8 @@
 
 #include "PatchNotesUtility.h"
 
+#include "Exceptions/ValidationException.h"
+
 using namespace std;
 
 CREATE_DEFAULT_WINDOW_FUNCTION(projectConfiguration)
@@ -37,9 +39,9 @@ namespace views
 				{
 					controller->receiveData(dialogBox);
 				}
-				catch (const runtime_error& e)
+				catch (const exceptions::ValidationException& e)
 				{
-					BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), CP_UTF8), L"Ошибка", BaseDialogBox::messageBoxType::ok, dialogBox);
+					BaseDialogBox::createMessageBox(e.getMessage(), L"Ошибка", BaseDialogBox::messageBoxType::ok, dialogBox);
 				}
 			});
 

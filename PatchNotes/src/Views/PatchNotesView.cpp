@@ -5,9 +5,12 @@
 #include "Components/EditControl.h"
 #include "Components/RichEdit.h"
 #include "Components/Buttons/Button.h"
+#include "Composites/DialogBox.h"
 
 #include "PatchNotesConstants.h"
 #include "PatchNotesUtility.h"
+
+#include "Exceptions/ValidationException.h"
 
 using namespace std;
 
@@ -43,6 +46,8 @@ namespace views
 		DropDownListComboBox* currentCategory = new DropDownListComboBox(L"ProjectCategory", gui_framework::utility::ComponentSettings(width / 4, 25, width / 2, 20), patchNotesWindow);
 		vector<wstring> categories = PatchNotesView::getProjectCategories(currentProject->getValue(currentProject->getCurrentSelectionIndex()));
 
+		currentCategory->setAutoResize(false);
+
 		for (const auto& i : categories)
 		{
 			currentCategory->addValue(i);
@@ -59,7 +64,17 @@ namespace views
 
 		new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width, height - 170), patchNotesWindow, true);
 
-		new Button(L"AddNotes", L"Добавить", -5, height - 100, patchNotesWindow, []() { MessageBoxW(nullptr, nullptr, nullptr, MB_OK); }, 200, 40);
+		new Button(L"AddNotes", L"Добавить", -5, height - 100, patchNotesWindow, [&controller, patchNotesWindow]()
+			{
+				try
+				{
+					controller->receiveData(patchNotesWindow);
+				}
+				catch (const exceptions::ValidationException& e)
+				{
+					BaseDialogBox::createMessageBox(e.getMessage(), L"Ошибка", BaseDialogBox::messageBoxType::ok, patchNotesWindow);
+				}
+			}, 200, 40);
 
 		return patchNotesWindow;
 	}
@@ -89,7 +104,7 @@ namespace views
 		json::JSONParser parser;
 		filesystem::path pathToProject;
 
-		(pathToProject.append(dataFolder) /= projectName).append(".json");
+		pathToProject.append(dataFolder).append(projectName) += (".json");
 
 		ifstream(pathToProject) >> parser;
 
