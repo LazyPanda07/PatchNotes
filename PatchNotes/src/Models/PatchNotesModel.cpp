@@ -5,8 +5,6 @@
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
 
-#include "Exceptions/ValidationException.h"
-
 using namespace std;
 
 namespace models
@@ -17,81 +15,105 @@ namespace models
 		using json::utility::jsonObject;
 		using json::utility::variantTypeEnum;
 
+		json::JSONBuilder updateBuilder(utility::getCodepage());
 		json::JSONBuilder builder(utility::getCodepage());
-		bool success = true;
-		string message;
 		filesystem::path pathToProjectFile;
 		json::JSONParser projectFile;
 		const string& itemName = data.get<string>("item");
 		const string& categoryName = data.get<string>("category");
 		const vector<objectSmartPointer<jsonObject>>& notes = data.get<vector<objectSmartPointer<jsonObject>>>("notes");
+		bool success = true;
+		string message = format(R"(Элемент "{}" успешно добавлен)", itemName);
 
 		pathToProjectFile.append(dataFolder).append(data.get<string>("projectFile")) += ".json";
 
 		ifstream(pathToProjectFile) >> projectFile;
 
-		for (const auto& i : projectFile)
+//		updateBuilder.
+//			append("", "");
+
+		try
 		{
-			if (static_cast<variantTypeEnum>(i->second.index()) == variantTypeEnum::jJSONObject)
+			for (const auto& i : projectFile)
 			{
-				const objectSmartPointer<jsonObject>& object = get<objectSmartPointer<jsonObject>>(i->second);
-				const string& type = get<string>(find_if(object->data.begin(), object->data.end(), [](const pair<string, jsonObject::variantType>& value) { return value.first == "type"; })->second);
-
-				if (type == "category")
+				if (static_cast<variantTypeEnum>(i->second.index()) == variantTypeEnum::jJSONObject)
 				{
-					objectSmartPointer<jsonObject> newObject = json::utility::make_object<jsonObject>();
+					const objectSmartPointer<jsonObject>& object = get<objectSmartPointer<jsonObject>>(i->second);
+					const string& type = get<string>(find_if(object->data.begin(), object->data.end(), [](const pair<string, jsonObject::variantType>& value) { return value.first == "type"; })->second);
 
-					newObject->data.push_back({ "type"s, "category"s });
-
-					for (const auto& j : object->data)
+					if (type == "category")
 					{
-						if (static_cast<variantTypeEnum>(j.second.index()) == variantTypeEnum::jJSONObject)
+						objectSmartPointer<jsonObject> newObject = json::utility::make_object<jsonObject>();
+
+						newObject->data.push_back({ "type"s, "category"s });
+
+						for (const auto& j : object->data)
 						{
-							if (j.first == itemName && i->first == categoryName)
+							if (static_cast<variantTypeEnum>(j.second.index()) == variantTypeEnum::jJSONObject)
 							{
-								throw exceptions::ValidationException("Элемент с таким названием уже существует");
+								if (j.first == itemName && i->first == categoryName)
+								{
+									throw runtime_error("Элемент с таким названием уже существует");
+								}
+
+								const objectSmartPointer<jsonObject>& item = get<objectSmartPointer<jsonObject>>(j.second);
+								const vector<objectSmartPointer<jsonObject>>& notes = get<vector<objectSmartPointer<jsonObject>>>(
+									find_if(item->data.begin(), item->data.end(), [](const pair<string, jsonObject::variantType>& value) { return value.first == "notes"; })->second
+									);
+								objectSmartPointer<jsonObject> newItem = json::utility::make_object<jsonObject>();
+								vector<objectSmartPointer<jsonObject>> newNotes;
+
+								for (const auto& k : notes)
+								{
+									string data = json::utility::fromUTF8JSON(get<string>(k->data.back().second), utility::getCodepage());
+
+									json::utility::appendArray(move(data), newNotes);
+								}
+
+								newItem->data.push_back({ "type"s, "item"s });
+
+								newItem->data.push_back({ "notes"s, move(newNotes) });
+
+								newObject->data.push_back({ j.first, move(newItem) });
 							}
+						}
 
-							const objectSmartPointer<jsonObject>& item = get<objectSmartPointer<jsonObject>>(j.second);
-							const vector<objectSmartPointer<jsonObject>>& notes = get<vector<objectSmartPointer<jsonObject>>>(
-								find_if(item->data.begin(), item->data.end(), [](const pair<string, jsonObject::variantType>& value) { return value.first == "notes"; })->second
-								);
-							objectSmartPointer<jsonObject> newItem = json::utility::make_object<jsonObject>();
-							vector<objectSmartPointer<jsonObject>> newNotes;
+						if (i->first == categoryName)
+						{
+							objectSmartPointer<jsonObject> userObject = json::utility::make_object<jsonObject>();
+							vector<smartPointerType<jsonObject>> newNotes;
 
-							for (const auto& k : notes)
+							userObject->data.push_back({ "type"s, "item"s });
+							
+							for (const auto& j : notes)
 							{
-								string data = json::utility::fromUTF8JSON(get<string>(k->data.back().second), utility::getCodepage());
+								string data = json::utility::fromUTF8JSON(get<string>(j->data.back().second), utility::getCodepage());
 
 								json::utility::appendArray(move(data), newNotes);
 							}
 
-							newItem->data.push_back({ "type"s, "item"s });
+							userObject->data.push_back({ "notes"s, move(newNotes) });
 
-							newItem->data.push_back({ "notes"s, move(newNotes) });
-
-							newObject->data.push_back({ j.first, move(newItem) });
-						}
-					}
-
-					if (i->first == categoryName)
-					{
-						vector<smartPointerType<jsonObject>> newNotes;
-
-						for (const auto& j : notes)
-						{
-							string data = json::utility::fromUTF8JSON(get<string>(j->data.back().second), utility::getCodepage());
-
-							json::utility::appendArray(move(data), newNotes);
+							newObject->data.push_back({ itemName, move(userObject) });
 						}
 
-						newObject->data.push_back({ itemName, move(newNotes) });
+						updateBuilder.append(i->first, move(newObject));
 					}
-
-					builder.append(i->first, move(newObject));
 				}
 			}
+
+			ofstream(pathToProjectFile) << updateBuilder;
 		}
+		catch (const runtime_error& e)
+		{
+			success = false;
+
+			message = e.what();
+		}
+
+		builder.
+			append("success", success).
+			append("message", move(message));
 
 		return builder;
 	}

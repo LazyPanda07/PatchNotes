@@ -135,6 +135,26 @@ namespace views
 
 	void PatchNotesView::update(const json::JSONParser& data)
 	{
+		using gui_framework::BaseDialogBox;
 
+		bool success = data.get<bool>("success");
+		string message = data.get<string>("message");
+		const wstring& title = success ? successTitle : errorTitle;
+
+		if (success)
+		{
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), successTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+			{
+				gui_framework::BaseComposite* parent = dynamic_cast<gui_framework::BaseComposite*>(window->getParent());
+
+				parent->removeChild(window);
+
+				PatchNotesView::createPatchNotesWindow(controller, parent);
+			}
+		}
+		else
+		{
+			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), errorTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
+		}	
 	}
 }

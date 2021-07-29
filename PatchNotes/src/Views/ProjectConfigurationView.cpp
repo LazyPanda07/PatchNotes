@@ -4,6 +4,7 @@
 #include "Components/EditControl.h"
 
 #include "PatchNotesUtility.h"
+#include "PatchNotesConstants.h"
 
 #include "Exceptions/ValidationException.h"
 
@@ -65,14 +66,14 @@ namespace views
 
 		if (success)
 		{
-			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), L"Успех", BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), successTitle.data(), BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
 			{
 				controller->getModel()->removeObserver(this);
 			}
 		}
 		else
 		{
-			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), L"Ошибка", BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
+			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), errorTitle.data(), BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
 		}
 	}
 }
