@@ -24,13 +24,15 @@ namespace models
 		const vector<objectSmartPointer<jsonObject>>& notes = data.get<vector<objectSmartPointer<jsonObject>>>("notes");
 		bool success = true;
 		string message = format(R"(Ёлемент "{}" успешно добавлен)", itemName);
+		const string& projectNameAndVersion = data.get<string>("projectFile");
 
-		pathToProjectFile.append(dataFolder).append(data.get<string>("projectFile")) += ".json";
+		pathToProjectFile.append(dataFolder).append(projectNameAndVersion) += ".json";
 
 		ifstream(pathToProjectFile) >> projectFile;
 
-//		updateBuilder.
-//			append("", "");
+		updateBuilder.
+			append("projectName"s, projectNameAndVersion.substr(0, projectNameAndVersion.rfind('_'))).
+			append("projectVersion"s, projectNameAndVersion.substr(projectNameAndVersion.rfind('_') + 1));
 
 		try
 		{
@@ -84,7 +86,7 @@ namespace models
 							vector<smartPointerType<jsonObject>> newNotes;
 
 							userObject->data.push_back({ "type"s, "item"s });
-							
+
 							for (const auto& j : notes)
 							{
 								string data = json::utility::fromUTF8JSON(get<string>(j->data.back().second), utility::getCodepage());
