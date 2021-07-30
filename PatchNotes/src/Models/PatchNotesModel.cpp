@@ -13,7 +13,6 @@ namespace models
 	{
 		using json::utility::objectSmartPointer;
 		using json::utility::jsonObject;
-		using json::utility::variantTypeEnum;
 
 		json::JSONBuilder updateBuilder(utility::getCodepage());
 		json::JSONBuilder builder(utility::getCodepage());
@@ -35,7 +34,7 @@ namespace models
 		{
 			utility::copyJSON(pathToProjectFile, updateBuilder);
 
-			if (updateBuilder.contains(itemName, variantTypeEnum::jJSONObject))
+			if (updateBuilder.contains(itemName, json::utility::variantTypeEnum::jJSONObject))
 			{
 				throw runtime_error("Элемент с таким названием уже существует");
 			}
