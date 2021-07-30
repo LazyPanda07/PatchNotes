@@ -1,5 +1,7 @@
 #include "PatchNotesUtility.h"
 
+#include <fstream>
+
 #include "GUIFramework.h"
 
 using namespace std;
@@ -54,5 +56,60 @@ namespace utility
 		}
 
 		return result;
+	}
+	
+	void copyJSON(const filesystem::path& pathToProjectFile, json::JSONBuilder& outBuilder)
+	{
+		using json::utility::variantTypeEnum;
+		using json::utility::objectSmartPointer;
+		using json::utility::jsonObject;
+
+		json::JSONParser projectFile;
+
+		ifstream(pathToProjectFile) >> projectFile;
+
+		for (const auto& i : projectFile)
+		{
+			if (static_cast<variantTypeEnum>(i->second.index()) == variantTypeEnum::jJSONObject)
+			{
+				const objectSmartPointer<jsonObject>& object = get<objectSmartPointer<jsonObject>>(i->second);
+				const string& type = get<string>(find_if(object->data.begin(), object->data.end(), [](const pair<string, jsonObject::variantType>& value) { return value.first == "type"; })->second);
+
+				if (type == "category")
+				{
+					objectSmartPointer<jsonObject> newObject = json::utility::make_object<jsonObject>();
+
+					newObject->data.push_back({ "type"s, "category"s });
+
+					for (const auto& j : object->data)
+					{
+						if (static_cast<variantTypeEnum>(j.second.index()) == variantTypeEnum::jJSONObject)
+						{
+							const objectSmartPointer<jsonObject>& item = get<objectSmartPointer<jsonObject>>(j.second);
+							const vector<objectSmartPointer<jsonObject>>& notes = get<vector<objectSmartPointer<jsonObject>>>(
+								find_if(item->data.begin(), item->data.end(), [](const pair<string, jsonObject::variantType>& value) { return value.first == "notes"; })->second
+								);
+							objectSmartPointer<jsonObject> newItem = json::utility::make_object<jsonObject>();
+							vector<objectSmartPointer<jsonObject>> newNotes;
+
+							for (const auto& k : notes)
+							{
+								string data = json::utility::fromUTF8JSON(get<string>(k->data.back().second), utility::getCodepage());
+
+								json::utility::appendArray(move(data), newNotes);
+							}
+
+							newItem->data.push_back({ "type"s, "item"s });
+
+							newItem->data.push_back({ "notes"s, move(newNotes) });
+
+							newObject->data.push_back({ j.first, move(newItem) });
+						}
+					}
+
+					outBuilder.append(i->first, move(newObject));
+				}
+			}
+		}
 	}
 }
