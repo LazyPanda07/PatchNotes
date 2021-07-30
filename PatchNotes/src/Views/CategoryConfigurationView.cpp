@@ -56,29 +56,15 @@ namespace views
 		return dialogBox;
 	}
 
-	CategoryConfigurationView::CategoryConfigurationView(const shared_ptr<controllers::BaseController>& controller, const wstring& projectNameAndVersion) :
-		BaseView(controller, CategoryConfigurationView::createCategoryDialog(controller, projectNameAndVersion), true)
+	CategoryConfigurationView::CategoryConfigurationView(const shared_ptr<controllers::BaseController>& controller, const wstring& projectNameAndVersion, shared_ptr<controllers::BaseController>& patchNotesController) :
+		BaseView(controller, CategoryConfigurationView::createCategoryDialog(controller, projectNameAndVersion), true),
+		patchNotesController(patchNotesController)
 	{
 		
 	}
 
 	void CategoryConfigurationView::update(const json::JSONParser& data)
 	{
-		using gui_framework::BaseDialogBox;
-
-		bool success = data.get<bool>("success");
-		string message = data.get<string>("message");
-
-		if (success)
-		{
-			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), successTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
-			{
-				controller->getModel()->removeObserver(this);
-			}
-		}
-		else
-		{
-			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), errorTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
-		}
+		patchNotesController->getModel()->getObservers().back()->update(data);
 	}
 }

@@ -24,7 +24,7 @@ void Initializer::createMenus()
 		}
 
 		projectConfigurationController = make_shared<controllers::ProjectConfigurationController>();
-		unique_ptr<views::interfaces::IObserver> projectConfigurationView = make_unique<views::ProjectConfigurationView>(projectConfigurationController);
+		unique_ptr<views::interfaces::IObserver> projectConfigurationView = make_unique<views::ProjectConfigurationView>(projectConfigurationController, patchNotesController);
 
 		projectConfigurationViewRawPointer = projectConfigurationView.get();
 
@@ -44,7 +44,7 @@ void Initializer::createMenus()
 		const wstring& projectNameAndVersion = currentProject->getCurrentSelectionIndex() == -1 ? L"" : currentProject->getValue(currentProject->getCurrentSelectionIndex());
 
 		categoryConfigurationController = make_shared<controllers::CategoryConfigurationController>();
-		unique_ptr<views::interfaces::IObserver> categoryConfigurationView = make_unique<views::CategoryConfigurationView>(categoryConfigurationController, projectNameAndVersion);
+		unique_ptr<views::interfaces::IObserver> categoryConfigurationView = make_unique<views::CategoryConfigurationView>(categoryConfigurationController, projectNameAndVersion, patchNotesController);
 
 		categoryConfigurationViewRawPointer = categoryConfigurationView.get();
 

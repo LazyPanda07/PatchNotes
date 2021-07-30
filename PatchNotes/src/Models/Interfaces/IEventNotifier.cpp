@@ -22,5 +22,10 @@ namespace models
 		{
 			for_each(observers.begin(), observers.end(), [&data](unique_ptr<views::interfaces::IObserver>& observer) { observer->update(data); });
 		}
+
+		vector<unique_ptr<views::interfaces::IObserver>>& IEventNotifier::getObservers()
+		{
+			return observers;
+		}
 	}
 }

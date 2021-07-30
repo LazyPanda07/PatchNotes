@@ -22,6 +22,8 @@ namespace models
 
 			virtual void notify(const json::JSONParser& data) final;
 
+			virtual std::vector<std::unique_ptr<views::interfaces::IObserver>>& getObservers() final;
+
 			virtual ~IEventNotifier() = default;
 		};
 	}

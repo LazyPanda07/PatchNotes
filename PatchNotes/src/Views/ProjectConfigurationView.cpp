@@ -51,29 +51,15 @@ namespace views
 		return dialogBox;
 	}
 
-	ProjectConfigurationView::ProjectConfigurationView(const shared_ptr<controllers::BaseController>& controller) :
-		BaseView(controller, ProjectConfigurationView::createConfigurationDialog(controller), true)
+	ProjectConfigurationView::ProjectConfigurationView(const shared_ptr<controllers::BaseController>& controller, shared_ptr<controllers::BaseController>& patchNotesController) :
+		BaseView(controller, ProjectConfigurationView::createConfigurationDialog(controller), true),
+		patchNotesController(patchNotesController)
 	{
 
 	}
 
 	void ProjectConfigurationView::update(const json::JSONParser& data)
 	{
-		using gui_framework::BaseDialogBox;
-
-		bool success = data.get<bool>("success");
-		string message = data.get<string>("message");
-
-		if (success)
-		{
-			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), successTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
-			{
-				controller->getModel()->removeObserver(this);
-			}
-		}
-		else
-		{
-			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), errorTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
-		}
+		patchNotesController->getModel()->getObservers().back()->update(data);
 	}
 }
