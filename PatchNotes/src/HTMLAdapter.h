@@ -1,6 +1,8 @@
 #pragma once
 
-#include "JSONParser.h"
+#include "pch.h"
+
+#include "Components/ProgressBars/ProgressBar.h"
 
 class HTMLAdapter
 {
@@ -19,7 +21,7 @@ private:
 	void addFooterInformation(const std::string& information = "");
 
 public:
-	HTMLAdapter(const json::JSONParser& jsonSchema);
+	HTMLAdapter(const json::JSONParser& jsonSchema, gui_framework::ProgressBar* updateProgressBar);
 
 	std::string& getHTML();
 

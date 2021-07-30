@@ -6,6 +6,7 @@
 #include "Components/RichEdit.h"
 #include "Components/Buttons/Button.h"
 #include "Composites/DialogBox.h"
+#include "Components/ProgressBars/ProgressBar.h"
 
 #include "PatchNotesConstants.h"
 #include "PatchNotesUtility.h"
@@ -75,6 +76,8 @@ namespace views
 					BaseDialogBox::createMessageBox(e.getMessage(), L"Ошибка", BaseDialogBox::messageBoxType::ok, patchNotesWindow);
 				}
 			}, 200, 40);
+
+		new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(195, height - 100, 824, 40), patchNotesWindow);
 
 		return patchNotesWindow;
 	}

@@ -53,12 +53,21 @@ void HTMLAdapter::addFooterInformation(const string& information)
 )", information);
 }
 
-HTMLAdapter::HTMLAdapter(const json::JSONParser& jsonSchema)
+HTMLAdapter::HTMLAdapter(const json::JSONParser& jsonSchema, gui_framework::ProgressBar* updateProgressBar)
 {
 	using namespace json;
 	using namespace json::utility;
 
+	int size = 0;
+
 	this->addProjectNameAndVersion(jsonSchema.get<string>("projectName"), jsonSchema.get<string>("projectVersion"));
+
+	for (const auto& i : jsonSchema)
+	{
+		size++;
+	}
+
+	updateProgressBar->setMaxRange(size * 10);
 
 	for (const auto& i : jsonSchema)
 	{
@@ -86,6 +95,8 @@ HTMLAdapter::HTMLAdapter(const json::JSONParser& jsonSchema)
 				}
 			}
 		}
+
+		updateProgressBar->update();
 	}
 
 	this->addFooterInformation();

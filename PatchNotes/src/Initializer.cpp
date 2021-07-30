@@ -58,8 +58,10 @@ void Initializer::createMenus()
 		generateHTMLView->onClick(pathNotesWindow->getWindow());
 	};
 
-	generateHTMLController = make_shared<controllers::GenerateHTMLController>();
-	unique_ptr<views::GenerateHTMLView> tem = make_unique<views::GenerateHTMLView>(generateHTMLController);
+	gui_framework::ProgressBar* updateProgressBar = dynamic_cast<gui_framework::ProgressBar*>(dynamic_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"));
+
+	generateHTMLController = make_shared<controllers::GenerateHTMLController>(updateProgressBar);
+	unique_ptr<views::GenerateHTMLView> tem = make_unique<views::GenerateHTMLView>(generateHTMLController, updateProgressBar);
 	generateHTMLView = tem.get();
 
 	generateHTMLController->getModel()->addObserver(move(tem));
@@ -82,7 +84,8 @@ void Initializer::createUI()
 Initializer::Initializer() :
 	mainWindow(nullptr),
 	projectConfigurationViewRawPointer(nullptr),
-	categoryConfigurationViewRawPointer(nullptr)
+	categoryConfigurationViewRawPointer(nullptr),
+	generateHTMLView(nullptr)
 {
 
 }
@@ -108,8 +111,8 @@ void Initializer::initialization(unique_ptr<gui_framework::WindowHolder>& holder
 
 	gui_framework::utility::removeStyle(mainWindow->getHandle(), WS_MAXIMIZEBOX);
 
-	this->createMenus();
-
 	this->createUI();
+	
+	this->createMenus();
 }
 

@@ -25,8 +25,8 @@ namespace controllers
 		return builder;
 	}
 
-	GenerateHTMLController::GenerateHTMLController() :
-		BaseController(make_shared<models::GenerateHTMLModel>())
+	GenerateHTMLController::GenerateHTMLController(gui_framework::ProgressBar* updateProgressBar) :
+		BaseController(make_shared<models::GenerateHTMLModel>(updateProgressBar))
 	{
 
 	}

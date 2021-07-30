@@ -10,8 +10,9 @@ using namespace std;
 
 namespace views
 {
-	GenerateHTMLView::GenerateHTMLView(const std::shared_ptr<controllers::BaseController>& controller) :
-		BaseView(controller, nullptr)
+	GenerateHTMLView::GenerateHTMLView(const std::shared_ptr<controllers::BaseController>& controller, gui_framework::ProgressBar* updateProgressBar) :
+		BaseView(controller, nullptr),
+		updateProgressBar(updateProgressBar)
 	{
 
 	}
@@ -24,7 +25,10 @@ namespace views
 		string message = data.get<string>("message");
 		const wstring& title = success ? successTitle : errorTitle;
 
-		BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), title, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
+		if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), title, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+		{
+			updateProgressBar->update(0);
+		}
 	}
 
 	void GenerateHTMLView::onClick(gui_framework::BaseComposite* patchNotesWindow)
