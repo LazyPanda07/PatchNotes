@@ -139,7 +139,6 @@ namespace views
 
 		bool success = data.get<bool>("success");
 		string message = data.get<string>("message");
-		const wstring& title = success ? successTitle : errorTitle;
 
 		if (success)
 		{
@@ -155,6 +154,6 @@ namespace views
 		else
 		{
 			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), errorTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
-		}	
+		}
 	}
 }

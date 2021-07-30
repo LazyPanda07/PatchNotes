@@ -30,7 +30,7 @@ private:
 	views::interfaces::IObserver* categoryConfigurationViewRawPointer;
 
 	std::shared_ptr<controllers::GenerateHTMLController> generateHTMLController;
-	std::unique_ptr<views::GenerateHTMLView> generateHTMLView;
+	views::GenerateHTMLView* generateHTMLView;
 
 private:
 	void createMenus();

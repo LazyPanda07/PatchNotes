@@ -59,7 +59,10 @@ void Initializer::createMenus()
 	};
 
 	generateHTMLController = make_shared<controllers::GenerateHTMLController>();
-	generateHTMLView = make_unique<views::GenerateHTMLView>(generateHTMLController);
+	unique_ptr<views::GenerateHTMLView> tem = make_unique<views::GenerateHTMLView>(generateHTMLController);
+	generateHTMLView = tem.get();
+
+	generateHTMLController->getModel()->addObserver(move(tem));
 
 	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Создать новую конфигурацию", createProjectConfiguration)));
 
