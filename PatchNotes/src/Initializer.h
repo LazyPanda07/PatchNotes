@@ -8,10 +8,12 @@
 #include "Views/ProjectConfigurationView.h"
 #include "Views/PatchNotesView.h"
 #include "Views/CategoryConfigurationView.h"
+#include "Views/GenerateHTMLView.h"
 
 #include "Controllers/ProjectConfigurationController.h"
 #include "Controllers/PatchNotesController.h"
 #include "Controllers/CategoryConfigurationController.h"
+#include "Controllers/GenerateHTMLController.h"
 
 class Initializer
 {
@@ -26,6 +28,9 @@ private:
 
 	std::shared_ptr<controllers::BaseController> categoryConfigurationController;
 	views::interfaces::IObserver* categoryConfigurationViewRawPointer;
+
+	std::shared_ptr<controllers::GenerateHTMLController> generateHTMLController;
+	std::unique_ptr<views::GenerateHTMLView> generateHTMLView;
 
 private:
 	void createMenus();

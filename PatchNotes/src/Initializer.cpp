@@ -51,10 +51,21 @@ void Initializer::createMenus()
 
 		categoryConfigurationController->getModel()->addObserver(move(categoryConfigurationView));
 	};
+	auto generateHTML = [this]()
+	{
+		views::PatchNotesView* pathNotesWindow = dynamic_cast<views::PatchNotesView*>(patchNotesController->getModel()->getObservers().back().get());
+
+		generateHTMLView->onClick(pathNotesWindow->getWindow());
+	};
+
+	generateHTMLController = make_shared<controllers::GenerateHTMLController>();
+	generateHTMLView = make_unique<views::GenerateHTMLView>(generateHTMLController);
 
 	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Создать новую конфигурацию", createProjectConfiguration)));
 
 	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Создать новую категорию", createCategoryConfiguration)));
+
+	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Сгенерировать HTML", generateHTML)));
 }
 
 void Initializer::createUI()
