@@ -6,6 +6,7 @@
 
 #include "PatchNotesConstants.h"
 #include "PatchNotesUtility.h"
+#include "HTMLAdapter.h"
 
 using namespace std;
 

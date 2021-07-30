@@ -69,6 +69,9 @@
     <ClCompile Include="src\Views\CategoryConfigurationView.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\HTMLAdapter.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="gui_framework.json" />
@@ -132,6 +135,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\Views\CategoryConfigurationView.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HTMLAdapter.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
