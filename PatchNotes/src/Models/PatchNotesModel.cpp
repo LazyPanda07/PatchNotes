@@ -23,7 +23,7 @@ namespace models
 		const string& categoryName =  data.get<string>("category");
 		const vector<objectSmartPointer<jsonObject>>& notes = data.get<vector<objectSmartPointer<jsonObject>>>("notes");
 		bool success = true;
-		string message = toUTF8JSON(R"(Ёлемент ")", codepage) + itemName + toUTF8JSON(R"(" успешно добавлен)", codepage);
+		string message = toUTF8JSON(R"(Ёлемент \")", codepage) + itemName + toUTF8JSON(R"(\" успешно добавлен)", codepage);
 		const string& projectNameAndVersion = data.get<string>("projectFile");
 
 		pathToProjectFile.append(dataFolder).append(json::utility::fromUTF8JSON(projectNameAndVersion, codepage)) += ".json";
@@ -38,7 +38,7 @@ namespace models
 
 			if (updateBuilder.contains(itemName, json::utility::variantTypeEnum::jJSONObject))
 			{
-				throw runtime_error(toUTF8JSON(R"(Ёлемент ")", codepage) + itemName + toUTF8JSON(R"(" уже существует)", codepage));
+				throw runtime_error(toUTF8JSON(R"(Ёлемент \")", codepage) + itemName + toUTF8JSON(R"(\" уже существует)", codepage));
 			}
 
 			objectSmartPointer<jsonObject> userObject = json::utility::make_object<jsonObject>();

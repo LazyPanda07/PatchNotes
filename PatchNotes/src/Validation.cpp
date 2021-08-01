@@ -14,7 +14,7 @@ namespace validation
 	{
 		if (data.empty())
 		{
-			throw exceptions::ValidationException(format(R"(Поле "{}" не может быть пустым)", gui_framework::utility::to_string(fieldName, utility::getCodepage())));
+			throw exceptions::ValidationException(format(R"(Поле \"{}\" не может быть пустым)", gui_framework::utility::to_string(fieldName, utility::getCodepage())));
 		}
 	}
 
@@ -22,7 +22,7 @@ namespace validation
 	{
 		if (data.empty())
 		{
-			throw exceptions::ValidationException(format(R"(Поле "{}" не может быть пустым)", gui_framework::utility::to_string(fieldName, utility::getCodepage())));
+			throw exceptions::ValidationException(format(R"(Поле \"{}\" не может быть пустым)", gui_framework::utility::to_string(fieldName, utility::getCodepage())));
 		}
 	}
 }

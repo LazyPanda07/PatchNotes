@@ -20,7 +20,7 @@ namespace models
 		string projectFile = fromUTF8JSON(data.get<string>("projectFile"), codepage);
 		string categoryName = fromUTF8JSON(data.get<string>("category"), codepage);
 		bool success = true;
-		string message = format(R"(Категория "{}" успешно добавлена)", categoryName);
+		string message = format(R"(Категория \"{}\" успешно добавлена)", categoryName);
 		filesystem::path pathToProjectFile;
 		const string& utf8CategoryName = data.get<string>("category");
 
@@ -36,7 +36,7 @@ namespace models
 
 			if (updateBuilder.contains(utf8CategoryName, json::utility::variantTypeEnum::jJSONObject))
 			{
-				throw runtime_error(format(R"(Категория "{}" уже существует)", categoryName));
+				throw runtime_error(format(R"(Категория \"{}\" уже существует)", categoryName));
 			}
 
 			objectSmartPointer<jsonObject> category = json::utility::make_object<jsonObject>();
