@@ -26,7 +26,7 @@ namespace models
 		string message = toUTF8JSON(R"(Ёлемент ")", codepage) + itemName + toUTF8JSON(R"(" успешно добавлен)", codepage);
 		const string& projectNameAndVersion = data.get<string>("projectFile");
 
-		pathToProjectFile.append(dataFolder).append(projectNameAndVersion) += ".json";
+		pathToProjectFile.append(dataFolder).append(json::utility::fromUTF8JSON(projectNameAndVersion, codepage)) += ".json";
 
 		updateBuilder.
 			append("projectName"s, projectNameAndVersion.substr(0, projectNameAndVersion.rfind('_'))).
@@ -38,7 +38,7 @@ namespace models
 
 			if (updateBuilder.contains(itemName, json::utility::variantTypeEnum::jJSONObject))
 			{
-				throw runtime_error("Ёлемент с таким названием уже существует");
+				throw runtime_error(toUTF8JSON(R"(Ёлемент ")", codepage) + itemName + toUTF8JSON(R"(" уже существует)", codepage));
 			}
 
 			objectSmartPointer<jsonObject> userObject = json::utility::make_object<jsonObject>();
@@ -48,9 +48,7 @@ namespace models
 
 			for (const auto& j : notes)
 			{
-				string data = json::utility::fromUTF8JSON(get<string>(j->data.back().second), utility::getCodepage());
-
-				json::utility::appendArray(move(data), newNotes);
+				json::utility::appendArray(get<string>(j->data.back().second), newNotes);
 			}
 
 			userObject->data.push_back({ "notes"s, move(newNotes) });

@@ -12,13 +12,14 @@ namespace models
 	json::JSONBuilder ProjectConfigurationModel::processData(const json::JSONParser& data)
 	{
 		using json::utility::toUTF8JSON;
+		using json::utility::fromUTF8JSON;
 
 		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(CP_UTF8);
+		json::JSONBuilder builder(codepage);
 		bool success = true;
 		string message;
-		const string& projectName = data.get<string>("projectName");
-		const string& projectVersion = data.get<string>("projectVersion");
+		string projectName = fromUTF8JSON(data.get<string>("projectName"), codepage);
+		string projectVersion = fromUTF8JSON(data.get<string>("projectVersion"), codepage);
 
 		filesystem::path projectFile(filesystem::path(dataFolder) /= projectName + '_' + projectVersion + ".json");
 
@@ -26,7 +27,7 @@ namespace models
 		{
 			success = false;
 
-			message = toUTF8JSON(R"(Файл с названием ")", codepage) + projectName + toUTF8JSON(R"(" и версией ")", codepage) + projectVersion + toUTF8JSON(R"(" уже существует)", codepage);
+			message = format(R"(Файл с названием "{}.json" уже существует)", projectName + '_' + projectVersion);
 		}
 		else
 		{
@@ -38,7 +39,7 @@ namespace models
 
 			ofstream(projectFile) << projectData;
 
-			message = toUTF8JSON("Конфигурация успешно создана", codepage);
+			message = "Конфигурация успешно создана";
 		}
 
 		builder.

@@ -12,36 +12,38 @@ namespace models
 		using json::utility::objectSmartPointer;
 		using json::utility::jsonObject;
 		using json::utility::toUTF8JSON;
+		using json::utility::fromUTF8JSON;
 
 		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(CP_UTF8);
-		const string& projectFile = data.get<string>("projectFile");
-		const string& categoryName = data.get<string>("category");
-		bool success = true;
-		string message = toUTF8JSON(R"(Категория ")", codepage) + categoryName + toUTF8JSON(R"(" успешно добавлена)", codepage);
+		json::JSONBuilder builder(codepage);
 		json::JSONBuilder updateBuilder(CP_UTF8);
+		string projectFile = fromUTF8JSON(data.get<string>("projectFile"), codepage);
+		string categoryName = fromUTF8JSON(data.get<string>("category"), codepage);
+		bool success = true;
+		string message = format(R"(Категория "{}" успешно добавлена)", categoryName);
 		filesystem::path pathToProjectFile;
+		const string& utf8CategoryName = data.get<string>("category");
 
 		pathToProjectFile.append(dataFolder).append(projectFile) += ".json";
 
 		updateBuilder.
-			append("projectName"s, projectFile.substr(0, projectFile.rfind('_'))).
-			append("projectVersion"s, projectFile.substr(projectFile.rfind('_') + 1));
+			append("projectName"s, toUTF8JSON(projectFile.substr(0, projectFile.rfind('_')), codepage)).
+			append("projectVersion"s, toUTF8JSON(projectFile.substr(projectFile.rfind('_') + 1), codepage));
 
 		try
 		{
 			utility::copyJSON(pathToProjectFile, updateBuilder);
 
-			if (updateBuilder.contains(categoryName, json::utility::variantTypeEnum::jJSONObject))
+			if (updateBuilder.contains(utf8CategoryName, json::utility::variantTypeEnum::jJSONObject))
 			{
-				throw runtime_error(toUTF8JSON("Категория с таким названием уже существует", codepage));
+				throw runtime_error(format(R"(Категория "{}" уже существует)", categoryName));
 			}
 
 			objectSmartPointer<jsonObject> category = json::utility::make_object<jsonObject>();
 
 			category->data.push_back({ "type"s, "category"s });
 
-			updateBuilder.append(categoryName, move(category));
+			updateBuilder.append(utf8CategoryName, move(category));
 
 			ofstream(pathToProjectFile) << updateBuilder;
 		}
