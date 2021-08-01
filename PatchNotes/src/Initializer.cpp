@@ -28,10 +28,20 @@ void Initializer::createMenus()
 	auto& menu = mainWindow->createMainMenu(L"PatchNotesMenu");
 	auto createProjectConfiguration = [this]()
 	{
+		if (projectConfigurationView)
+		{
+			projectConfigurationView->remove();
+		}
+
 		projectConfigurationView = make_unique<views::ProjectConfigurationView>();
 	};
 	auto createCategoryConfiguration = [this]()
 	{
+		if (categoryConfigurationView)
+		{
+			categoryConfigurationView->remove();
+		}
+
 		gui_framework::DropDownListComboBox* currentProject = dynamic_cast<gui_framework::DropDownListComboBox*>(dynamic_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"ProjectNameAndVersion"));
 		wstring projectNameAndVersion;
 

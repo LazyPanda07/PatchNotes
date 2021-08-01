@@ -23,6 +23,15 @@ namespace views
 
 	void BaseView::remove()
 	{
-		dynamic_cast<gui_framework::BaseComposite*>(window->getParent())->removeChild(window);
+		gui_framework::BaseComposite* parent = dynamic_cast<gui_framework::BaseComposite*>(window->getParent());
+
+		if (parent)
+		{
+			parent->removeChild(window);
+		}
+		else
+		{
+			delete window;
+		}
 	}
 }
