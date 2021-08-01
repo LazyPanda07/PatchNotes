@@ -12,7 +12,7 @@ namespace controllers
 	class BaseController
 	{
 	protected:
-		std::shared_ptr<models::BaseModel> model;
+		std::unique_ptr<models::BaseModel> model;
 
 	protected:
 		virtual json::JSONBuilder collectData(gui_framework::BaseComposite* window) const = 0;
@@ -20,11 +20,11 @@ namespace controllers
 		virtual void sendDataToModel(const json::JSONParser& data) const final;
 
 	public:
-		BaseController(const std::shared_ptr<models::BaseModel>& model) noexcept;
+		BaseController(std::unique_ptr<models::BaseModel>&& model) noexcept;
 
 		virtual void receiveData(gui_framework::BaseComposite* window) final;
 
-		virtual std::shared_ptr<models::BaseModel>& getModel() final;
+		virtual std::unique_ptr<models::BaseModel>& getModel() final;
 
 		virtual ~BaseController() = default;
 	};

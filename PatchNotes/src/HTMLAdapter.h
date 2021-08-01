@@ -2,7 +2,7 @@
 
 #include "pch.h"
 
-#include "Components/ProgressBars/ProgressBar.h"
+#include "BaseComposites/BaseComposite.h"
 
 class HTMLAdapter
 {
@@ -21,7 +21,7 @@ private:
 	void addFooterInformation(const std::string& information = "");
 
 public:
-	HTMLAdapter(const json::JSONParser& jsonSchema, gui_framework::ProgressBar* updateProgressBar);
+	HTMLAdapter(const json::JSONParser& jsonSchema, gui_framework::BaseComposite* mainWindow);
 
 	std::string& getHTML();
 

@@ -56,7 +56,7 @@ namespace controllers
 	}
 
 	PatchNotesController::PatchNotesController() :
-		BaseController(make_shared<models::PatchNotesModel>())
+		BaseController(make_unique<models::PatchNotesModel>())
 	{
 
 	}

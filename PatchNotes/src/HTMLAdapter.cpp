@@ -2,6 +2,8 @@
 
 #include <format>
 
+#include "Components/ProgressBars/ProgressBar.h"
+
 using namespace std;
 
 void HTMLAdapter::addPageInformation(const string& projectName, const string& version)
@@ -53,12 +55,13 @@ void HTMLAdapter::addFooterInformation(const string& information)
 )", information);
 }
 
-HTMLAdapter::HTMLAdapter(const json::JSONParser& jsonSchema, gui_framework::ProgressBar* updateProgressBar)
+HTMLAdapter::HTMLAdapter(const json::JSONParser& jsonSchema, gui_framework::BaseComposite* mainWindow)
 {
 	using namespace json;
 	using namespace json::utility;
 
 	int size = 0;
+	gui_framework::ProgressBar* updateProgressBar = dynamic_cast<gui_framework::ProgressBar*>(dynamic_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"));
 
 	this->addProjectNameAndVersion(jsonSchema.get<string>("projectName"), jsonSchema.get<string>("projectVersion"));
 

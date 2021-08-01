@@ -8,7 +8,7 @@ namespace views
 	class PatchNotesView : public BaseView
 	{
 	private:
-		static gui_framework::BaseComposite* createPatchNotesWindow(const std::shared_ptr<controllers::BaseController>& controller, gui_framework::BaseComponent* parent);
+		static gui_framework::BaseComposite* createPatchNotesWindow(const std::unique_ptr<controllers::BaseController>& controller, gui_framework::BaseComponent* parent);
 
 	private:
 		static std::vector<std::wstring> getAvailableProjectsFiles();
@@ -16,7 +16,7 @@ namespace views
 		static std::vector<std::wstring> getProjectCategories(const std::wstring& projectName);
 
 	public:
-		PatchNotesView(const std::shared_ptr<controllers::BaseController>& controller, gui_framework::BaseComponent* parent);
+		PatchNotesView(gui_framework::BaseComponent* parent);
 
 		void update(const json::JSONParser& data) override;
 

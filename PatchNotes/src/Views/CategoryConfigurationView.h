@@ -8,13 +8,13 @@ namespace views
 	class CategoryConfigurationView : public BaseView
 	{
 	private:
-		static gui_framework::BaseComposite* createCategoryDialog(const std::shared_ptr<controllers::BaseController>& controller, const std::wstring& projectNameAndVersion);
+		static gui_framework::BaseComposite* createCategoryDialog(const std::unique_ptr<controllers::BaseController>& controller, const std::wstring& projectNameAndVersion);
 
 	private:
-		std::shared_ptr<controllers::BaseController>& patchNotesController;
+		std::unique_ptr<controllers::BaseController>& patchNotesController;
 
 	public:
-		CategoryConfigurationView(const std::shared_ptr<controllers::BaseController>& controller, const std::wstring& projectNameAndVersion, std::shared_ptr<controllers::BaseController>& patchNotesController);
+		CategoryConfigurationView(const std::wstring& projectNameAndVersion, std::unique_ptr<controllers::BaseController>& patchNotesController);
 
 		void update(const json::JSONParser& data) override;
 

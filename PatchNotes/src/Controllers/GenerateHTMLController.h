@@ -4,7 +4,7 @@
 
 #include "pch.h"
 
-#include "Components/ProgressBars/ProgressBar.h"
+#include "BaseComposites/BaseComposite.h"
 
 namespace controllers
 {
@@ -14,7 +14,7 @@ namespace controllers
 		json::JSONBuilder collectData(gui_framework::BaseComposite* window) const override;
 
 	public:
-		GenerateHTMLController(gui_framework::ProgressBar* updateProgressBar);
+		GenerateHTMLController(gui_framework::BaseComposite* mainWindow);
 
 		~GenerateHTMLController() = default;
 	};

@@ -12,16 +12,18 @@ namespace views
 	class BaseView : public interfaces::IObserver
 	{
 	protected:
-		std::shared_ptr<controllers::BaseController> controller;
+		std::unique_ptr<controllers::BaseController> controller;
 		gui_framework::BaseComposite* window;
 		bool clean;
 
 	public:
-		BaseView(const std::shared_ptr<controllers::BaseController>& controller, gui_framework::BaseComposite* window, bool clean = false) noexcept;
+		BaseView(std::unique_ptr<controllers::BaseController>&& controller, gui_framework::BaseComposite* window, bool clean = false) noexcept;
 
 		virtual void update(const json::JSONParser& data) override = 0;
 
 		virtual gui_framework::BaseComposite* getWindow() final;
+
+		virtual std::unique_ptr<controllers::BaseController>& getController() final;
 
 		virtual ~BaseView();
 	};

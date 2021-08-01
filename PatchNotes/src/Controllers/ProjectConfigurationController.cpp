@@ -29,7 +29,7 @@ namespace controllers
 	}
 
 	ProjectConfigurationController::ProjectConfigurationController() :
-		BaseController(shared_ptr<models::BaseModel>(new models::ProjectConfigurationModel()))
+		BaseController(make_unique<models::ProjectConfigurationModel>())
 	{
 
 	}

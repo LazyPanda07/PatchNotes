@@ -9,8 +9,8 @@ namespace controllers
 		model->updateModel(data);
 	}
 
-	BaseController::BaseController(const shared_ptr<models::BaseModel>& model) noexcept :
-		model(model)
+	BaseController::BaseController(unique_ptr<models::BaseModel>&& model) noexcept :
+		model(move(model))
 	{
 
 	}
@@ -22,7 +22,7 @@ namespace controllers
 		this->sendDataToModel(data);
 	}
 
-	shared_ptr<models::BaseModel>& BaseController::getModel()
+	unique_ptr<models::BaseModel>& BaseController::getModel()
 	{
 		return model;
 	}

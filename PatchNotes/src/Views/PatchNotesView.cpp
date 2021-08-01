@@ -8,6 +8,7 @@
 #include "Composites/DialogBox.h"
 #include "Components/ProgressBars/ProgressBar.h"
 
+#include "Controllers/PatchNotesController.h"
 #include "PatchNotesConstants.h"
 #include "PatchNotesUtility.h"
 
@@ -19,7 +20,7 @@ CREATE_DEFAULT_WINDOW_FUNCTION(patchNotesUI)
 
 namespace views
 {
-	gui_framework::BaseComposite* PatchNotesView::createPatchNotesWindow(const shared_ptr<controllers::BaseController>& controller, gui_framework::BaseComponent* parent)
+	gui_framework::BaseComposite* PatchNotesView::createPatchNotesWindow(const unique_ptr<controllers::BaseController>& controller, gui_framework::BaseComponent* parent)
 	{
 		using namespace gui_framework;
 
@@ -130,10 +131,10 @@ namespace views
 		return result;
 	}
 
-	PatchNotesView::PatchNotesView(const shared_ptr<controllers::BaseController>& controller, gui_framework::BaseComponent* parent) :
-		BaseView(controller, PatchNotesView::createPatchNotesWindow(controller, parent))
+	PatchNotesView::PatchNotesView(gui_framework::BaseComponent* parent) :
+		BaseView(make_unique<controllers::PatchNotesController>(), PatchNotesView::createPatchNotesWindow(controller, parent))
 	{
-
+		
 	}
 
 	void PatchNotesView::update(const json::JSONParser& data)
@@ -147,11 +148,7 @@ namespace views
 		{
 			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), successTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
 			{
-				gui_framework::BaseComposite* parent = dynamic_cast<gui_framework::BaseComposite*>(window->getParent());
 
-				parent->removeChild(window);
-
-				PatchNotesView::createPatchNotesWindow(controller, parent);
 			}
 		}
 		else

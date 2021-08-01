@@ -4,6 +4,16 @@
 #include "Composites/DialogBox.h"
 #include "MenuItems/MenuItem.h"
 
+#include "Views/ProjectConfigurationView.h"
+#include "Views/PatchNotesView.h"
+#include "Views/CategoryConfigurationView.h"
+#include "Views/GenerateHTMLView.h"
+
+#include "Controllers/ProjectConfigurationController.h"
+#include "Controllers/PatchNotesController.h"
+#include "Controllers/CategoryConfigurationController.h"
+#include "Controllers/GenerateHTMLController.h"
+
 #include "PatchNotesConstants.h"
 #include "PatchNotesUtility.h"
 #include "HTMLAdapter.h"
@@ -17,75 +27,41 @@ void Initializer::createMenus()
 	auto& menu = mainWindow->createMainMenu(L"PatchNotesMenu");
 	auto createProjectConfiguration = [this]()
 	{
-		if (projectConfigurationViewRawPointer)
-		{
-			projectConfigurationController->getModel()->removeObserver(projectConfigurationViewRawPointer);
-
-			projectConfigurationViewRawPointer = nullptr;
-		}
-
-		projectConfigurationController = make_shared<controllers::ProjectConfigurationController>();
-		unique_ptr<views::interfaces::IObserver> projectConfigurationView = make_unique<views::ProjectConfigurationView>(projectConfigurationController, patchNotesController);
-
-		projectConfigurationViewRawPointer = projectConfigurationView.get();
-
-		projectConfigurationController->getModel()->addObserver(move(projectConfigurationView));
+		projectConfigurationView = make_unique<views::ProjectConfigurationView>(patchNotesView->getController());
 	};
 	auto createCategoryConfiguration = [this]()
 	{
-		if (categoryConfigurationViewRawPointer)
-		{
-			categoryConfigurationController->getModel()->removeObserver(categoryConfigurationViewRawPointer);
+		gui_framework::DropDownListComboBox* currentProject = dynamic_cast<gui_framework::DropDownListComboBox*>(dynamic_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"ProjectNameAndVersion"));
+		wstring projectNameAndVersion;
 
-			categoryConfigurationViewRawPointer = nullptr;
+		if (int index = currentProject->getCurrentSelectionIndex() != -1)
+		{
+			projectNameAndVersion = currentProject->getValue(index);
 		}
 
-		gui_framework::BaseComposite* ui = dynamic_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"));
-		gui_framework::DropDownListComboBox* currentProject = dynamic_cast<gui_framework::DropDownListComboBox*>(ui->findChild(L"ProjectNameAndVersion"));
-		const wstring& projectNameAndVersion = currentProject->getCurrentSelectionIndex() == -1 ? L"" : currentProject->getValue(currentProject->getCurrentSelectionIndex());
-
-		categoryConfigurationController = make_shared<controllers::CategoryConfigurationController>();
-		unique_ptr<views::interfaces::IObserver> categoryConfigurationView = make_unique<views::CategoryConfigurationView>(categoryConfigurationController, projectNameAndVersion, patchNotesController);
-
-		categoryConfigurationViewRawPointer = categoryConfigurationView.get();
-
-		categoryConfigurationController->getModel()->addObserver(move(categoryConfigurationView));
+		categoryConfigurationView = make_unique<views::CategoryConfigurationView>(projectNameAndVersion, patchNotesView->getController());
 	};
 	auto generateHTML = [this]()
 	{
-		views::PatchNotesView* pathNotesWindow = dynamic_cast<views::PatchNotesView*>(patchNotesController->getModel()->getObservers().back().get());
+		generateHTMLView = make_unique<views::GenerateHTMLView>(mainWindow);
 
-		generateHTMLView->onClick(pathNotesWindow->getWindow());
+		dynamic_cast<views::GenerateHTMLView*>(generateHTMLView.get())->onClick(patchNotesView->getWindow());
 	};
 
-	gui_framework::ProgressBar* updateProgressBar = dynamic_cast<gui_framework::ProgressBar*>(dynamic_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"));
-
-	generateHTMLController = make_shared<controllers::GenerateHTMLController>(updateProgressBar);
-	unique_ptr<views::GenerateHTMLView> tem = make_unique<views::GenerateHTMLView>(generateHTMLController, updateProgressBar);
-	generateHTMLView = tem.get();
-
-	generateHTMLController->getModel()->addObserver(move(tem));
-
 	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Создать новую конфигурацию", createProjectConfiguration)));
-
+	
 	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Создать новую категорию", createCategoryConfiguration)));
-
+	
 	menu->addMenuItem(unique_ptr<gui_framework::interfaces::IMenuItem>(new gui_framework::MenuItem(L"Сгенерировать HTML", generateHTML)));
 }
 
 void Initializer::createUI()
 {
-	patchNotesController = make_shared<controllers::PatchNotesController>();
-	unique_ptr<views::interfaces::IObserver> patchNotesView = make_unique<views::PatchNotesView>(patchNotesController, mainWindow);
-
-	patchNotesController->getModel()->addObserver(move(patchNotesView));
+	patchNotesView = make_unique<views::PatchNotesView>(mainWindow);
 }
 
 Initializer::Initializer() :
-	mainWindow(nullptr),
-	projectConfigurationViewRawPointer(nullptr),
-	categoryConfigurationViewRawPointer(nullptr),
-	generateHTMLView(nullptr)
+	mainWindow(nullptr)
 {
 
 }
@@ -115,4 +91,3 @@ void Initializer::initialization(unique_ptr<gui_framework::WindowHolder>& holder
 	
 	this->createMenus();
 }
-

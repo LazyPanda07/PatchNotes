@@ -5,15 +5,7 @@
 #include "Composites/SeparateWindow.h"
 #include "Utility/Holders/WindowHolder.h"
 
-#include "Views/ProjectConfigurationView.h"
-#include "Views/PatchNotesView.h"
-#include "Views/CategoryConfigurationView.h"
-#include "Views/GenerateHTMLView.h"
-
-#include "Controllers/ProjectConfigurationController.h"
-#include "Controllers/PatchNotesController.h"
-#include "Controllers/CategoryConfigurationController.h"
-#include "Controllers/GenerateHTMLController.h"
+#include "Views/BaseView.h"
 
 class Initializer
 {
@@ -21,16 +13,10 @@ private:
 	gui_framework::SeparateWindow* mainWindow;
 
 private:
-	std::shared_ptr<controllers::BaseController> projectConfigurationController;
-	views::interfaces::IObserver* projectConfigurationViewRawPointer;
-
-	std::shared_ptr<controllers::BaseController> patchNotesController;
-
-	std::shared_ptr<controllers::BaseController> categoryConfigurationController;
-	views::interfaces::IObserver* categoryConfigurationViewRawPointer;
-
-	std::shared_ptr<controllers::GenerateHTMLController> generateHTMLController;
-	views::GenerateHTMLView* generateHTMLView;
+	std::unique_ptr<views::BaseView> projectConfigurationView;
+	std::unique_ptr<views::BaseView> patchNotesView;
+	std::unique_ptr<views::BaseView> categoryConfigurationView;
+	std::unique_ptr<views::BaseView> generateHTMLView;
 
 private:
 	void createMenus();

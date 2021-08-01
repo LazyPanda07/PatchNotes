@@ -26,7 +26,7 @@ namespace controllers
 	}
 
 	CategoryConfigurationController::CategoryConfigurationController() :
-		BaseController(make_shared<models::CategoryConfigurationModel>())
+		BaseController(make_unique<models::CategoryConfigurationModel>())
 	{
 
 	}

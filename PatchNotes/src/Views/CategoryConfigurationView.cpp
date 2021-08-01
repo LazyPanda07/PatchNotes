@@ -3,6 +3,7 @@
 #include "Composites/DialogBox.h"
 #include "Components/EditControl.h"
 
+#include "Controllers/CategoryConfigurationController.h"
 #include "Validation.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
@@ -15,7 +16,7 @@ CREATE_DEFAULT_WINDOW_FUNCTION(categoryConfiguration)
 
 namespace views
 {
-	gui_framework::BaseComposite* CategoryConfigurationView::createCategoryDialog(const shared_ptr<controllers::BaseController>& controller, const wstring& projectNameAndVersion)
+	gui_framework::BaseComposite* CategoryConfigurationView::createCategoryDialog(const unique_ptr<controllers::BaseController>& controller, const wstring& projectNameAndVersion)
 	{
 		using gui_framework::DialogBox;
 		using gui_framework::BaseDialogBox;
@@ -56,8 +57,8 @@ namespace views
 		return dialogBox;
 	}
 
-	CategoryConfigurationView::CategoryConfigurationView(const shared_ptr<controllers::BaseController>& controller, const wstring& projectNameAndVersion, shared_ptr<controllers::BaseController>& patchNotesController) :
-		BaseView(controller, CategoryConfigurationView::createCategoryDialog(controller, projectNameAndVersion), true),
+	CategoryConfigurationView::CategoryConfigurationView(const wstring& projectNameAndVersion, unique_ptr<controllers::BaseController>& patchNotesController) :
+		BaseView(make_unique<controllers::CategoryConfigurationController>(), CategoryConfigurationView::createCategoryDialog(controller, projectNameAndVersion), true),
 		patchNotesController(patchNotesController)
 	{
 		

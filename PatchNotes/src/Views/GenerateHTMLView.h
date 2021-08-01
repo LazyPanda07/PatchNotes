@@ -4,17 +4,17 @@
 
 #include "pch.h"
 
-#include "Components/ProgressBars/ProgressBar.h"
+#include "BaseComposites/BaseComposite.h"
 
 namespace views
 {
 	class GenerateHTMLView : public BaseView
 	{
 	private:
-		gui_framework::ProgressBar* updateProgressBar;
+		gui_framework::BaseComposite* mainWindow;
 
 	public:
-		GenerateHTMLView(const std::shared_ptr<controllers::BaseController>& controller, gui_framework::ProgressBar* updateProgressBar);
+		GenerateHTMLView(gui_framework::BaseComposite* mainWindow);
 
 		void update(const json::JSONParser& data) override;
 

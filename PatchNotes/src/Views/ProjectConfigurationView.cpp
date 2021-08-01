@@ -3,6 +3,7 @@
 #include "Composites/DialogBox.h"
 #include "Components/EditControl.h"
 
+#include "Controllers/ProjectConfigurationController.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
 
@@ -14,7 +15,7 @@ CREATE_DEFAULT_WINDOW_FUNCTION(projectConfiguration)
 
 namespace views
 {
-	gui_framework::BaseComposite* ProjectConfigurationView::createConfigurationDialog(const shared_ptr<controllers::BaseController>& controller)
+	gui_framework::BaseComposite* ProjectConfigurationView::createConfigurationDialog(const unique_ptr<controllers::BaseController>& controller)
 	{
 		using gui_framework::DialogBox;
 		using gui_framework::BaseDialogBox;
@@ -51,11 +52,11 @@ namespace views
 		return dialogBox;
 	}
 
-	ProjectConfigurationView::ProjectConfigurationView(const shared_ptr<controllers::BaseController>& controller, shared_ptr<controllers::BaseController>& patchNotesController) :
-		BaseView(controller, ProjectConfigurationView::createConfigurationDialog(controller), true),
+	ProjectConfigurationView::ProjectConfigurationView(unique_ptr<controllers::BaseController>& patchNotesController) :
+		BaseView(make_unique<controllers::ProjectConfigurationController>(), ProjectConfigurationView::createConfigurationDialog(controller), true),
 		patchNotesController(patchNotesController)
 	{
-
+		
 	}
 
 	void ProjectConfigurationView::update(const json::JSONParser& data)

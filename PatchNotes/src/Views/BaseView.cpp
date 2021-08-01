@@ -4,17 +4,22 @@ using namespace std;
 
 namespace views
 {
-	BaseView::BaseView(const shared_ptr<controllers::BaseController>& controller, gui_framework::BaseComposite* window, bool clean) noexcept :
-		controller(controller),
+	BaseView::BaseView(unique_ptr<controllers::BaseController>&& controller, gui_framework::BaseComposite* window, bool clean) noexcept :
+		controller(move(controller)),
 		window(window),
 		clean(clean)
 	{
-
+		this->controller->getModel()->addObserver(this);
 	}
 
 	gui_framework::BaseComposite* BaseView::getWindow()
 	{
 		return window;
+	}
+
+	unique_ptr<controllers::BaseController>& BaseView::getController()
+	{
+		return controller;
 	}
 
 	BaseView::~BaseView()

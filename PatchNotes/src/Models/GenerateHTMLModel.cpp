@@ -28,7 +28,7 @@ namespace models
 
 		out /= projectFileName + ".html";
 
-		ofstream(out) << HTMLAdapter(projectFile, updateProgressBar).getHTML();
+		ofstream(out) << HTMLAdapter(projectFile, mainWindow).getHTML();
 
 		builder.
 			append("success", success).
@@ -37,8 +37,8 @@ namespace models
 		return builder;
 	}
 
-	GenerateHTMLModel::GenerateHTMLModel(gui_framework::ProgressBar* updateProgressBar) :
-		updateProgressBar(updateProgressBar)
+	GenerateHTMLModel::GenerateHTMLModel(gui_framework::BaseComposite* mainWindow) :
+		mainWindow(mainWindow)
 	{
 
 	}
