@@ -4,10 +4,9 @@ using namespace std;
 
 namespace views
 {
-	BaseView::BaseView(unique_ptr<controllers::BaseController>&& controller, gui_framework::BaseComposite* window, bool clean) noexcept :
+	BaseView::BaseView(unique_ptr<controllers::BaseController>&& controller, gui_framework::BaseComposite* window) noexcept :
 		controller(move(controller)),
-		window(window),
-		clean(clean)
+		window(window)
 	{
 		this->controller->getModel()->addObserver(this);
 	}
@@ -22,11 +21,8 @@ namespace views
 		return controller;
 	}
 
-	BaseView::~BaseView()
+	void BaseView::remove()
 	{
-		if (clean)
-		{
-			delete window;
-		}
+		dynamic_cast<gui_framework::BaseComposite*>(window->getParent())->removeChild(window);
 	}
 }

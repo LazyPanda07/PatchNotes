@@ -13,15 +13,17 @@ namespace models
 	{
 		using json::utility::objectSmartPointer;
 		using json::utility::jsonObject;
+		using json::utility::toUTF8JSON;
 
-		json::JSONBuilder updateBuilder(utility::getCodepage());
-		json::JSONBuilder builder(utility::getCodepage());
+		uint32_t codepage = utility::getCodepage();
+		json::JSONBuilder updateBuilder(CP_UTF8);
+		json::JSONBuilder builder(CP_UTF8);
 		filesystem::path pathToProjectFile;
 		const string& itemName = data.get<string>("item");
-		const string& categoryName = data.get<string>("category");
+		const string& categoryName =  data.get<string>("category");
 		const vector<objectSmartPointer<jsonObject>>& notes = data.get<vector<objectSmartPointer<jsonObject>>>("notes");
 		bool success = true;
-		string message = format(R"(Ёлемент "{}" успешно добавлен)", itemName);
+		string message = toUTF8JSON(R"(Ёлемент ")", codepage) + itemName + toUTF8JSON(R"(" успешно добавлен)", codepage);
 		const string& projectNameAndVersion = data.get<string>("projectFile");
 
 		pathToProjectFile.append(dataFolder).append(projectNameAndVersion) += ".json";

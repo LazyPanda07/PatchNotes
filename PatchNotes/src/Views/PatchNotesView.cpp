@@ -8,6 +8,7 @@
 #include "Composites/DialogBox.h"
 #include "Components/ProgressBars/ProgressBar.h"
 
+#include "Initializer.h"
 #include "Controllers/PatchNotesController.h"
 #include "PatchNotesConstants.h"
 #include "PatchNotesUtility.h"
@@ -46,18 +47,22 @@ namespace views
 		}
 
 		DropDownListComboBox* currentCategory = new DropDownListComboBox(L"ProjectCategory", gui_framework::utility::ComponentSettings(width / 4, 25, width / 2, 20), patchNotesWindow);
-		vector<wstring> categories = PatchNotesView::getProjectCategories(currentProject->getValue(currentProject->getCurrentSelectionIndex()));
-
-		currentCategory->setAutoResize(false);
-
-		for (const auto& i : categories)
+		
+		if (currentProject->getCurrentSelectionIndex() != -1)
 		{
-			currentCategory->addValue(i);
-		}
+			vector<wstring> categories = PatchNotesView::getProjectCategories(currentProject->getValue(currentProject->getCurrentSelectionIndex()));
 
-		if (categories.size())
-		{
-			currentCategory->setCurrentSelection(0);
+			currentCategory->setAutoResize(false);
+
+			for (const auto& i : categories)
+			{
+				currentCategory->addValue(i);
+			}
+
+			if (categories.size())
+			{
+				currentCategory->setCurrentSelection(0);
+			}
 		}
 
 		EditControl* element = new EditControl(L"Item", width / 4, 50, patchNotesWindow, width / 2);
@@ -148,7 +153,7 @@ namespace views
 		{
 			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), successTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
 			{
-
+				Initializer::get().createUI();
 			}
 		}
 		else

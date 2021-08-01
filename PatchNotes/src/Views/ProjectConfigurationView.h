@@ -10,11 +10,8 @@ namespace views
 	private:
 		static gui_framework::BaseComposite* createConfigurationDialog(const std::unique_ptr<controllers::BaseController>& controller);
 
-	private:
-		std::unique_ptr<controllers::BaseController>& patchNotesController;
-
 	public:
-		ProjectConfigurationView(std::unique_ptr<controllers::BaseController>& patchNotesController);
+		ProjectConfigurationView();
 
 		void update(const json::JSONParser& data) override;
 

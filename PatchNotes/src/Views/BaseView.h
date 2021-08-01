@@ -14,10 +14,9 @@ namespace views
 	protected:
 		std::unique_ptr<controllers::BaseController> controller;
 		gui_framework::BaseComposite* window;
-		bool clean;
 
 	public:
-		BaseView(std::unique_ptr<controllers::BaseController>&& controller, gui_framework::BaseComposite* window, bool clean = false) noexcept;
+		BaseView(std::unique_ptr<controllers::BaseController>&& controller, gui_framework::BaseComposite* window) noexcept;
 
 		virtual void update(const json::JSONParser& data) override = 0;
 
@@ -25,6 +24,8 @@ namespace views
 
 		virtual std::unique_ptr<controllers::BaseController>& getController() final;
 
-		virtual ~BaseView();
+		virtual void remove() final;
+
+		virtual ~BaseView() = default;
 	};
 }

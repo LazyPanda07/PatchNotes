@@ -10,13 +10,16 @@ namespace models
 {
 	json::JSONBuilder GenerateHTMLModel::processData(const json::JSONParser& data)
 	{
-		json::JSONBuilder builder(utility::getCodepage());
+		using json::utility::toUTF8JSON;
+
+		uint32_t codepage = utility::getCodepage();
+		json::JSONBuilder builder(CP_UTF8);
 		const string& projectFileName = data.get<string>("projectFile");
 		filesystem::path pathToProjectFile;
 		filesystem::path out;
 		json::JSONParser projectFile;
 		bool success = true;
-		string message = format(R"(Файл "{}" успешно сгенерирован)", projectFileName + ".html");
+		string message = toUTF8JSON(R"(Файл ")", codepage) + projectFileName + toUTF8JSON(R"(.html" успешно сгенерирован)", codepage);
 
 		pathToProjectFile.append(dataFolder).append(projectFileName) += ".json";
 

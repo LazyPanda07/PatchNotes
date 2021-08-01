@@ -21,12 +21,15 @@ private:
 private:
 	void createMenus();
 
-	void createUI();
-
-public:
+private:
 	Initializer();
 
-	void initialization(std::unique_ptr<gui_framework::WindowHolder>& holder);
-
 	~Initializer() = default;
+
+public:
+	static Initializer& get();
+
+	void createUI();
+
+	void initialize(std::unique_ptr<gui_framework::WindowHolder>& holder);
 };

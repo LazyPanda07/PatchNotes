@@ -11,14 +11,15 @@ namespace models
 	{
 		using json::utility::objectSmartPointer;
 		using json::utility::jsonObject;
+		using json::utility::toUTF8JSON;
 
 		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
+		json::JSONBuilder builder(CP_UTF8);
 		const string& projectFile = data.get<string>("projectFile");
 		const string& categoryName = data.get<string>("category");
 		bool success = true;
-		string message = format(R"(Категория "{}" успешно добавлена)", categoryName);
-		json::JSONBuilder updateBuilder(codepage);
+		string message = toUTF8JSON(R"(Категория ")", codepage) + categoryName + toUTF8JSON(R"(" успешно добавлена)", codepage);
+		json::JSONBuilder updateBuilder(CP_UTF8);
 		filesystem::path pathToProjectFile;
 
 		pathToProjectFile.append(dataFolder).append(projectFile) += ".json";
@@ -33,7 +34,7 @@ namespace models
 
 			if (updateBuilder.contains(categoryName, json::utility::variantTypeEnum::jJSONObject))
 			{
-				throw runtime_error("Категория с таким названием уже существует");
+				throw runtime_error(toUTF8JSON("Категория с таким названием уже существует", codepage));
 			}
 
 			objectSmartPointer<jsonObject> category = json::utility::make_object<jsonObject>();

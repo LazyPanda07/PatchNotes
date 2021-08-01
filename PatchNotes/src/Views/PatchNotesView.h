@@ -20,6 +20,6 @@ namespace views
 
 		void update(const json::JSONParser& data) override;
 
-		PatchNotesView() = default;
+		~PatchNotesView() = default;
 	};
 }

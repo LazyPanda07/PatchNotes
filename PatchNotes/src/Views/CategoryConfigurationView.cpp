@@ -3,6 +3,7 @@
 #include "Composites/DialogBox.h"
 #include "Components/EditControl.h"
 
+#include "Initializer.h"
 #include "Controllers/CategoryConfigurationController.h"
 #include "Validation.h"
 #include "PatchNotesUtility.h"
@@ -57,15 +58,29 @@ namespace views
 		return dialogBox;
 	}
 
-	CategoryConfigurationView::CategoryConfigurationView(const wstring& projectNameAndVersion, unique_ptr<controllers::BaseController>& patchNotesController) :
-		BaseView(make_unique<controllers::CategoryConfigurationController>(), CategoryConfigurationView::createCategoryDialog(controller, projectNameAndVersion), true),
-		patchNotesController(patchNotesController)
+	CategoryConfigurationView::CategoryConfigurationView(const wstring& projectNameAndVersion) :
+		BaseView(make_unique<controllers::CategoryConfigurationController>(), CategoryConfigurationView::createCategoryDialog(controller, projectNameAndVersion))
 	{
 		
 	}
 
 	void CategoryConfigurationView::update(const json::JSONParser& data)
 	{
-		patchNotesController->getModel()->getObservers().back()->update(data);
+		using gui_framework::BaseDialogBox;
+
+		bool success = data.get<bool>("success");
+		string message = data.get<string>("message");
+
+		if (success)
+		{
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), successTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+			{
+				Initializer::get().createUI();
+			}
+		}
+		else
+		{
+			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), errorTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
+		}
 	}
 }

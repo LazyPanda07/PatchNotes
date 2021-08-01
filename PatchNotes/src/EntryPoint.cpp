@@ -13,9 +13,8 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 	try
 	{
 		unique_ptr<gui_framework::WindowHolder> holder;
-		Initializer initializer;
-		
-		initializer.initialization(holder);
+
+		Initializer::get().initialize(holder);
 
 		holder->runMainLoop();
 	}
