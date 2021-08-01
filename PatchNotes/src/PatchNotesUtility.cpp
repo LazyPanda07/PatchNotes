@@ -94,9 +94,7 @@ namespace utility
 
 							for (const auto& k : notes)
 							{
-								string data = json::utility::fromUTF8JSON(get<string>(k->data.back().second), utility::getCodepage());
-
-								json::utility::appendArray(move(data), newNotes);
+								json::utility::appendArray(get<string>(k->data.back().second), newNotes);
 							}
 
 							newItem->data.push_back({ "type"s, "item"s });
