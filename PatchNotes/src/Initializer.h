@@ -31,5 +31,9 @@ public:
 
 	void createUI();
 
+	void closeCategoryConfiguration();
+
+	void closeProjectConfiguration();
+
 	void initialize(std::unique_ptr<gui_framework::WindowHolder>& holder);
 };

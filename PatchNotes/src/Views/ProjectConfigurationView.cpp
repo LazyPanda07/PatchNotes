@@ -71,6 +71,8 @@ namespace views
 			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), successTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
 			{
 				Initializer::get().createUI();
+
+				Initializer::get().closeProjectConfiguration();
 			}
 		}
 		else

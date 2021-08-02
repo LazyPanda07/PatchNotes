@@ -103,6 +103,20 @@ void Initializer::createUI()
 	patchNotesView = make_unique<views::PatchNotesView>(mainWindow);
 }
 
+void Initializer::closeCategoryConfiguration()
+{
+	categoryConfigurationView->remove();
+
+	categoryConfigurationView.reset();
+}
+
+void Initializer::closeProjectConfiguration()
+{
+	projectConfigurationView->remove();
+
+	projectConfigurationView.reset();
+}
+
 void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 {
 	gui_framework::GUIFramework::get();
