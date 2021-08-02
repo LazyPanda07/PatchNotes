@@ -7,5 +7,6 @@
     "threadsCount": 0
   },
 
-  "codepage": 1251
+  "codepage": 1251,
+  "pathToProject": "PathToProject"
 }

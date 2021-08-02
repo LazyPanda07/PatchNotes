@@ -26,7 +26,7 @@ namespace models
 
 		ifstream(pathToProjectFile) >> projectFile;
 
-		(out /= filesystem::current_path()).append("out");
+		(out /= fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().get<string>("pathToProject"), utility::getCodepage())).append(htmlGeneratedFolder);
 
 		filesystem::create_directory(out);
 

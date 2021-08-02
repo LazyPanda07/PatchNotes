@@ -126,7 +126,7 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 
 	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch notes", settings, "patchNotes"));
 
-	dataFolder = (filesystem::current_path() /= "data").string();
+	dataFolder = (filesystem::path(json::utility::fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().get<string>("pathToProject"), utility::getCodepage())) /= jsonVersionsFolder).string();
 
 	filesystem::create_directory(dataFolder);
 
