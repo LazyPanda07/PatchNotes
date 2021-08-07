@@ -48,11 +48,11 @@ namespace views
 
 		DropDownListComboBox* currentCategory = new DropDownListComboBox(L"ProjectCategory", gui_framework::utility::ComponentSettings(width / 4, 25, width / 2, 20), patchNotesWindow);
 		
+		currentCategory->setAutoResize(false);
+
 		if (currentProject->getCurrentSelectionIndex() != -1)
 		{
 			vector<wstring> categories = PatchNotesView::getProjectCategories(currentProject->getValue(currentProject->getCurrentSelectionIndex()));
-
-			currentCategory->setAutoResize(false);
 
 			for (const auto& i : categories)
 			{
@@ -84,6 +84,26 @@ namespace views
 			}, 200, 40);
 
 		new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(195, height - 100, 824, 40), patchNotesWindow);
+
+		currentProject->setOnSelectionChange([currentCategory](gui_framework::BaseComboBox& comboBox)
+			{
+				if (comboBox.getCurrentSelectionIndex() != -1)
+				{
+					currentCategory->clear();
+
+					vector<wstring> categories = PatchNotesView::getProjectCategories(comboBox.getValue(comboBox.getCurrentSelectionIndex()));
+
+					for (const auto& i : categories)
+					{
+						currentCategory->addValue(i);
+					}
+
+					if (categories.size())
+					{
+						currentCategory->setCurrentSelection(0);
+					}
+				}
+			});
 
 		return patchNotesWindow;
 	}
