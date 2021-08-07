@@ -1,8 +1,9 @@
-#include <iostream>
-
 #include "pch.h"
+#include "BaseComposites/StandardComposites/BaseDialogBox.h"
 
 #include "Initializer.h"
+#include "PatchNotesUtility.h"
+#include "PatchNotesConstants.h"
 
 #pragma warning(disable: 28251)
 
@@ -20,7 +21,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 	}
 	catch (const exception& e)
 	{
-		cout << e.what() << endl;
+		gui_framework::BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), utility::getCodepage()), errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
 	}
 
 	return 0;
