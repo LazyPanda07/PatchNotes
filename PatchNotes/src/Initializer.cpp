@@ -80,6 +80,51 @@ void Initializer::createMenus()
 	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"—генерировать HTML", generateHTML));
 }
 
+void Initializer::registerHotkeys()
+{
+	gui_framework::GUIFramework& framework = gui_framework::GUIFramework::get();
+
+	framework.registerHotkey(VK_TAB, [&framework]()
+		{
+			using namespace gui_framework;
+
+			BaseComponent* component = framework.findComponent(GetFocus());
+
+			if (component)
+			{
+				BaseComposite* parent = dynamic_cast<BaseComposite*>(component->getParent());
+
+				if (parent)
+				{
+					auto& children = parent->getChildren();
+
+					for (size_t i = 0; i < children.size(); i++)
+					{
+						if (children[i].get() == component)
+						{
+							if (i + 1 == children.size())
+							{
+								SetFocus(children.front()->getHandle());
+							}
+							else
+							{
+								SetFocus(children[i + 1]->getHandle());
+							}
+
+							return;
+						}
+					}
+				}
+				else if (component->isComposite())
+				{
+					BaseComposite* composite = dynamic_cast<BaseComposite*>(component);
+
+					SetFocus(composite->getChildren().front()->getHandle());
+				}
+			}
+		});
+}
+
 Initializer::Initializer() :
 	mainWindow(nullptr)
 {
@@ -141,4 +186,6 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 	this->createUI();
 
 	this->createMenus();
+
+	this->registerHotkeys();
 }

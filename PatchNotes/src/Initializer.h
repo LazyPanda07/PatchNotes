@@ -21,6 +21,8 @@ private:
 private:
 	void createMenus();
 
+	void registerHotkeys();
+
 private:
 	Initializer();
 
