@@ -30,15 +30,41 @@ namespace models
 
 		filesystem::create_directory(out);
 
-		out /= projectFileName + ".html";
+		ofstream(out / (projectFileName + ".html")) << HTMLAdapter(projectFile, mainWindow).getHTML();
 
-		ofstream(out) << HTMLAdapter(projectFile, mainWindow).getHTML();
+		this->updateIndex(out, projectFileName);
 
 		builder.
 			append("success", success).
 			append("message", move(message));
 
 		return builder;
+	}
+
+	void GenerateHTMLModel::updateIndex(const filesystem::path& outFolder, const string& projectFileName)
+	{
+		ostringstream indexHTMLData;
+		ifstream indexHTML(outFolder / "index.html");
+		string tem;
+		bool alreadyAdded = false;
+
+		while (getline(indexHTML, tem))
+		{
+			if (tem.find(projectFileName) != string::npos)
+			{
+				return;
+			}
+			else if (tem.find("</body>") != string::npos)
+			{
+				indexHTMLData << "\t<div>" << endl <<
+					format(R"({0}<a href="{1}.html">{1}</a>)", "\t\t", projectFileName) << endl <<
+					"\t</div>" << endl << endl;
+			}
+
+			indexHTMLData << tem << endl;
+		}
+
+		ofstream(outFolder / "index.html") << indexHTMLData.view();
 	}
 
 	GenerateHTMLModel::GenerateHTMLModel(gui_framework::BaseComposite* mainWindow) :
