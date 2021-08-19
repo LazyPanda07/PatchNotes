@@ -195,6 +195,7 @@
     <None Include="gui_framework.json" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\Controllers\BaseController.h" />
     <ClInclude Include="src\Controllers\CategoryConfigurationController.h" />
     <ClInclude Include="src\Controllers\GenerateHTMLController.h" />
@@ -221,8 +222,10 @@
     <ClInclude Include="src\Views\ProjectConfigurationView.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Desktop\Icon\test\icon.ico" />
     <Image Include="assets\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PatchNotes.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
