@@ -22,11 +22,11 @@ namespace models
 		bool success = true;
 		string message = format(R"(Файл "{}.html" успешно сгенерирован)", projectFileName);
 
-		pathToProjectFile.append(dataFolder).append(projectFileName) += ".json";
+		pathToProjectFile.append(globals::dataFolder).append(projectFileName) += ".json";
 
 		ifstream(pathToProjectFile) >> projectFile;
 
-		(out /= fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().get<string>("pathToProject"), utility::getCodepage())).append(htmlGeneratedFolder);
+		(out /= fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().get<string>("pathToProject"), utility::getCodepage())).append(patch_notes_constants::htmlGeneratedFolder);
 
 		filesystem::create_directory(out);
 

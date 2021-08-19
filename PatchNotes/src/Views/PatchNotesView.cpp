@@ -34,8 +34,6 @@ namespace views
 		DropDownListComboBox* currentProject = new DropDownListComboBox(L"ProjectNameAndVersion", gui_framework::utility::ComponentSettings(width / 4, 0, width / 2, 20), patchNotesWindow);
 		vector<wstring> projects = PatchNotesView::getAvailableProjectsFiles();
 
-		currentProject->setAutoResize(false);
-
 		for (const auto& i : projects)
 		{
 			currentProject->addValue(i);
@@ -47,8 +45,6 @@ namespace views
 		}
 
 		DropDownListComboBox* currentCategory = new DropDownListComboBox(L"ProjectCategory", gui_framework::utility::ComponentSettings(width / 4, 25, width / 2, 20), patchNotesWindow);
-		
-		currentCategory->setAutoResize(false);
 
 		if (currentProject->getCurrentSelectionIndex() != -1)
 		{
@@ -65,13 +61,13 @@ namespace views
 			}
 		}
 
-		EditControl* element = new EditControl(L"Item", width / 4, 50, patchNotesWindow, width / 2);
+		EditControl* element = new EditControl(L"Item", width / 4, 50, patchNotesWindow, width / 2 + 10);	// + 10 make element same size as currentProject and currentCategory
 
 		element->setPlaceholder(L"Элемент");
 
 		new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width, height - 170), patchNotesWindow, true);
 
-		new Button(L"AddNotes", L"Добавить", -5, height - 100, patchNotesWindow, [&controller, patchNotesWindow]()
+		new Button(L"AddNotes", L"Добавить", 0, height - 100, patchNotesWindow, [&controller, patchNotesWindow]()
 			{
 				try
 				{
@@ -83,7 +79,7 @@ namespace views
 				}
 			}, 200, 40);
 
-		new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(195, height - 100, 824, 40), patchNotesWindow);
+		new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(200, height - 100, 824, 40), patchNotesWindow);
 
 		currentProject->setOnSelectionChange([currentCategory](gui_framework::BaseComboBox& comboBox)
 			{
@@ -113,7 +109,7 @@ namespace views
 		vector<wstring> result;
 		map<filesystem::file_time_type, wstring> lastTimeModifiedFiles;
 
-		filesystem::directory_iterator it(dataFolder);
+		filesystem::directory_iterator it(globals::dataFolder);
 
 		for (const auto& projectFile : it)
 		{
@@ -133,7 +129,7 @@ namespace views
 		json::JSONParser parser;
 		filesystem::path pathToProject;
 
-		pathToProject.append(dataFolder).append(projectName) += (".json");
+		pathToProject.append(globals::dataFolder).append(projectName) += (".json");
 
 		ifstream(pathToProject) >> parser;
 
@@ -171,14 +167,14 @@ namespace views
 
 		if (success)
 		{
-			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), successTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::successTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
 			{
 				Initializer::get().createUI();
 			}
 		}
 		else
 		{
-			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), errorTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
+			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
 		}
 	}
 }

@@ -26,7 +26,7 @@ namespace models
 		string message = toUTF8JSON(R"(Ёлемент \")", codepage) + itemName + toUTF8JSON(R"(\" успешно добавлен)", codepage);
 		const string& projectNameAndVersion = data.get<string>("projectFile");
 
-		pathToProjectFile.append(dataFolder).append(json::utility::fromUTF8JSON(projectNameAndVersion, codepage)) += ".json";
+		pathToProjectFile.append(globals::dataFolder).append(json::utility::fromUTF8JSON(projectNameAndVersion, codepage)) += ".json";
 
 		updateBuilder.
 			append("projectName"s, projectNameAndVersion.substr(0, projectNameAndVersion.rfind('_'))).

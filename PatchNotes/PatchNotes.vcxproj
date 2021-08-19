@@ -220,6 +220,10 @@
     <ClInclude Include="src\Views\PatchNotesView.h" />
     <ClInclude Include="src\Views\ProjectConfigurationView.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Desktop\Icon\test\icon.ico" />
+    <Image Include="assets\icon.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

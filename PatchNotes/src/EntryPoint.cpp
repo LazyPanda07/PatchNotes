@@ -21,7 +21,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 	}
 	catch (const exception& e)
 	{
-		gui_framework::BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), utility::getCodepage()), errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
+		gui_framework::BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), utility::getCodepage()), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
 	}
 
 	return 0;

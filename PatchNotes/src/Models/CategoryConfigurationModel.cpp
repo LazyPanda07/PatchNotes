@@ -24,7 +24,7 @@ namespace models
 		filesystem::path pathToProjectFile;
 		const string& utf8CategoryName = data.get<string>("category");
 
-		pathToProjectFile.append(dataFolder).append(projectFile) += ".json";
+		pathToProjectFile.append(globals::dataFolder).append(projectFile) += ".json";
 
 		updateBuilder.
 			append("projectName"s, toUTF8JSON(projectFile.substr(0, projectFile.rfind('_')), codepage)).

@@ -13,10 +13,10 @@ private:
 	gui_framework::SeparateWindow* mainWindow;
 
 private:
-	std::unique_ptr<views::BaseView> projectConfigurationView;
-	std::unique_ptr<views::BaseView> patchNotesView;
-	std::unique_ptr<views::BaseView> categoryConfigurationView;
-	std::unique_ptr<views::BaseView> generateHTMLView;
+	std::unique_ptr<::views::BaseView> projectConfigurationView;
+	std::unique_ptr<::views::BaseView> patchNotesView;
+	std::unique_ptr<::views::BaseView> categoryConfigurationView;
+	std::unique_ptr<::views::BaseView> generateHTMLView;
 
 private:
 	void createMenus();

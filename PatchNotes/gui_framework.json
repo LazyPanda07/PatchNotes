@@ -1,12 +1,9 @@
 {
-  "Settings": {
-    "usingDefaultCreators": true
-  },
-
-  "Threading": {
+  "settings": {
+    "usingDefaultCreators": true,
     "threadsCount": 0
   },
 
   "codepage": 1251,
-  "pathToProject": "PathToProject"
+  "pathToProject": "C:\\dev\\LostConnection"
 }

@@ -159,4 +159,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Desktop\Icon\test\icon.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="assets\icon.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

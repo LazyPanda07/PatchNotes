@@ -2,11 +2,19 @@
 
 #include <string>
 
-inline std::string dataFolder;
+namespace globals
+{
+	inline std::string dataFolder;
+}
 
-inline const std::wstring successTitle = L"Успех";
-inline const std::wstring errorTitle = L"Ошибка";
+namespace patch_notes_constants
+{
+	inline const std::wstring successTitle = L"Успех";
+	inline const std::wstring errorTitle = L"Ошибка";
 
-inline constexpr std::string_view jsonVersionsFolder = "json_versions";
+	inline const std::string assetsFolder = "assets";
 
-inline constexpr std::string_view htmlGeneratedFolder = "docs";
+	inline constexpr std::string_view jsonVersionsFolder = "json_versions";
+
+	inline constexpr std::string_view htmlGeneratedFolder = "docs";
+}

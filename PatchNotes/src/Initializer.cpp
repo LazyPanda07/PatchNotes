@@ -33,7 +33,7 @@ void Initializer::createMenus()
 			projectConfigurationView->remove();
 		}
 
-		projectConfigurationView = make_unique<views::ProjectConfigurationView>();
+		projectConfigurationView = make_unique<::views::ProjectConfigurationView>();
 	};
 	auto createCategoryConfiguration = [this]()
 	{
@@ -52,24 +52,24 @@ void Initializer::createMenus()
 
 		try
 		{
-			categoryConfigurationView = make_unique<views::CategoryConfigurationView>(projectNameAndVersion);
+			categoryConfigurationView = make_unique<::views::CategoryConfigurationView>(projectNameAndVersion);
 		}
 		catch (const exceptions::ValidationException& e)
 		{
-			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
+			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
 		}
 	};
 	auto generateHTML = [this]()
 	{
-		generateHTMLView = make_unique<views::GenerateHTMLView>(mainWindow);
+		generateHTMLView = make_unique<::views::GenerateHTMLView>(mainWindow);
 
 		try
 		{
-			dynamic_cast<views::GenerateHTMLView*>(generateHTMLView.get())->onClick(patchNotesView->getWindow());
+			dynamic_cast<::views::GenerateHTMLView*>(generateHTMLView.get())->onClick(patchNotesView->getWindow());
 		}
 		catch (const exceptions::ValidationException& e)
 		{
-			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
+			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
 		}
 	};
 
@@ -145,7 +145,7 @@ void Initializer::createUI()
 		patchNotesView->remove();
 	}
 
-	patchNotesView = make_unique<views::PatchNotesView>(mainWindow);
+	patchNotesView = make_unique<::views::PatchNotesView>(mainWindow);
 }
 
 void Initializer::closeCategoryConfiguration()
@@ -171,9 +171,9 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 
 	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch notes", settings, "patchNotes"));
 
-	dataFolder = (filesystem::path(json::utility::fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().get<string>("pathToProject"), utility::getCodepage())) /= jsonVersionsFolder).string();
+	globals::dataFolder = (filesystem::path(json::utility::fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().get<string>("pathToProject"), utility::getCodepage())) /= patch_notes_constants::jsonVersionsFolder).string();
 
-	filesystem::create_directory(dataFolder);
+	filesystem::create_directory(globals::dataFolder);
 
 	mainWindow = dynamic_cast<gui_framework::SeparateWindow*>(holder->get());
 

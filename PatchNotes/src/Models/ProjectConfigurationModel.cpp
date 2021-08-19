@@ -21,7 +21,7 @@ namespace models
 		string projectName = fromUTF8JSON(data.get<string>("projectName"), codepage);
 		string projectVersion = fromUTF8JSON(data.get<string>("projectVersion"), codepage);
 
-		filesystem::path projectFile(filesystem::path(dataFolder) /= projectName + '_' + projectVersion + ".json");
+		filesystem::path projectFile(filesystem::path(globals::dataFolder) /= projectName + '_' + projectVersion + ".json");
 
 		if (filesystem::exists(projectFile))
 		{
