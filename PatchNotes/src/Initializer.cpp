@@ -14,6 +14,8 @@
 #include "Controllers/CategoryConfigurationController.h"
 #include "Controllers/GenerateHTMLController.h"
 
+#include "../resource.h"
+
 #include "Exceptions/ValidationException.h"
 #include "PatchNotesConstants.h"
 #include "PatchNotesUtility.h"
@@ -169,7 +171,7 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 	auto [x, y] = utility::getScreenCenter(1024, 768);
 	gui_framework::utility::ComponentSettings settings(x, y, 1024, 768);
 
-	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch notes", settings, "patchNotes"));
+	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch notes", settings, "patchNotes", false, false, "", APPLICATION_ICON, APPLICATION_ICON));
 
 	globals::dataFolder = (filesystem::path(json::utility::fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().get<string>("pathToProject"), utility::getCodepage())) /= patch_notes_constants::jsonVersionsFolder).string();
 

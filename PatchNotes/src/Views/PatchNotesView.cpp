@@ -25,10 +25,10 @@ namespace views
 	{
 		using namespace gui_framework;
 
-		uint16_t width = parent->getDesiredWidth() - 18;
+		uint16_t width = parent->getDesiredWidth();
 		uint16_t height = parent->getDesiredHeight();
 
-		gui_framework::utility::ComponentSettings settings(0, 0, width, height - 60);
+		gui_framework::utility::ComponentSettings settings(0, 0, width - 17, height - 60);
 		ChildWindow* patchNotesWindow = new ChildWindow(L"PatchNotesUI", L"PatchNotesUI", settings, parent, "patchNotesUI");
 
 		DropDownListComboBox* currentProject = new DropDownListComboBox(L"ProjectNameAndVersion", gui_framework::utility::ComponentSettings(width / 4, 0, width / 2, 20), patchNotesWindow);
@@ -65,9 +65,7 @@ namespace views
 
 		element->setPlaceholder(L"Элемент");
 
-		RichEdit* richEdit = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width, height - 170), patchNotesWindow, true);
-
-		richEdit->setAutoResize(true);
+		new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width - 20, height - 170), patchNotesWindow, true);
 
 		new Button(L"AddNotes", L"Добавить", 0, height - 100, patchNotesWindow, [&controller, patchNotesWindow]()
 			{
@@ -157,7 +155,7 @@ namespace views
 	PatchNotesView::PatchNotesView(gui_framework::BaseComponent* parent) :
 		BaseView(make_unique<controllers::PatchNotesController>(), PatchNotesView::createPatchNotesWindow(controller, parent))
 	{
-		
+
 	}
 
 	void PatchNotesView::update(const json::JSONParser& data)
