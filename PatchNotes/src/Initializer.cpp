@@ -180,7 +180,7 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 	mainWindow->setExitMode(gui_framework::BaseComponent::exitMode::quit);
 
 	gui_framework::utility::removeStyle(mainWindow->getHandle(), WS_THICKFRAME);
-
+	
 	gui_framework::utility::removeStyle(mainWindow->getHandle(), WS_MAXIMIZEBOX);
 
 	this->createUI();

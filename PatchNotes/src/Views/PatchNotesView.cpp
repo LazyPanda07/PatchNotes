@@ -25,10 +25,10 @@ namespace views
 	{
 		using namespace gui_framework;
 
-		uint16_t width = parent->getDesiredWidth();
+		uint16_t width = parent->getDesiredWidth() - 18;
 		uint16_t height = parent->getDesiredHeight();
 
-		gui_framework::utility::ComponentSettings settings(0, 0, width, height);
+		gui_framework::utility::ComponentSettings settings(0, 0, width, height - 60);
 		ChildWindow* patchNotesWindow = new ChildWindow(L"PatchNotesUI", L"PatchNotesUI", settings, parent, "patchNotesUI");
 
 		DropDownListComboBox* currentProject = new DropDownListComboBox(L"ProjectNameAndVersion", gui_framework::utility::ComponentSettings(width / 4, 0, width / 2, 20), patchNotesWindow);
@@ -65,7 +65,9 @@ namespace views
 
 		element->setPlaceholder(L"Элемент");
 
-		new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width, height - 170), patchNotesWindow, true);
+		RichEdit* richEdit = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width, height - 170), patchNotesWindow, true);
+
+		richEdit->setAutoResize(true);
 
 		new Button(L"AddNotes", L"Добавить", 0, height - 100, patchNotesWindow, [&controller, patchNotesWindow]()
 			{

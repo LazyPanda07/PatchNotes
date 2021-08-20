@@ -21,7 +21,14 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 	}
 	catch (const exception& e)
 	{
-		gui_framework::BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), utility::getCodepage()), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
+		try
+		{
+			gui_framework::BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), utility::getCodepage()), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
+		}
+		catch (const json::exceptions::CantFindValueException&)
+		{
+			gui_framework::BaseDialogBox::createMessageBox(L"Can't find gui_framework.json", patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
+		}
 	}
 
 	return 0;

@@ -40,3 +40,6 @@ bin/
 # PatchNotes data
 data/
 out/
+
+# Resource files
+*.aps
