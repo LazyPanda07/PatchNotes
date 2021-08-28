@@ -18,8 +18,8 @@ namespace models
 		json::JSONBuilder builder(codepage);
 		bool success = true;
 		string message;
-		string projectName = fromUTF8JSON(data.get<string>("projectName"), codepage);
-		string projectVersion = fromUTF8JSON(data.get<string>("projectVersion"), codepage);
+		string projectName = fromUTF8JSON(data.getString("projectName"), codepage);
+		string projectVersion = fromUTF8JSON(data.getString("projectVersion"), codepage);
 
 		filesystem::path projectFile(filesystem::path(globals::dataFolder) /= projectName + '_' + projectVersion + ".json");
 

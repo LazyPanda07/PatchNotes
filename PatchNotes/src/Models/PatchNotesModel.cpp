@@ -19,12 +19,12 @@ namespace models
 		json::JSONBuilder updateBuilder(CP_UTF8);
 		json::JSONBuilder builder(CP_UTF8);
 		filesystem::path pathToProjectFile;
-		const string& itemName = data.get<string>("item");
-		const string& categoryName =  data.get<string>("category");
+		const string& itemName = data.getString("item");
+		const string& categoryName =  data.getString("category");
 		const vector<objectSmartPointer<jsonObject>>& notes = data.get<vector<objectSmartPointer<jsonObject>>>("notes");
 		bool success = true;
 		string message = toUTF8JSON(R"(Ёлемент \")", codepage) + itemName + toUTF8JSON(R"(\" успешно добавлен)", codepage);
-		const string& projectNameAndVersion = data.get<string>("projectFile");
+		const string& projectNameAndVersion = data.getString("projectFile");
 
 		pathToProjectFile.append(globals::dataFolder).append(json::utility::fromUTF8JSON(projectNameAndVersion, codepage)) += ".json";
 

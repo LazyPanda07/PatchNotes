@@ -31,5 +31,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 		}
 	}
 
+	Initializer::get().removePreviewFiles();
+
 	return 0;
 }

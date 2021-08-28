@@ -17,6 +17,9 @@ private:
 	std::unique_ptr<::views::BaseView> patchNotesView;
 	std::unique_ptr<::views::BaseView> categoryConfigurationView;
 	std::unique_ptr<::views::BaseView> generateHTMLView;
+	std::unique_ptr<::views::BaseView> previewPatchNotesView;
+
+	std::vector<std::filesystem::path> previewFiles;
 
 private:
 	void createMenus();
@@ -38,4 +41,8 @@ public:
 	void closeProjectConfiguration();
 
 	void initialize(std::unique_ptr<gui_framework::WindowHolder>& holder);
+
+	void addPreviewFile(const std::filesystem::path& previewFile);
+
+	void removePreviewFiles();
 };

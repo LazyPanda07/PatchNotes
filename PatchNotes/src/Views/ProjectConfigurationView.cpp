@@ -63,8 +63,8 @@ namespace views
 	{
 		using gui_framework::BaseDialogBox;
 
-		bool success = data.get<bool>("success");
-		string message = data.get<string>("message");
+		bool success = data.getBool("success");
+		string message = data.getString("message");
 
 		if (success)
 		{

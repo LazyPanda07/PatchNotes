@@ -15,7 +15,7 @@ namespace models
 
 		uint32_t codepage = utility::getCodepage();
 		json::JSONBuilder builder(codepage);
-		string projectFileName = fromUTF8JSON(data.get<string>("projectFile"), codepage);
+		string projectFileName = fromUTF8JSON(data.getString("projectFile"), codepage);
 		filesystem::path pathToProjectFile;
 		filesystem::path out;
 		json::JSONParser projectFile;
@@ -26,7 +26,7 @@ namespace models
 
 		ifstream(pathToProjectFile) >> projectFile;
 
-		(out /= fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().get<string>("pathToProject"), utility::getCodepage())).append(patch_notes_constants::htmlGeneratedFolder);
+		(out /= fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject"), utility::getCodepage())).append(patch_notes_constants::htmlGeneratedFolder);
 
 		filesystem::create_directory(out);
 

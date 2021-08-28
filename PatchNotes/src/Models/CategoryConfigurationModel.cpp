@@ -17,12 +17,12 @@ namespace models
 		uint32_t codepage = utility::getCodepage();
 		json::JSONBuilder builder(codepage);
 		json::JSONBuilder updateBuilder(CP_UTF8);
-		string projectFile = fromUTF8JSON(data.get<string>("projectFile"), codepage);
-		string categoryName = fromUTF8JSON(data.get<string>("category"), codepage);
+		string projectFile = fromUTF8JSON(data.getString("projectFile"), codepage);
+		string categoryName = fromUTF8JSON(data.getString("category"), codepage);
 		bool success = true;
 		string message = format(R"(Категория \"{}\" успешно добавлена)", categoryName);
 		filesystem::path pathToProjectFile;
-		const string& utf8CategoryName = data.get<string>("category");
+		const string& utf8CategoryName = data.getString("category");
 
 		pathToProjectFile.append(globals::dataFolder).append(projectFile) += ".json";
 

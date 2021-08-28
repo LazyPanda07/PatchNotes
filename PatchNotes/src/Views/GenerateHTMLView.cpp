@@ -22,8 +22,8 @@ namespace views
 	{
 		using gui_framework::BaseDialogBox;
 
-		bool success = data.get<bool>("success");
-		string message = data.get<string>("message");
+		bool success = data.getBool("success");
+		string message = data.getString("message");
 		const wstring& title = success ? patch_notes_constants::successTitle : patch_notes_constants::errorTitle;
 		gui_framework::ProgressBar* updateProgressBar = dynamic_cast<gui_framework::ProgressBar*>(dynamic_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"));
 

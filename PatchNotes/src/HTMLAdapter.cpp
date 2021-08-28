@@ -63,7 +63,7 @@ HTMLAdapter::HTMLAdapter(const json::JSONParser& jsonSchema, gui_framework::Base
 	int size = 0;
 	gui_framework::ProgressBar* updateProgressBar = dynamic_cast<gui_framework::ProgressBar*>(dynamic_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"));
 
-	this->addProjectNameAndVersion(jsonSchema.get<string>("projectName"), jsonSchema.get<string>("projectVersion"));
+	this->addProjectNameAndVersion(jsonSchema.getString("projectName"), jsonSchema.getString("projectVersion"));
 
 	for (const auto& i : jsonSchema)
 	{

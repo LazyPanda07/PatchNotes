@@ -9,11 +9,13 @@
 #include "Views/PatchNotesView.h"
 #include "Views/CategoryConfigurationView.h"
 #include "Views/GenerateHTMLView.h"
+#include "Views/PreviewPatchNotesView.h"
 
 #include "Controllers/ProjectConfigurationController.h"
 #include "Controllers/PatchNotesController.h"
 #include "Controllers/CategoryConfigurationController.h"
 #include "Controllers/GenerateHTMLController.h"
+#include "Controllers/PreviewPatchNotesController.h"
 
 #include "../resource.h"
 
@@ -28,7 +30,7 @@ CREATE_DEFAULT_WINDOW_FUNCTION(patchNotes)
 
 void Initializer::createMenus()
 {
-	auto& menu = mainWindow->createMainMenu(L"PatchNotesMenu");
+	unique_ptr<gui_framework::Menu>& menu = mainWindow->createMainMenu(L"PatchNotesMenu");
 	auto createProjectConfiguration = [this]()
 	{
 		if (projectConfigurationView)
@@ -75,6 +77,19 @@ void Initializer::createMenus()
 			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
 		}
 	};
+	auto previewPatchNotes = [this]()
+	{
+		previewPatchNotesView = make_unique<::views::PreviewPatchNotesView>(mainWindow);
+
+		try
+		{
+			dynamic_cast<::views::PreviewPatchNotesView*>(previewPatchNotesView.get())->onClick(patchNotesView->getWindow());
+		}
+		catch (const exceptions::ValidationException& e)
+		{
+			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
+		}
+	};
 
 	gui_framework::Menu& creationsDropDown = mainWindow->addPopupMenu(L"Creations");
 
@@ -83,6 +98,8 @@ void Initializer::createMenus()
 	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую категорию", createCategoryConfiguration));
 
 	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Создать", creationsDropDown.getHandle()));
+
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Превью", previewPatchNotes));
 
 	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать HTML", generateHTML));
 }
@@ -178,7 +195,7 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 
 	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch notes", settings, "patchNotes", false, false, "", APPLICATION_ICON, APPLICATION_ICON));
 
-	globals::dataFolder = (filesystem::path(json::utility::fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().get<string>("pathToProject"), utility::getCodepage())) /= patch_notes_constants::jsonVersionsFolder).string();
+	globals::dataFolder = (filesystem::path(json::utility::fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject"), utility::getCodepage())) /= patch_notes_constants::jsonVersionsFolder).string();
 
 	filesystem::create_directory(globals::dataFolder);
 
@@ -195,4 +212,17 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 	this->createMenus();
 
 	this->registerHotkeys();
+}
+
+void Initializer::addPreviewFile(const filesystem::path& previewFile)
+{
+	previewFiles.push_back(previewFile);
+}
+
+void Initializer::removePreviewFiles()
+{
+	for (const auto& i : previewFiles)
+	{
+		filesystem::remove(i);
+	}
 }
