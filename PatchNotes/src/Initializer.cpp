@@ -3,6 +3,7 @@
 #include "GUIFramework.h"
 #include "Composites/DialogBox.h"
 #include "MenuItems/MenuItem.h"
+#include "MenuItems/DropDownMenuItem.h"
 
 #include "Views/ProjectConfigurationView.h"
 #include "Views/PatchNotesView.h"
@@ -75,9 +76,13 @@ void Initializer::createMenus()
 		}
 	};
 
-	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую конфигурацию", createProjectConfiguration));
+	gui_framework::Menu& creationsDropDown = mainWindow->addPopupMenu(L"Creations");
 
-	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую категорию", createCategoryConfiguration));
+	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую конфигурацию", createProjectConfiguration));
+
+	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую категорию", createCategoryConfiguration));
+
+	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Создать", creationsDropDown.getHandle()));
 
 	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать HTML", generateHTML));
 }
