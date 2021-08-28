@@ -99,7 +99,7 @@ void Initializer::createMenus()
 
 	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Создать", creationsDropDown.getHandle()));
 
-	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Превью", previewPatchNotes));
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Предпросмотр", previewPatchNotes));
 
 	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать HTML", generateHTML));
 }
