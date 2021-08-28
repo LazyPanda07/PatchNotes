@@ -37,9 +37,8 @@
 # Binaries
 bin/
 
-# PatchNotes data
-data/
-out/
+# Test
+TestProject/
 
 # Resource files
 *.aps

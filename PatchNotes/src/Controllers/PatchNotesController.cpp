@@ -1,6 +1,6 @@
 #include "PatchNotesController.h"
 
-#include "pch.h"
+#include "headers.h"
 
 #include "Models/PatchNotesModel.h"
 #include "PatchNotesUtility.h"
