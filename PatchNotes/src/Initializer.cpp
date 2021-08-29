@@ -7,13 +7,13 @@
 
 #include "Views/ProjectConfigurationView.h"
 #include "Views/PatchNotesView.h"
-#include "Views/CategoryConfigurationView.h"
+#include "Views/CategoryView.h"
 #include "Views/GenerateHTMLView.h"
 #include "Views/PreviewPatchNotesView.h"
 
 #include "Controllers/ProjectConfigurationController.h"
 #include "Controllers/PatchNotesController.h"
-#include "Controllers/CategoryConfigurationController.h"
+#include "Controllers/CategoryController.h"
 #include "Controllers/GenerateHTMLController.h"
 #include "Controllers/PreviewPatchNotesController.h"
 
@@ -40,7 +40,7 @@ void Initializer::createMenus()
 
 		projectConfigurationView = make_unique<::views::ProjectConfigurationView>();
 	};
-	auto createCategoryConfiguration = [this]()
+	auto createCategory = [this]()
 	{
 		if (categoryConfigurationView)
 		{
@@ -57,7 +57,7 @@ void Initializer::createMenus()
 
 		try
 		{
-			categoryConfigurationView = make_unique<::views::CategoryConfigurationView>(projectNameAndVersion);
+			categoryConfigurationView = make_unique<::views::CategoryView>(projectNameAndVersion);
 		}
 		catch (const exceptions::ValidationException& e)
 		{
@@ -90,18 +90,45 @@ void Initializer::createMenus()
 			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
 		}
 	};
+	auto deleteProjectConfiguration = [this]()
+	{
+
+	};
+	auto deleteCategory = [this]()
+	{
+
+	};
+	auto deleteElement = [this]()
+	{
+
+	};
+	auto deleteNote = [this]()
+	{
+
+	};
 
 	gui_framework::Menu& creationsDropDown = mainWindow->addPopupMenu(L"Creations");
+	gui_framework::Menu& deletionsDropDown = mainWindow->addPopupMenu(L"Deletions");
 
 	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую конфигурацию", createProjectConfiguration));
 
-	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую категорию", createCategoryConfiguration));
+	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую категорию", createCategory));
 
 	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Создать", creationsDropDown.getHandle()));
 
 	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Предпросмотр", previewPatchNotes));
 
 	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать HTML", generateHTML));
+
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить конфигурацию", deleteProjectConfiguration));
+
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить категорию", deleteCategory));
+
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить элемент", deleteElement));
+
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить описание", deleteNote));
+
+	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Удалить", deletionsDropDown.getHandle()));
 }
 
 void Initializer::registerHotkeys()
@@ -172,7 +199,7 @@ void Initializer::createUI()
 	patchNotesView = make_unique<::views::PatchNotesView>(mainWindow);
 }
 
-void Initializer::closeCategoryConfiguration()
+void Initializer::closeCategory()
 {
 	categoryConfigurationView->remove();
 

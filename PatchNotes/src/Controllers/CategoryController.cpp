@@ -1,6 +1,6 @@
-#include "CategoryConfigurationController.h"
+#include "CategoryController.h"
 
-#include "Models/CategoryConfigurationModel.h"
+#include "Models/CategoryModel.h"
 #include "PatchNotesUtility.h"
 #include "Validation.h"
 
@@ -8,7 +8,7 @@ using namespace std;
 
 namespace controllers
 {
-	json::JSONBuilder CategoryConfigurationController::collectData(gui_framework::BaseComposite* window) const
+	json::JSONBuilder CategoryController::collectData(gui_framework::BaseComposite* window) const
 	{
 		uint32_t codepage = utility::getCodepage();
 		json::JSONBuilder builder(codepage);
@@ -25,8 +25,8 @@ namespace controllers
 		return builder;
 	}
 
-	CategoryConfigurationController::CategoryConfigurationController() :
-		BaseController(make_unique<models::CategoryConfigurationModel>())
+	CategoryController::CategoryController() :
+		BaseController(make_unique<models::CategoryModel>())
 	{
 
 	}

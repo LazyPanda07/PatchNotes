@@ -1,10 +1,10 @@
-#include "CategoryConfigurationView.h"
+#include "CategoryView.h"
 
 #include "Composites/DialogBox.h"
 #include "Components/EditControl.h"
 
 #include "Initializer.h"
-#include "Controllers/CategoryConfigurationController.h"
+#include "Controllers/CategoryController.h"
 #include "Validation.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
@@ -17,7 +17,7 @@ CREATE_DEFAULT_WINDOW_FUNCTION(categoryConfiguration)
 
 namespace views
 {
-	gui_framework::BaseComposite* CategoryConfigurationView::createCategoryDialog(const unique_ptr<controllers::BaseController>& controller, const wstring& projectNameAndVersion)
+	gui_framework::BaseComposite* CategoryView::createCategoryDialog(const unique_ptr<controllers::BaseController>& controller, const wstring& projectNameAndVersion)
 	{
 		using gui_framework::DialogBox;
 		using gui_framework::BaseDialogBox;
@@ -58,13 +58,13 @@ namespace views
 		return dialogBox;
 	}
 
-	CategoryConfigurationView::CategoryConfigurationView(const wstring& projectNameAndVersion) :
-		BaseView(make_unique<controllers::CategoryConfigurationController>(), CategoryConfigurationView::createCategoryDialog(controller, projectNameAndVersion))
+	CategoryView::CategoryView(const wstring& projectNameAndVersion) :
+		BaseView(make_unique<controllers::CategoryController>(), CategoryView::createCategoryDialog(controller, projectNameAndVersion))
 	{
 		
 	}
 
-	void CategoryConfigurationView::update(const json::JSONParser& data)
+	void CategoryView::update(const json::JSONParser& data)
 	{
 		using gui_framework::BaseDialogBox;
 
@@ -77,7 +77,7 @@ namespace views
 			{
 				Initializer::get().createUI();
 
-				Initializer::get().closeCategoryConfiguration();
+				Initializer::get().closeCategory();
 			}
 		}
 		else

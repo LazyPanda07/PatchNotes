@@ -5,16 +5,16 @@
 
 namespace views
 {
-	class CategoryConfigurationView : public BaseView
+	class CategoryView : public BaseView
 	{
 	private:
 		static gui_framework::BaseComposite* createCategoryDialog(const std::unique_ptr<controllers::BaseController>& controller, const std::wstring& projectNameAndVersion);
 
 	public:
-		CategoryConfigurationView(const std::wstring& projectNameAndVersion);
+		CategoryView(const std::wstring& projectNameAndVersion);
 
 		void update(const json::JSONParser& data) override;
 
-		~CategoryConfigurationView() = default;
+		~CategoryView() = default;
 	};
 }

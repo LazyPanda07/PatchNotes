@@ -4,14 +4,14 @@
 
 namespace models
 {
-	class CategoryConfigurationModel : public BaseModel
+	class CategoryModel : public BaseModel
 	{
 	private:
 		json::JSONBuilder processData(const json::JSONParser& data) override;
 
 	public:
-		CategoryConfigurationModel() = default;
+		CategoryModel() = default;
 
-		~CategoryConfigurationModel() = default;
+		~CategoryModel() = default;
 	};
 }

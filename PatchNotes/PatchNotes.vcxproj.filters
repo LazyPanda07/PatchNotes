@@ -60,13 +60,13 @@
     <ClCompile Include="src\Exceptions\ValidationException.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="src\Controllers\CategoryConfigurationController.cpp">
+    <ClCompile Include="src\Controllers\CategoryController.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="src\Models\CategoryConfigurationModel.cpp">
+    <ClCompile Include="src\Models\CategoryModel.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="src\Views\CategoryConfigurationView.cpp">
+    <ClCompile Include="src\Views\CategoryView.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="src\HTMLAdapter.cpp">
@@ -146,13 +146,13 @@
     <ClInclude Include="src\Exceptions\ValidationException.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\Controllers\CategoryConfigurationController.h">
+    <ClInclude Include="src\Controllers\CategoryController.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\Models\CategoryConfigurationModel.h">
+    <ClInclude Include="src\Models\CategoryModel.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\Views\CategoryConfigurationView.h">
+    <ClInclude Include="src\Views\CategoryView.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\HTMLAdapter.h">

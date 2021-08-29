@@ -1,4 +1,4 @@
-#include "CategoryConfigurationModel.h"
+#include "CategoryModel.h"
 
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
@@ -7,7 +7,7 @@ using namespace std;
 
 namespace models
 {
-	json::JSONBuilder CategoryConfigurationModel::processData(const json::JSONParser& data)
+	json::JSONBuilder CategoryModel::processData(const json::JSONParser& data)
 	{
 		using json::utility::objectSmartPointer;
 		using json::utility::jsonObject;

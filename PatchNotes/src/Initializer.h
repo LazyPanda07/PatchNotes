@@ -36,7 +36,7 @@ public:
 
 	void createUI();
 
-	void closeCategoryConfiguration();
+	void closeCategory();
 
 	void closeProjectConfiguration();
 

@@ -4,14 +4,14 @@
 
 namespace controllers
 {
-	class CategoryConfigurationController : public BaseController
+	class CategoryController : public BaseController
 	{
 	private:
 		json::JSONBuilder collectData(gui_framework::BaseComposite* window) const override;
 
 	public:
-		CategoryConfigurationController();
+		CategoryController();
 
-		~CategoryConfigurationController() = default;
+		~CategoryController() = default;
 	};
 }
