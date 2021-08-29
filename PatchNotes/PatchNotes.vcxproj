@@ -170,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="src\Controllers\BaseController.cpp" />
     <ClCompile Include="src\Controllers\CategoryController.cpp" />
+    <ClCompile Include="src\Controllers\DeleteProjectConfigurationController.cpp" />
     <ClCompile Include="src\Controllers\GenerateHTMLController.cpp" />
     <ClCompile Include="src\Controllers\PreviewPatchNotesController.cpp" />
     <ClCompile Include="src\Controllers\PatchNotesController.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="src\Initializer.cpp" />
     <ClCompile Include="src\Models\BaseModel.cpp" />
     <ClCompile Include="src\Models\CategoryModel.cpp" />
+    <ClCompile Include="src\Models\DeleteProjectConfigurationModel.cpp" />
     <ClCompile Include="src\Models\GenerateHTMLModel.cpp" />
     <ClCompile Include="src\Models\Interfaces\IEventNotifier.cpp" />
     <ClCompile Include="src\Models\PreviewPatchNotesModel.cpp" />
@@ -189,6 +191,7 @@
     <ClCompile Include="src\Validation.cpp" />
     <ClCompile Include="src\Views\BaseView.cpp" />
     <ClCompile Include="src\Views\CategoryView.cpp" />
+    <ClCompile Include="src\Views\DeleteProjectConfigurationView.cpp" />
     <ClCompile Include="src\Views\GenerateHTMLView.cpp" />
     <ClCompile Include="src\Views\PreviewPatchNotesView.cpp" />
     <ClCompile Include="src\Views\PatchNotesView.cpp" />
@@ -202,6 +205,7 @@
     <ClInclude Include="src\Controllers\BaseController.h" />
     <ClInclude Include="src\Controllers\CategoryController.h" />
     <ClInclude Include="src\Controllers\GenerateHTMLController.h" />
+    <ClInclude Include="src\Controllers\DeleteProjectConfigurationController.h" />
     <ClInclude Include="src\Controllers\PreviewPatchNotesController.h" />
     <ClInclude Include="src\Controllers\PatchNotesController.h" />
     <ClInclude Include="src\Controllers\ProjectConfigurationController.h" />
@@ -210,6 +214,7 @@
     <ClInclude Include="src\Initializer.h" />
     <ClInclude Include="src\Models\BaseModel.h" />
     <ClInclude Include="src\Models\CategoryModel.h" />
+    <ClInclude Include="src\Models\DeleteProjectConfigurationModel.h" />
     <ClInclude Include="src\Models\GenerateHTMLModel.h" />
     <ClInclude Include="src\Models\Interfaces\IEventNotifier.h" />
     <ClInclude Include="src\Models\PreviewPatchNotesModel.h" />
@@ -221,6 +226,7 @@
     <ClInclude Include="src\Validation.h" />
     <ClInclude Include="src\Views\BaseView.h" />
     <ClInclude Include="src\Views\CategoryView.h" />
+    <ClInclude Include="src\Views\DeleteProjectConfigurationView.h" />
     <ClInclude Include="src\Views\GenerateHTMLView.h" />
     <ClInclude Include="src\Views\Interfaces\IObserver.h" />
     <ClInclude Include="src\Views\PreviewPatchNotesView.h" />

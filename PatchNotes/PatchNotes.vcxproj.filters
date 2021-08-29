@@ -90,6 +90,15 @@
     <ClCompile Include="src\Controllers\PreviewPatchNotesController.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\Views\DeleteProjectConfigurationView.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Models\DeleteProjectConfigurationModel.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Controllers\DeleteProjectConfigurationController.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="gui_framework.json" />
@@ -177,6 +186,15 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\Controllers\PreviewPatchNotesController.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Views\DeleteProjectConfigurationView.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Models\DeleteProjectConfigurationModel.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Controllers\DeleteProjectConfigurationController.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

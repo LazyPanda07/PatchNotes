@@ -10,12 +10,14 @@
 #include "Views/CategoryView.h"
 #include "Views/GenerateHTMLView.h"
 #include "Views/PreviewPatchNotesView.h"
+#include "Views/DeleteProjectConfigurationView.h"
 
 #include "Controllers/ProjectConfigurationController.h"
 #include "Controllers/PatchNotesController.h"
 #include "Controllers/CategoryController.h"
 #include "Controllers/GenerateHTMLController.h"
 #include "Controllers/PreviewPatchNotesController.h"
+#include "Controllers/DeleteProjectConfigurationController.h"
 
 #include "../resource.h"
 
@@ -92,7 +94,16 @@ void Initializer::createMenus()
 	};
 	auto deleteProjectConfiguration = [this]()
 	{
+		deleteProjectConfigurationView = make_unique<::views::DeleteProjectConfigurationView>();
 
+		try
+		{
+			dynamic_cast<::views::DeleteProjectConfigurationView*>(deleteProjectConfigurationView.get())->onClick(patchNotesView->getWindow());
+		}
+		catch (const exceptions::ValidationException& e)
+		{
+			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
+		}
 	};
 	auto deleteCategory = [this]()
 	{

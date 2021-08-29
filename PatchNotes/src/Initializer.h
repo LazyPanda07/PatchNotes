@@ -18,6 +18,7 @@ private:
 	std::unique_ptr<::views::BaseView> categoryConfigurationView;
 	std::unique_ptr<::views::BaseView> generateHTMLView;
 	std::unique_ptr<::views::BaseView> previewPatchNotesView;
+	std::unique_ptr<::views::BaseView> deleteProjectConfigurationView;
 
 	std::vector<std::filesystem::path> previewFiles;
 
