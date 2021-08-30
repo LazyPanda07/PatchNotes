@@ -9,7 +9,7 @@ namespace views
 	class DeleteProjectConfigurationView : public BaseView
 	{
 	private:
-		static gui_framework::BaseComposite* createDeleteCategoryDialog(const std::unique_ptr<controllers::BaseController>& controller);
+		static gui_framework::BaseComposite* createDeleteProjectConfigurationDialog(const std::unique_ptr<controllers::BaseController>& controller);
 
 	public:
 		DeleteProjectConfigurationView();

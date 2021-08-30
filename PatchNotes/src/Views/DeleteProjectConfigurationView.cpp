@@ -13,7 +13,7 @@ CREATE_DEFAULT_WINDOW_FUNCTION(deleteConfiguration)
 
 namespace views
 {
-	gui_framework::BaseComposite* DeleteProjectConfigurationView::createDeleteCategoryDialog(const unique_ptr<controllers::BaseController>& controller)
+	gui_framework::BaseComposite* DeleteProjectConfigurationView::createDeleteProjectConfigurationDialog(const unique_ptr<controllers::BaseController>& controller)
 	{
 		using gui_framework::DialogBox;
 
@@ -46,7 +46,7 @@ namespace views
 	}
 
 	DeleteProjectConfigurationView::DeleteProjectConfigurationView() :
-		BaseView(make_unique<controllers::DeleteProjectConfigurationController>(), DeleteProjectConfigurationView::createDeleteCategoryDialog(controller))
+		BaseView(make_unique<controllers::DeleteProjectConfigurationController>(), DeleteProjectConfigurationView::createDeleteProjectConfigurationDialog(controller))
 	{
 
 	}

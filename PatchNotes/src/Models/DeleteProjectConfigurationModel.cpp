@@ -2,6 +2,8 @@
 
 #include <filesystem>
 
+#include "PatchNotesUtility.h"
+
 using namespace std;
 
 namespace models
@@ -21,7 +23,7 @@ namespace models
 			message = format("Не удалось удалить {}", projectToDelete.filename().stem().string());
 		}
 
-		return json::JSONBuilder(1251).
+		return json::JSONBuilder(utility::getCodepage()).
 			append("success", success).
 			append("message", move(message));
 	}

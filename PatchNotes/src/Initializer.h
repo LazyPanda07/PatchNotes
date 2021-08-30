@@ -19,6 +19,7 @@ private:
 	std::unique_ptr<::views::BaseView> generateHTMLView;
 	std::unique_ptr<::views::BaseView> previewPatchNotesView;
 	std::unique_ptr<::views::BaseView> deleteProjectConfigurationView;
+	std::unique_ptr<::views::BaseView> deleteCategoryView;
 
 	std::vector<std::filesystem::path> previewFiles;
 
@@ -42,6 +43,8 @@ public:
 	void closeProjectConfiguration();
 
 	void closeDeleteConfiguration();
+
+	void closeDeleteCategory();
 
 	void initialize(std::unique_ptr<gui_framework::WindowHolder>& holder);
 
