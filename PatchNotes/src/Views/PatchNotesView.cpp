@@ -32,7 +32,7 @@ namespace views
 		ChildWindow* patchNotesWindow = new ChildWindow(L"PatchNotesUI", L"PatchNotesUI", settings, parent, "patchNotesUI");
 
 		DropDownListComboBox* currentProject = new DropDownListComboBox(L"ProjectNameAndVersion", gui_framework::utility::ComponentSettings(width / 4, 0, width / 2, 20), patchNotesWindow);
-		vector<wstring> projects = PatchNotesView::getAvailableProjectsFiles();
+		vector<wstring> projects = ::utility::getAvailableProjectsFiles();
 
 		for (const auto& i : projects)
 		{
@@ -48,7 +48,7 @@ namespace views
 
 		if (currentProject->getCurrentSelectionIndex() != -1)
 		{
-			vector<wstring> categories = PatchNotesView::getProjectCategories(currentProject->getValue(currentProject->getCurrentSelectionIndex()));
+			vector<wstring> categories = ::utility::getProjectCategories(currentProject->getValue(currentProject->getCurrentSelectionIndex()));
 
 			for (const auto& i : categories)
 			{
@@ -87,7 +87,7 @@ namespace views
 				{
 					currentCategory->clear();
 
-					vector<wstring> categories = PatchNotesView::getProjectCategories(comboBox.getValue(comboBox.getCurrentSelectionIndex()));
+					vector<wstring> categories = ::utility::getProjectCategories(comboBox.getValue(comboBox.getCurrentSelectionIndex()));
 
 					for (const auto& i : categories)
 					{
@@ -102,54 +102,6 @@ namespace views
 			});
 
 		return patchNotesWindow;
-	}
-
-	vector<wstring> PatchNotesView::getAvailableProjectsFiles()
-	{
-		vector<wstring> result;
-		map<filesystem::file_time_type, wstring> lastTimeModifiedFiles;
-
-		filesystem::directory_iterator it(globals::dataFolder);
-
-		for (const auto& projectFile : it)
-		{
-			lastTimeModifiedFiles[filesystem::last_write_time(projectFile)] = projectFile.path().stem().wstring();
-		}
-
-		result.reserve(lastTimeModifiedFiles.size());
-
-		for_each(lastTimeModifiedFiles.rbegin(), lastTimeModifiedFiles.rend(), [&result](const pair<filesystem::file_time_type, wstring>& value) { result.push_back(value.second); });
-
-		return result;
-	}
-
-	vector<wstring> PatchNotesView::getProjectCategories(const wstring& projectName)
-	{
-		vector<wstring> result;
-		json::JSONParser parser;
-		filesystem::path pathToProject;
-
-		pathToProject.append(globals::dataFolder).append(projectName) += (".json");
-
-		ifstream(pathToProject) >> parser;
-
-		for (const auto& i : parser)
-		{
-			if (i->second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
-			{
-				const json::utility::objectSmartPointer<json::utility::jsonObject>& object = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(i->second);
-				const string& type = get<string>(
-					find_if(object->data.begin(), object->data.end(), [](const pair<string, json::utility::jsonObject::variantType>& value) { return value.first == "type"; })->second
-					);
-
-				if (type == "category")
-				{
-					result.push_back(utility::to_wstring(i->first, CP_UTF8));
-				}
-			}
-		}
-
-		return result;
 	}
 
 	PatchNotesView::PatchNotesView(gui_framework::BaseComponent* parent) :

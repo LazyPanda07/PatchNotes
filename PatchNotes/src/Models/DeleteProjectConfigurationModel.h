@@ -10,7 +10,7 @@ namespace models
 		json::JSONBuilder processData(const json::JSONParser& data) override;
 
 	public:
-		DeleteProjectConfigurationModel();
+		DeleteProjectConfigurationModel() = default;
 
 		~DeleteProjectConfigurationModel() = default;
 	};

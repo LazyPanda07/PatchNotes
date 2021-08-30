@@ -95,15 +95,6 @@ void Initializer::createMenus()
 	auto deleteProjectConfiguration = [this]()
 	{
 		deleteProjectConfigurationView = make_unique<::views::DeleteProjectConfigurationView>();
-
-		try
-		{
-			dynamic_cast<::views::DeleteProjectConfigurationView*>(deleteProjectConfigurationView.get())->onClick(patchNotesView->getWindow());
-		}
-		catch (const exceptions::ValidationException& e)
-		{
-			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
-		}
 	};
 	auto deleteCategory = [this]()
 	{
@@ -222,6 +213,13 @@ void Initializer::closeProjectConfiguration()
 	projectConfigurationView->remove();
 
 	projectConfigurationView.reset();
+}
+
+void Initializer::closeDeleteConfiguration()
+{
+	deleteProjectConfigurationView->remove();
+
+	deleteProjectConfigurationView.reset();
 }
 
 void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)

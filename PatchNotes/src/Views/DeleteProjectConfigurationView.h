@@ -8,12 +8,13 @@ namespace views
 {
 	class DeleteProjectConfigurationView : public BaseView
 	{
+	private:
+		static gui_framework::BaseComposite* createDeleteCategoryDialog(const std::unique_ptr<controllers::BaseController>& controller);
+
 	public:
 		DeleteProjectConfigurationView();
 
 		void update(const json::JSONParser& data) override;
-
-		void onClick(gui_framework::BaseComposite* patchNotesWindow);
 
 		~DeleteProjectConfigurationView() = default;
 	};

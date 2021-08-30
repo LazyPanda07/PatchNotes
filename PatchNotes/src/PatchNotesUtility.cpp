@@ -4,6 +4,8 @@
 
 #include "GUIFramework.h"
 
+#include "PatchNotesConstants.h"
+
 using namespace std;
 
 namespace utility
@@ -109,5 +111,53 @@ namespace utility
 				}
 			}
 		}
+	}
+
+	vector<wstring> getProjectCategories(const wstring& projectName)
+	{
+		vector<wstring> result;
+		json::JSONParser parser;
+		filesystem::path pathToProject;
+
+		pathToProject.append(globals::dataFolder).append(projectName) += (".json");
+
+		ifstream(pathToProject) >> parser;
+
+		for (const auto& i : parser)
+		{
+			if (i->second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
+			{
+				const json::utility::objectSmartPointer<json::utility::jsonObject>& object = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(i->second);
+				const string& type = get<string>(
+					find_if(object->data.begin(), object->data.end(), [](const pair<string, json::utility::jsonObject::variantType>& value) { return value.first == "type"; })->second
+					);
+
+				if (type == "category")
+				{
+					result.push_back(utility::to_wstring(i->first, CP_UTF8));
+				}
+			}
+		}
+
+		return result;
+	}
+
+	vector<wstring> getAvailableProjectsFiles()
+	{
+		vector<wstring> result;
+		map<filesystem::file_time_type, wstring> lastTimeModifiedFiles;
+
+		filesystem::directory_iterator it(globals::dataFolder);
+
+		for (const auto& projectFile : it)
+		{
+			lastTimeModifiedFiles[filesystem::last_write_time(projectFile)] = projectFile.path().stem().wstring();
+		}
+
+		result.reserve(lastTimeModifiedFiles.size());
+
+		for_each(lastTimeModifiedFiles.rbegin(), lastTimeModifiedFiles.rend(), [&result](const pair<filesystem::file_time_type, wstring>& value) { result.push_back(value.second); });
+
+		return result;
 	}
 }

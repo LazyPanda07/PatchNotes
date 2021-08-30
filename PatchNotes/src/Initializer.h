@@ -41,6 +41,8 @@ public:
 
 	void closeProjectConfiguration();
 
+	void closeDeleteConfiguration();
+
 	void initialize(std::unique_ptr<gui_framework::WindowHolder>& holder);
 
 	void addPreviewFile(const std::filesystem::path& previewFile);

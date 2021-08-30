@@ -17,4 +17,8 @@ namespace utility
 	std::wstring to_wstring(const std::string& stringToConvert, uint32_t codepage);
 
 	void copyJSON(const std::filesystem::path& pathToProjectFile, json::JSONBuilder& outBuilder);
+
+	std::vector<std::wstring> getProjectCategories(const std::wstring& projectName);
+
+	std::vector<std::wstring> getAvailableProjectsFiles();
 }

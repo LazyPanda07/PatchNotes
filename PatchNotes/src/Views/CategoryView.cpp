@@ -39,7 +39,7 @@ namespace views
 
 		DialogBox* dialogBox = builder.build();
 
-		dynamic_cast<gui_framework::Button*>(dialogBox->findChild(L"AddCategory"))->setOnClick([dialogBox, &controller]()
+		static_cast<gui_framework::Button*>(dialogBox->findChild(L"AddCategory"))->setOnClick([dialogBox, &controller]()
 			{
 				try
 				{
