@@ -40,7 +40,7 @@ namespace views
 				}
 
 				categories->clear();
-				vector<wstring> findedCategories = utility::getProjectCategories(current.getValue(current.getCurrentSelectionIndex()));
+				vector<wstring> findedCategories = utility::getAvailableCategories(current.getValue(current.getCurrentSelectionIndex()));
 
 				for (const auto& i : findedCategories)
 				{

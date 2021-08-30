@@ -59,7 +59,7 @@ namespace utility
 
 		return result;
 	}
-	
+
 	void copyJSON(const filesystem::path& pathToProjectFile, json::JSONBuilder& outBuilder)
 	{
 		using json::utility::variantTypeEnum;
@@ -113,35 +113,6 @@ namespace utility
 		}
 	}
 
-	vector<wstring> getProjectCategories(const wstring& projectName)
-	{
-		vector<wstring> result;
-		json::JSONParser parser;
-		filesystem::path pathToProject;
-
-		pathToProject.append(globals::dataFolder).append(projectName) += (".json");
-
-		ifstream(pathToProject) >> parser;
-
-		for (const auto& i : parser)
-		{
-			if (i->second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
-			{
-				const json::utility::objectSmartPointer<json::utility::jsonObject>& object = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(i->second);
-				const string& type = get<string>(
-					find_if(object->data.begin(), object->data.end(), [](const pair<string, json::utility::jsonObject::variantType>& value) { return value.first == "type"; })->second
-					);
-
-				if (type == "category")
-				{
-					result.push_back(utility::to_wstring(i->first, CP_UTF8));
-				}
-			}
-		}
-
-		return result;
-	}
-
 	vector<wstring> getAvailableProjectsFiles()
 	{
 		vector<wstring> result;
@@ -157,6 +128,58 @@ namespace utility
 		result.reserve(lastTimeModifiedFiles.size());
 
 		for_each(lastTimeModifiedFiles.rbegin(), lastTimeModifiedFiles.rend(), [&result](const pair<filesystem::file_time_type, wstring>& value) { result.push_back(value.second); });
+
+		return result;
+	}
+
+	vector<wstring> getAvailableCategories(const wstring& projectName)
+	{
+		vector<wstring> result;
+		json::JSONParser parser;
+		filesystem::path pathToProject;
+
+		pathToProject.append(globals::dataFolder).append(projectName) += (".json");
+
+		ifstream(pathToProject) >> parser;
+
+		for (const auto& i : parser)
+		{
+			if (i->second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
+			{
+				result.push_back(utility::to_wstring(i->first, CP_UTF8));
+			}
+		}
+
+		return result;
+	}
+
+	vector<wstring> getAvailableElements(const wstring& projectName, const wstring& categoryName)
+	{
+		vector<wstring> result;
+		json::JSONParser parser;
+		filesystem::path pathToProject;
+
+		pathToProject.append(globals::dataFolder).append(projectName) += (".json");
+
+		ifstream(pathToProject) >> parser;
+
+		for (const auto& i : parser)
+		{
+			if (i->second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
+			{
+				const json::utility::objectSmartPointer<json::utility::jsonObject>& category = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(i->second);
+				
+				for (const auto& j : category->data)
+				{
+					if (j.second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
+					{
+						const json::utility::objectSmartPointer<json::utility::jsonObject>& element = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(j.second);
+
+						result.push_back(utility::to_wstring(j.first, CP_UTF8));
+					}
+				}
+			}
+		}
 
 		return result;
 	}

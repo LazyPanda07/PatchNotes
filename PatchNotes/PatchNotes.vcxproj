@@ -175,6 +175,7 @@
     <ClCompile Include="src\Controllers\BaseController.cpp" />
     <ClCompile Include="src\Controllers\CategoryController.cpp" />
     <ClCompile Include="src\Controllers\DeleteCategoryController.cpp" />
+    <ClCompile Include="src\Controllers\DeleteElementController.cpp" />
     <ClCompile Include="src\Controllers\DeleteProjectConfigurationController.cpp" />
     <ClCompile Include="src\Controllers\GenerateHTMLController.cpp" />
     <ClCompile Include="src\Controllers\PreviewPatchNotesController.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="src\Models\BaseModel.cpp" />
     <ClCompile Include="src\Models\CategoryModel.cpp" />
     <ClCompile Include="src\Models\DeleteCategoryModel.cpp" />
+    <ClCompile Include="src\Models\DeleteElementModel.cpp" />
     <ClCompile Include="src\Models\DeleteProjectConfigurationModel.cpp" />
     <ClCompile Include="src\Models\GenerateHTMLModel.cpp" />
     <ClCompile Include="src\Models\Interfaces\IEventNotifier.cpp" />
@@ -198,6 +200,7 @@
     <ClCompile Include="src\Views\BaseView.cpp" />
     <ClCompile Include="src\Views\CategoryView.cpp" />
     <ClCompile Include="src\Views\DeleteCategoryView.cpp" />
+    <ClCompile Include="src\Views\DeleteElementView.cpp" />
     <ClCompile Include="src\Views\DeleteProjectConfigurationView.cpp" />
     <ClCompile Include="src\Views\GenerateHTMLView.cpp" />
     <ClCompile Include="src\Views\PreviewPatchNotesView.cpp" />
@@ -212,6 +215,7 @@
     <ClInclude Include="src\Controllers\BaseController.h" />
     <ClInclude Include="src\Controllers\CategoryController.h" />
     <ClInclude Include="src\Controllers\DeleteCategoryController.h" />
+    <ClInclude Include="src\Controllers\DeleteElementController.h" />
     <ClInclude Include="src\Controllers\GenerateHTMLController.h" />
     <ClInclude Include="src\Controllers\DeleteProjectConfigurationController.h" />
     <ClInclude Include="src\Controllers\PreviewPatchNotesController.h" />
@@ -223,6 +227,7 @@
     <ClInclude Include="src\Models\BaseModel.h" />
     <ClInclude Include="src\Models\CategoryModel.h" />
     <ClInclude Include="src\Models\DeleteCategoryModel.h" />
+    <ClInclude Include="src\Models\DeleteElementModel.h" />
     <ClInclude Include="src\Models\DeleteProjectConfigurationModel.h" />
     <ClInclude Include="src\Models\GenerateHTMLModel.h" />
     <ClInclude Include="src\Models\Interfaces\IEventNotifier.h" />
@@ -236,6 +241,7 @@
     <ClInclude Include="src\Views\BaseView.h" />
     <ClInclude Include="src\Views\CategoryView.h" />
     <ClInclude Include="src\Views\DeleteCategoryView.h" />
+    <ClInclude Include="src\Views\DeleteElementView.h" />
     <ClInclude Include="src\Views\DeleteProjectConfigurationView.h" />
     <ClInclude Include="src\Views\GenerateHTMLView.h" />
     <ClInclude Include="src\Views\Interfaces\IObserver.h" />

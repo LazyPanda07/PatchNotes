@@ -12,6 +12,7 @@
 #include "Views/PreviewPatchNotesView.h"
 #include "Views/DeleteProjectConfigurationView.h"
 #include "Views/DeleteCategoryView.h"
+#include "Views/DeleteElementView.h"
 
 #include "Controllers/ProjectConfigurationController.h"
 #include "Controllers/PatchNotesController.h"
@@ -20,6 +21,7 @@
 #include "Controllers/PreviewPatchNotesController.h"
 #include "Controllers/DeleteProjectConfigurationController.h"
 #include "Controllers/DeleteCategoryController.h"
+#include "Controllers/DeleteElementController.h"
 
 #include "../resource.h"
 
@@ -104,7 +106,7 @@ void Initializer::createMenus()
 	};
 	auto deleteElement = [this]()
 	{
-
+		deleteElementView = make_unique<::views::DeleteElementView>();
 	};
 	auto deleteNote = [this]()
 	{
@@ -229,6 +231,13 @@ void Initializer::closeDeleteCategory()
 	deleteCategoryView->remove();
 
 	deleteCategoryView.reset();
+}
+
+void Initializer::closeDeleteElement()
+{
+	deleteElementView->remove();
+
+	deleteElementView.reset();
 }
 
 void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)

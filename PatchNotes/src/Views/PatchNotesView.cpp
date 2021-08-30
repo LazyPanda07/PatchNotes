@@ -48,7 +48,7 @@ namespace views
 
 		if (currentProject->getCurrentSelectionIndex() != -1)
 		{
-			vector<wstring> categories = ::utility::getProjectCategories(currentProject->getValue(currentProject->getCurrentSelectionIndex()));
+			vector<wstring> categories = ::utility::getAvailableCategories(currentProject->getValue(currentProject->getCurrentSelectionIndex()));
 
 			for (const auto& i : categories)
 			{
@@ -87,7 +87,7 @@ namespace views
 				{
 					currentCategory->clear();
 
-					vector<wstring> categories = ::utility::getProjectCategories(comboBox.getValue(comboBox.getCurrentSelectionIndex()));
+					vector<wstring> categories = ::utility::getAvailableCategories(comboBox.getValue(comboBox.getCurrentSelectionIndex()));
 
 					for (const auto& i : categories)
 					{
