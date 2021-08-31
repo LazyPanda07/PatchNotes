@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include "GUIFramework.h"
+#include "JSONArrayWrapper.h"
 
 #include "PatchNotesConstants.h"
 
@@ -158,6 +159,7 @@ namespace utility
 		vector<wstring> result;
 		json::JSONParser parser;
 		filesystem::path pathToProject;
+		string jsonCategoryName = json::utility::toUTF8JSON(gui_framework::utility::to_string(categoryName, utility::getCodepage()), utility::getCodepage());
 
 		pathToProject.append(globals::dataFolder).append(projectName) += (".json");
 
@@ -167,15 +169,69 @@ namespace utility
 		{
 			if (i->second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
 			{
-				const json::utility::objectSmartPointer<json::utility::jsonObject>& category = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(i->second);
-				
-				for (const auto& j : category->data)
+				if (i->first == jsonCategoryName)
 				{
-					if (j.second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
-					{
-						const json::utility::objectSmartPointer<json::utility::jsonObject>& element = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(j.second);
+					const json::utility::objectSmartPointer<json::utility::jsonObject>& category = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(i->second);
 
-						result.push_back(utility::to_wstring(j.first, CP_UTF8));
+					for (const auto& j : category->data)
+					{
+						if (j.second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
+						{
+							result.push_back(utility::to_wstring(j.first, CP_UTF8));
+						}
+					}
+
+					break;
+				}
+			}
+		}
+
+		return result;
+	}
+
+	vector<wstring> getAvailableNotes(const wstring& projectName, const wstring& categoryName, const wstring& elementName)
+	{
+		vector<wstring> result;
+		json::JSONParser parser;
+		filesystem::path pathToProject;
+		string jsonCategoryName = json::utility::toUTF8JSON(gui_framework::utility::to_string(categoryName, utility::getCodepage()), utility::getCodepage());
+		string jsonElementName = json::utility::toUTF8JSON(gui_framework::utility::to_string(elementName, utility::getCodepage()), utility::getCodepage());
+
+		pathToProject.append(globals::dataFolder).append(projectName) += (".json");
+
+		ifstream(pathToProject) >> parser;
+
+		for (const auto& i : parser)
+		{
+			if (i->second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
+			{
+				if (i->first == jsonCategoryName)
+				{
+					const json::utility::objectSmartPointer<json::utility::jsonObject>& category = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(i->second);
+
+					for (const auto& j : category->data)
+					{
+						if (j.second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
+						{
+							if (j.first == jsonElementName)
+							{
+								const json::utility::objectSmartPointer<json::utility::jsonObject>& element = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(j.second);
+
+								for (const auto& k : element->data)
+								{
+									if (k.second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONArray))
+									{
+										vector<string> notes = json::utility::JSONArrayWrapper(k.second).getAsStringArray();
+
+										result.reserve(notes.size());
+
+										ranges::for_each(notes, [&result](const string& note) { result.push_back(utility::to_wstring(note, CP_UTF8)); });
+
+										return result;
+									}
+								}
+							}
+						}
 					}
 				}
 			}

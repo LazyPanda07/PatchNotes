@@ -23,4 +23,6 @@ namespace utility
 	std::vector<std::wstring> getAvailableCategories(const std::wstring& projectName);
 
 	std::vector<std::wstring> getAvailableElements(const std::wstring& projectName, const std::wstring& categoryName);
+
+	std::vector<std::wstring> getAvailableNotes(const std::wstring& projectName, const std::wstring& categoryName, const std::wstring& elementName);
 }
