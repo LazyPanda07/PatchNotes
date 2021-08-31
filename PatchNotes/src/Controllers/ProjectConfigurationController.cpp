@@ -12,8 +12,8 @@ namespace controllers
 	{
 		uint32_t codepage = utility::getCodepage();
 		json::JSONBuilder builder(codepage);
-		gui_framework::EditControl* projectNameEditControl = dynamic_cast<gui_framework::EditControl*>(window->findChild(L"ProjectName"));
-		gui_framework::EditControl* projectVersionEditControl = dynamic_cast<gui_framework::EditControl*>(window->findChild(L"ProjectVersion"));
+		gui_framework::EditControl* projectNameEditControl = static_cast<gui_framework::EditControl*>(window->findChild(L"ProjectName"));
+		gui_framework::EditControl* projectVersionEditControl = static_cast<gui_framework::EditControl*>(window->findChild(L"ProjectVersion"));
 		string projectName = gui_framework::utility::to_string(projectNameEditControl->getText(), codepage);
 		string projectVersion = gui_framework::utility::to_string(projectVersionEditControl->getText(), codepage);
 

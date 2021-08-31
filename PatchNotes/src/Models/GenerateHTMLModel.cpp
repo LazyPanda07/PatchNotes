@@ -20,7 +20,7 @@ namespace models
 		filesystem::path out;
 		json::JSONParser projectFile;
 		bool success = true;
-		string message = format(R"(Файл "{}.html" успешно сгенерирован)", projectFileName);
+		string message = format("Файл \"{}.html\" успешно сгенерирован", projectFileName);
 
 		pathToProjectFile.append(globals::dataFolder).append(projectFileName) += ".json";
 

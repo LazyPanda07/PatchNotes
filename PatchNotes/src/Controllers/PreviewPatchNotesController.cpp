@@ -13,7 +13,7 @@ namespace controllers
 	json::JSONBuilder PreviewPatchNotesController::collectData(gui_framework::BaseComposite* window) const
 	{
 		json::JSONBuilder builder(utility::getCodepage());
-		gui_framework::DropDownListComboBox* currentProject = dynamic_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectNameAndVersion"));
+		gui_framework::DropDownListComboBox* currentProject = static_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectNameAndVersion"));
 
 		if (currentProject->getCurrentSelectionIndex() == -1)
 		{

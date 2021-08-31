@@ -27,7 +27,7 @@ namespace models
 		{
 			success = false;
 
-			message = format(R"(Файл с названием "{}.json" уже существует)", projectName + '_' + projectVersion);
+			message = format("Файл с названием \"{}.json\" уже существует", projectName + '_' + projectVersion);
 		}
 		else
 		{

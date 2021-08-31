@@ -131,7 +131,7 @@ namespace views
 		string message = data.getString("message");
 		const wstring& title = success ? patch_notes_constants::successTitle : patch_notes_constants::errorTitle;
 
-		if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), title, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+		if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), title, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
 		{
 			Initializer::get().createUI();
 

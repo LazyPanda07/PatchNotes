@@ -63,6 +63,6 @@ namespace models
 
 		return json::JSONBuilder(utility::getCodepage()).
 			append("success", true).
-			append("message", format("Описание {} было успешно удалено", move(noteToDelete)));
+			append("message", format("Описание \"{}\" было успешно удалено", move(noteToDelete)));
 	}
 }

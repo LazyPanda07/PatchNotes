@@ -16,11 +16,11 @@ namespace models
 
 		if (success)
 		{
-			message = format("Конфигурация {} была успешно удалена", projectToDelete.filename().stem().string());
+			message = format("Конфигурация \"{}\" была успешно удалена", projectToDelete.filename().stem().string());
 		}
 		else
 		{
-			message = format("Не удалось удалить {}", projectToDelete.filename().stem().string());
+			message = format("Не удалось удалить конфигурацию \"{}\"", projectToDelete.filename().stem().string());
 		}
 
 		return json::JSONBuilder(utility::getCodepage()).

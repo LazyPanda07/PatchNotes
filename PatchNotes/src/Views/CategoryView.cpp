@@ -51,7 +51,7 @@ namespace views
 				}
 			});
 
-		dynamic_cast<gui_framework::StaticControl*>(dialogBox->findChild(L"ProjectCategory"))->getHandle();
+		static_cast<gui_framework::StaticControl*>(dialogBox->findChild(L"ProjectCategory"))->getHandle();
 
 		dialogBox->show();
 
@@ -73,7 +73,7 @@ namespace views
 
 		if (success)
 		{
-			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::successTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::successTitle, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
 			{
 				Initializer::get().createUI();
 
@@ -82,7 +82,7 @@ namespace views
 		}
 		else
 		{
-			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::ok, dynamic_cast<gui_framework::BaseComponent*>(window));
+			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window));
 		}
 	}
 }

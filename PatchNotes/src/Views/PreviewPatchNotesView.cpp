@@ -21,13 +21,13 @@ namespace views
 	void PreviewPatchNotesView::update(const json::JSONParser& data)
 	{
 		string pathToFile = data.getString("pathToFile");
-		gui_framework::ProgressBar* updateProgressBar = dynamic_cast<gui_framework::ProgressBar*>(dynamic_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"));
+		gui_framework::ProgressBar* updateProgressBar = static_cast<gui_framework::ProgressBar*>(static_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"));
 
 		if (data.getBool("success"))
 		{
 			updateProgressBar->update(0);
 
-			system(format("start {}", pathToFile).data());
+			system(format("start \"{}\"", pathToFile).data());
 
 			Initializer::get().addPreviewFile(pathToFile);
 		}

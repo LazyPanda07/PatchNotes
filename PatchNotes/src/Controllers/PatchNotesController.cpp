@@ -16,10 +16,10 @@ namespace controllers
 	{
 		uint32_t codepage = utility::getCodepage();
 		json::JSONBuilder builder(codepage);
-		gui_framework::DropDownListComboBox* currentProject = dynamic_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectNameAndVersion"));
-		gui_framework::DropDownListComboBox* currentCategory = dynamic_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectCategory"));
-		string item = gui_framework::utility::to_string(dynamic_cast<gui_framework::EditControl*>(window->findChild(L"Item"))->getText(), codepage);
-		wstring textNotes = dynamic_cast<gui_framework::RichEdit*>(window->findChild(L"Notes"))->getText();
+		gui_framework::DropDownListComboBox* currentProject = static_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectNameAndVersion"));
+		gui_framework::DropDownListComboBox* currentCategory = static_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectCategory"));
+		string item = gui_framework::utility::to_string(static_cast<gui_framework::EditControl*>(window->findChild(L"Item"))->getText(), codepage);
+		wstring textNotes = static_cast<gui_framework::RichEdit*>(window->findChild(L"Notes"))->getText();
 
 		if (currentProject->getCurrentSelectionIndex() == -1)
 		{
@@ -31,7 +31,7 @@ namespace controllers
 			throw exceptions::ValidationException("Не удалось определить категорию");
 		}
 
-		validation::emptyValidation(item, dynamic_cast<gui_framework::EditControl*>(window->findChild(L"Element"))->getPlaceholder());
+		validation::emptyValidation(item, static_cast<gui_framework::EditControl*>(window->findChild(L"Element"))->getPlaceholder());
 
 		validation::emptyValidation(textNotes, L"Примечания");
 

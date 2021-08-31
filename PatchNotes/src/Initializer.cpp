@@ -51,7 +51,7 @@ void Initializer::createMenus()
 			categoryConfigurationView->remove();
 		}
 
-		gui_framework::DropDownListComboBox* currentProject = dynamic_cast<gui_framework::DropDownListComboBox*>(dynamic_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"ProjectNameAndVersion"));
+		gui_framework::DropDownListComboBox* currentProject = static_cast<gui_framework::DropDownListComboBox*>(static_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"ProjectNameAndVersion"));
 		wstring projectNameAndVersion;
 
 		if (currentProject->getCurrentSelectionIndex() != -1)
@@ -74,7 +74,7 @@ void Initializer::createMenus()
 
 		try
 		{
-			dynamic_cast<::views::GenerateHTMLView*>(generateHTMLView.get())->onClick(patchNotesView->getWindow());
+			static_cast<::views::GenerateHTMLView*>(generateHTMLView.get())->onClick(patchNotesView->getWindow());
 		}
 		catch (const exceptions::ValidationException& e)
 		{
@@ -87,7 +87,7 @@ void Initializer::createMenus()
 
 		try
 		{
-			dynamic_cast<::views::PreviewPatchNotesView*>(previewPatchNotesView.get())->onClick(patchNotesView->getWindow());
+			static_cast<::views::PreviewPatchNotesView*>(previewPatchNotesView.get())->onClick(patchNotesView->getWindow());
 		}
 		catch (const exceptions::ValidationException& e)
 		{
@@ -131,7 +131,7 @@ void Initializer::registerHotkeys()
 
 			if (component)
 			{
-				BaseComposite* parent = dynamic_cast<BaseComposite*>(component->getParent());
+				BaseComposite* parent = static_cast<BaseComposite*>(component->getParent());
 
 				if (parent)
 				{
@@ -156,7 +156,7 @@ void Initializer::registerHotkeys()
 				}
 				else if (component->isComposite())
 				{
-					BaseComposite* composite = dynamic_cast<BaseComposite*>(component);
+					BaseComposite* composite = static_cast<BaseComposite*>(component);
 
 					SetFocus(composite->getChildren().front()->getHandle());
 				}
@@ -242,7 +242,7 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 
 	filesystem::create_directory(globals::dataFolder);
 
-	mainWindow = dynamic_cast<gui_framework::SeparateWindow*>(holder->get());
+	mainWindow = static_cast<gui_framework::SeparateWindow*>(holder->get());
 
 	mainWindow->setExitMode(gui_framework::BaseComponent::exitMode::quit);
 
