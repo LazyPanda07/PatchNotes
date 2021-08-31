@@ -31,8 +31,12 @@ namespace views
 		gui_framework::utility::ComponentSettings settings(0, 0, width - 17, height - 60);
 		ChildWindow* patchNotesWindow = new ChildWindow(L"PatchNotesUI", L"PatchNotesUI", settings, parent, "patchNotesUI");
 
+		patchNotesWindow->setAutoResize(true);
+
 		DropDownListComboBox* currentProject = new DropDownListComboBox(L"ProjectNameAndVersion", gui_framework::utility::ComponentSettings(width / 4, 0, width / 2, 20), patchNotesWindow);
 		vector<wstring> projects = ::utility::getAvailableProjectsFiles();
+
+		currentProject->setAutoResize(true);
 
 		for (const auto& i : projects)
 		{
@@ -45,6 +49,8 @@ namespace views
 		}
 
 		DropDownListComboBox* currentCategory = new DropDownListComboBox(L"ProjectCategory", gui_framework::utility::ComponentSettings(width / 4, 25, width / 2, 20), patchNotesWindow);
+
+		currentCategory->setAutoResize(true);
 
 		if (currentProject->getCurrentSelectionIndex() != -1)
 		{
@@ -61,13 +67,17 @@ namespace views
 			}
 		}
 
-		EditControl* element = new EditControl(L"Item", width / 4, 50, patchNotesWindow, width / 2 + 10);	// + 10 make element same size as currentProject and currentCategory
+		EditControl* element = new EditControl(L"Item", width / 4, 50, patchNotesWindow, width / 2);
+
+		element->setAutoResize(true);
 
 		element->setPlaceholder(L"Элемент");
 
-		new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width - 20, height - 170), patchNotesWindow, true);
+		RichEdit* notes = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width - 20, height - 170), patchNotesWindow, true);
 
-		new Button(L"AddNotes", L"Добавить", 0, height - 100, patchNotesWindow, [&controller, patchNotesWindow]()
+		notes->setAutoResize(true);
+
+		Button* add = new Button(L"AddNotes", L"Добавить", 0, height - 100, patchNotesWindow, [&controller, patchNotesWindow]()
 			{
 				try
 				{
@@ -79,7 +89,11 @@ namespace views
 				}
 			}, 200, 40);
 
-		new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(200, height - 100, 824, 40), patchNotesWindow);
+		add->setAutoResize(true);
+
+		ProgressBar* generateHTML = new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(200, height - 100, 824, 40), patchNotesWindow);
+
+		generateHTML->setAutoResize(true);
 
 		currentProject->setOnSelectionChange([currentCategory](gui_framework::BaseComboBox& comboBox)
 			{
