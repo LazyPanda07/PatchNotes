@@ -233,8 +233,8 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 {
 	gui_framework::GUIFramework::get();
 
-	auto [x, y] = utility::getScreenCenter(1024, 768);
-	gui_framework::utility::ComponentSettings settings(x, y, 1024, 768);
+	auto [x, y] = utility::getScreenCenter(sizes::mainWindowWidth, sizes::mainWindowHeight);
+	gui_framework::utility::ComponentSettings settings(x, y, sizes::mainWindowWidth, sizes::mainWindowHeight);
 
 	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch notes", settings, "patchNotes", false, false, "", APPLICATION_ICON, APPLICATION_ICON));
 

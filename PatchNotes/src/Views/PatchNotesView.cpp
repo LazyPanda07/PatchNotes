@@ -1,5 +1,7 @@
 #include "PatchNotesView.h"
 
+#include <iostream>
+
 #include "Composites/ChildWindow.h"
 #include "Components/ComboBoxes/DropDownListComboBox.h"
 #include "Components/EditControl.h"
@@ -25,15 +27,12 @@ namespace views
 	{
 		using namespace gui_framework;
 
-		uint16_t width = parent->getDesiredWidth();
-		uint16_t height = parent->getDesiredHeight();
-
-		gui_framework::utility::ComponentSettings settings(0, 0, width, height);
+		gui_framework::utility::ComponentSettings settings(0, 0, sizes::patchNotesWidth, sizes::patchNotesHeight);
 		ChildWindow* patchNotesWindow = new ChildWindow(L"PatchNotesUI", L"PatchNotesUI", settings, parent, "patchNotesUI");
 
 		patchNotesWindow->setAutoResize(true);
 
-		DropDownListComboBox* currentProject = new DropDownListComboBox(L"ProjectNameAndVersion", gui_framework::utility::ComponentSettings(width / 4, 0, width / 2, 20), patchNotesWindow);
+		DropDownListComboBox* currentProject = new DropDownListComboBox(L"ProjectNameAndVersion", gui_framework::utility::ComponentSettings(sizes::patchNotesWidth / 4, 0, sizes::patchNotesWidth / 2, 20), patchNotesWindow);
 		vector<wstring> projects = ::utility::getAvailableProjectsFiles();
 
 		currentProject->setAutoResize(true);
@@ -48,7 +47,7 @@ namespace views
 			currentProject->setCurrentSelection(0);
 		}
 
-		DropDownListComboBox* currentCategory = new DropDownListComboBox(L"ProjectCategory", gui_framework::utility::ComponentSettings(width / 4, 25, width / 2, 20), patchNotesWindow);
+		DropDownListComboBox* currentCategory = new DropDownListComboBox(L"ProjectCategory", gui_framework::utility::ComponentSettings(sizes::patchNotesWidth / 4, 25, sizes::patchNotesWidth / 2, 20), patchNotesWindow);
 
 		currentCategory->setAutoResize(true);
 
@@ -67,17 +66,17 @@ namespace views
 			}
 		}
 
-		EditControl* element = new EditControl(L"Item", width / 4, 50, patchNotesWindow, width / 2);
+		EditControl* element = new EditControl(L"Item", sizes::patchNotesWidth / 4, 50, patchNotesWindow, sizes::patchNotesWidth / 2 + 10);
 
 		element->setAutoResize(true);
 
 		element->setPlaceholder(L"Элемент");
 
-		RichEdit* notes = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width - 17, height - 148), patchNotesWindow, true);
+		RichEdit* notes = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, sizes::patchNotesWidth - 17, sizes::patchNotesHeight - 148), patchNotesWindow, true);
 
 		notes->setAutoResize(true);
 
-		Button* add = new Button(L"AddNotes", L"Добавить", 0, height - 78, patchNotesWindow, [&controller, patchNotesWindow]()
+		Button* add = new Button(L"AddNotes", L"Добавить", 0, sizes::patchNotesHeight - 78, patchNotesWindow, [&controller, patchNotesWindow]()
 			{
 				try
 				{
@@ -91,7 +90,7 @@ namespace views
 
 		add->setAutoResize(true);
 
-		ProgressBar* generateHTML = new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(200, height - 78, 824, 40), patchNotesWindow);
+		ProgressBar* generateHTML = new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(200, sizes::patchNotesHeight - 78, 824, 40), patchNotesWindow);
 
 		generateHTML->setAutoResize(true);
 
@@ -115,7 +114,17 @@ namespace views
 				}
 			});
 
-		patchNotesWindow->resize(width, height);
+		patchNotesWindow->resize(parent->getActualWidth(), parent->getActualHeight());
+
+		for (const auto& i : patchNotesWindow->getChildren())
+		{
+			gui_framework::interfaces::IResizableComponent* component = dynamic_cast<gui_framework::interfaces::IResizableComponent*>(i.get());
+
+			if (component)
+			{
+				component->resize(patchNotesWindow->getActualWidth(), patchNotesWindow->getActualHeight());
+			}
+		}
 
 		return patchNotesWindow;
 	}

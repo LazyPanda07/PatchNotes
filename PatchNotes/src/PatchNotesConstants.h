@@ -18,3 +18,14 @@ namespace patch_notes_constants
 
 	inline constexpr std::string_view htmlGeneratedFolder = "docs";
 }
+
+namespace sizes
+{
+	inline constexpr uint16_t mainWindowWidth = 1024;
+	inline constexpr uint16_t mainWindowHeight = 768;
+
+	inline constexpr uint16_t patchNotesWidth = mainWindowWidth;
+	inline constexpr uint16_t patchNotesHeight = mainWindowHeight;
+
+
+}
