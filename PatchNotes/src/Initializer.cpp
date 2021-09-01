@@ -231,8 +231,6 @@ void Initializer::closeDeleteNote()
 
 void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 {
-	gui_framework::GUIFramework::get();
-
 	auto [x, y] = utility::getScreenCenter(sizes::mainWindowWidth, sizes::mainWindowHeight);
 	gui_framework::utility::ComponentSettings settings(x, y, sizes::mainWindowWidth, sizes::mainWindowHeight);
 
@@ -248,9 +246,9 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 
 	mainWindow->setAutoResize(true);
 
-	this->createUI();
-
 	this->createMenus();
+
+	this->createUI();
 
 	this->registerHotkeys();
 }
