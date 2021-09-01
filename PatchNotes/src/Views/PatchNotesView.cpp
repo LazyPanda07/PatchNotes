@@ -73,11 +73,11 @@ namespace views
 
 		element->setPlaceholder(L"Элемент");
 
-		RichEdit* notes = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width - 17, height - 150), patchNotesWindow, true);
+		RichEdit* notes = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width - 17, height - 148), patchNotesWindow, true);
 
 		notes->setAutoResize(true);
 
-		Button* add = new Button(L"AddNotes", L"Добавить", 0, height - 80, patchNotesWindow, [&controller, patchNotesWindow]()
+		Button* add = new Button(L"AddNotes", L"Добавить", 0, height - 78, patchNotesWindow, [&controller, patchNotesWindow]()
 			{
 				try
 				{
@@ -91,7 +91,7 @@ namespace views
 
 		add->setAutoResize(true);
 
-		ProgressBar* generateHTML = new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(200, height - 80, 824, 40), patchNotesWindow);
+		ProgressBar* generateHTML = new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(200, height - 78, 824, 40), patchNotesWindow);
 
 		generateHTML->setAutoResize(true);
 
