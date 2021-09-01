@@ -14,6 +14,9 @@ namespace models
 		gui_framework::BaseComposite* mainWindow;
 
 	private:
+		static void generateIndexHTML(const std::filesystem::path& outFolder, const std::string& projectName);
+
+	private:
 		json::JSONBuilder processData(const json::JSONParser& data) override;
 
 		void updateIndex(const std::filesystem::path& outFolder, const std::string& projectFileName);

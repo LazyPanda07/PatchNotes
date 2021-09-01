@@ -8,6 +8,29 @@ using namespace std;
 
 namespace models
 {
+	void GenerateHTMLModel::generateIndexHTML(const filesystem::path& outFolder, const string& projectName)
+	{
+		ofstream indexHTML(outFolder / "index.html");
+
+		indexHTML << format(R"(<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{}</title>
+</head>
+
+<body>
+
+    <h1>All versions</h1>
+
+</body>
+
+</html>)", projectName) << endl;
+	}
+
 	json::JSONBuilder GenerateHTMLModel::processData(const json::JSONParser& data)
 	{
 		using json::utility::toUTF8JSON;
@@ -47,6 +70,13 @@ namespace models
 		ifstream indexHTML(outFolder / "index.html");
 		string tem;
 		bool alreadyAdded = false;
+
+		if (!indexHTML.is_open())
+		{
+			GenerateHTMLModel::generateIndexHTML(outFolder, projectFileName.substr(0, projectFileName.rfind('_')));
+
+			indexHTML.open(outFolder / "index.html");
+		}
 
 		while (getline(indexHTML, tem))
 		{

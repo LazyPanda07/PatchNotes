@@ -115,6 +115,8 @@ namespace views
 				}
 			});
 
+		patchNotesWindow->resize(width, height);
+
 		return patchNotesWindow;
 	}
 
