@@ -73,7 +73,7 @@ namespace views
 
 		element->setPlaceholder(L"Ёлемент");
 
-		RichEdit* notes = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width - 20, height - 150), patchNotesWindow, true);
+		RichEdit* notes = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width - 17, height - 150), patchNotesWindow, true);
 
 		notes->setAutoResize(true);
 
