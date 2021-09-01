@@ -28,7 +28,7 @@ namespace views
 		uint16_t width = parent->getDesiredWidth();
 		uint16_t height = parent->getDesiredHeight();
 
-		gui_framework::utility::ComponentSettings settings(0, 0, width - 17, height - 60);
+		gui_framework::utility::ComponentSettings settings(0, 0, width, height);
 		ChildWindow* patchNotesWindow = new ChildWindow(L"PatchNotesUI", L"PatchNotesUI", settings, parent, "patchNotesUI");
 
 		patchNotesWindow->setAutoResize(true);
@@ -73,11 +73,11 @@ namespace views
 
 		element->setPlaceholder(L"Элемент");
 
-		RichEdit* notes = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width - 20, height - 170), patchNotesWindow, true);
+		RichEdit* notes = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, width - 20, height - 150), patchNotesWindow, true);
 
 		notes->setAutoResize(true);
 
-		Button* add = new Button(L"AddNotes", L"Добавить", 0, height - 100, patchNotesWindow, [&controller, patchNotesWindow]()
+		Button* add = new Button(L"AddNotes", L"Добавить", 0, height - 80, patchNotesWindow, [&controller, patchNotesWindow]()
 			{
 				try
 				{
@@ -91,7 +91,7 @@ namespace views
 
 		add->setAutoResize(true);
 
-		ProgressBar* generateHTML = new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(200, height - 100, 824, 40), patchNotesWindow);
+		ProgressBar* generateHTML = new ProgressBar(L"GenerateHTMLProgressBar", gui_framework::utility::ComponentSettings(200, height - 80, 824, 40), patchNotesWindow);
 
 		generateHTML->setAutoResize(true);
 
