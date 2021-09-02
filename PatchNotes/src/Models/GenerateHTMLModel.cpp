@@ -20,15 +20,40 @@ namespace models
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{}</title>
+    <link href="styles.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 
-    <h1>All versions</h1>
+    <div class="title-container">
+        <div class="title">Patch notes</div>
+    </div>
+
+    <div class="links-container">
+        <table style="width:100%;">
+        </table>
+    </div>
 
 </body>
 
-</html>)", projectName) << endl;
+</html>
+)", projectName) << endl;
+	}
+
+	string GenerateHTMLModel::insertPatchLink(const string& projectName)
+	{
+		return format(R"({0}{1}<td>{0}{2}<a href="{3}.html" class="link-to-patch">{3}</a>{0}{1}</td>)", '\n', "\t\t\t\t", "\t\t\t\t\t", projectName);
+	}
+
+	string GenerateHTMLModel::insertPatchRowAndLink(const string& projectName)
+	{
+		string result = "\n\t\t\t<tr>";
+
+		result += GenerateHTMLModel::insertPatchLink(projectName);
+
+		result += "";
+
+		return result;
 	}
 
 	json::JSONBuilder GenerateHTMLModel::processData(const json::JSONParser& data)
@@ -54,6 +79,7 @@ namespace models
 		filesystem::create_directory(out);
 
 		ofstream(out / (projectFileName + ".html")) << HTMLAdapter(projectFile, mainWindow).getHTML();
+		ofstream(out / patch_notes_constants::stylesFileName) << patch_notes_constants::styles;
 
 		this->updateIndex(out, projectFileName);
 
@@ -66,17 +92,23 @@ namespace models
 
 	void GenerateHTMLModel::updateIndex(const filesystem::path& outFolder, const string& projectFileName)
 	{
-		ostringstream indexHTMLData;
-		ifstream indexHTML(outFolder / "index.html");
+		string indexHTMLData;
+		filesystem::path pathToIndexHTML = outFolder / "index.html";
+		ifstream indexHTML(pathToIndexHTML);
 		string tem;
-		bool alreadyAdded = false;
+		size_t columnCount = 0;
+		static constexpr string_view closeTd = "</td>";
+		static constexpr string_view closeTr = "</tr>";
+		static constexpr string_view openTable = "<table";
 
 		if (!indexHTML.is_open())
 		{
 			GenerateHTMLModel::generateIndexHTML(outFolder, projectFileName.substr(0, projectFileName.rfind('_')));
 
-			indexHTML.open(outFolder / "index.html");
+			indexHTML.open(pathToIndexHTML);
 		}
+
+		indexHTMLData.reserve(filesystem::file_size(pathToIndexHTML));
 
 		while (getline(indexHTML, tem))
 		{
@@ -84,17 +116,35 @@ namespace models
 			{
 				return;
 			}
-			else if (tem.find("</body>") != string::npos)
+			else if (tem.find("<td>") != string::npos)
 			{
-				indexHTMLData << "\t<div>" << endl <<
-					format(R"({0}<a href="{1}.html">{1}</a>)", "\t\t", projectFileName) << endl <<
-					"\t</div>" << endl << endl;
+				columnCount++;
 			}
 
-			indexHTMLData << tem << endl;
+			indexHTMLData += tem + '\n';
 		}
 
-		ofstream(outFolder / "index.html") << indexHTMLData.view();
+		if (columnCount % 5)
+		{
+			indexHTMLData.insert(indexHTMLData.rfind(closeTd) + closeTd.size(), GenerateHTMLModel::insertPatchLink(projectFileName));
+		}
+		else
+		{
+			size_t insertRowPosition = 0;
+
+			if (indexHTMLData.find("</tr>") != string::npos)
+			{
+				insertRowPosition = indexHTMLData.rfind(closeTr) + closeTr.size();
+			}
+			else
+			{
+				insertRowPosition = indexHTMLData.find('\n', indexHTMLData.find("<table"));
+			}
+
+			indexHTMLData.insert(insertRowPosition, GenerateHTMLModel::insertPatchRowAndLink(projectFileName));
+		}
+
+		ofstream(pathToIndexHTML) << indexHTMLData;
 	}
 
 	GenerateHTMLModel::GenerateHTMLModel(gui_framework::BaseComposite* mainWindow) :
