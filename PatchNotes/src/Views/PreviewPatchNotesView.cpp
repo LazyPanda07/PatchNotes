@@ -27,7 +27,7 @@ namespace views
 		{
 			updateProgressBar->update(0);
 
-			system(format("start \"{}\"", pathToFile).data());
+			system(format("\"{}\"", pathToFile).data());
 
 			Initializer::get().addPreviewFile(pathToFile);
 		}
