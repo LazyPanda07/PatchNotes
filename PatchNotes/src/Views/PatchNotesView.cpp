@@ -67,7 +67,7 @@ namespace views
 			}
 		}
 
-		EditControl* element = new EditControl(L"Item", sizes::patchNotesWidth / 4, 50, patchNotesWindow, sizes::patchNotesWidth / 2 + 10);
+		EditControl* element = new EditControl(L"Item", sizes::patchNotesWidth / 4, 50, patchNotesWindow, sizes::patchNotesWidth / 2);
 
 		element->setAutoResize(true);
 
