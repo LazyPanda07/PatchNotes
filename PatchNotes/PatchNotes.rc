@@ -60,7 +60,7 @@ APPLICATION_ICON        ICON                    "assets\\icon.ico"
 // BASE64
 //
 
-DEFAULT_BACKGROUND_IMAGE BASE64                  "assets\\default_background.b64"
+DEFAULT_BACKGROUND_IMAGE BASE64                  "assets\\default_background_image.b64"
 
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////

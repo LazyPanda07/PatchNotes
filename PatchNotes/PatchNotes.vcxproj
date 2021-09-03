@@ -211,7 +211,7 @@
     <ClCompile Include="src\Views\ProjectConfigurationView.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\default_background.b64" />
+    <None Include="assets\default_background_image.b64" />
     <None Include="gui_framework.json" />
   </ItemGroup>
   <ItemGroup>
