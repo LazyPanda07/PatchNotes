@@ -18,6 +18,8 @@ private:
 
 	void addItem(const std::string& item, const std::vector<std::string>& notes);
 
+	void addCategoryEnd();
+
 	void addFooterInformation(const std::string& information = "");
 
 public:

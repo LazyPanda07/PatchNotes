@@ -10,11 +10,14 @@ void HTMLAdapter::addPageInformation(const string& projectName, const string& ve
 {
 	html += format(R"(<!DOCTYPE html>
 
+<html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{} {}</title>
+	<link href="styles.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -26,24 +29,31 @@ void HTMLAdapter::addProjectNameAndVersion(const string& projectName, const stri
 {
 	this->addPageInformation(projectName, version);
 
-	html += format("\t<h1>{} {}</h1>\n\n", projectName, version);
+	html += format(R"({}<h1 class="version">{} {}</h1>{})", '\t', projectName, version, "\n\n");
 }
 
 void HTMLAdapter::addCategory(const string& category)
 {
-	html += format("\t<h2>{}</h2>\n\n", category);
+	html += format(R"({}<div class="patch-notes-container">{})", '\t', '\n');
+
+	html += format(R"({}<div class="category">{}</div>{})", "\t\t", category, "\n\n");
 }
 
 void HTMLAdapter::addItem(const string& item, const vector<string>& notes)
 {
-	html += format("\t<h4>{}</h4>\n\n", item);
+	html += format(R"({}<div class="element">{}</div>{})", "\t\t", item, "\n\n");
 
 	for (const auto& i : notes)
 	{
-		html += format("\t<div>&#8226; {}</div><br>\n\n", i);
+		html += format(R"({}<div class="note">&#8226; {}</div>{})", "\t\t", i, "\n\n");
 	}
+}
 
-	html += "\t<br>\n\n";
+void HTMLAdapter::addCategoryEnd()
+{
+	html.pop_back();
+
+	html += "\t</div>\n";
 }
 
 void HTMLAdapter::addFooterInformation(const string& information)
@@ -97,6 +107,8 @@ HTMLAdapter::HTMLAdapter(const json::JSONParser& jsonSchema, gui_framework::Base
 					this->addItem(j.first, notes);
 				}
 			}
+
+			this->addCategoryEnd();
 		}
 
 		updateProgressBar->update();

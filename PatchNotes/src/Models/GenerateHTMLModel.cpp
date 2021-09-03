@@ -51,7 +51,7 @@ namespace models
 
 		result += GenerateHTMLModel::insertPatchLink(projectName);
 
-		result += "";
+		result += "\n\t\t\t</tr>";
 
 		return result;
 	}
