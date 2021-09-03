@@ -27,6 +27,7 @@ namespace models
 		ifstream(pathToProjectFile) >> projectFile;
 
 		ofstream(out) << HTMLAdapter(projectFile, mainWindow).getHTML();
+		ofstream(filesystem::temp_directory_path() / patch_notes_constants::stylesFileName) << patch_notes_constants::styles;
 
 		ranges::replace(absolutePathToFile, '\\', '/');
 

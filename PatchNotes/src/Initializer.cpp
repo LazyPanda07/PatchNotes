@@ -254,6 +254,11 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 
 void Initializer::addPreviewFile(const filesystem::path& previewFile)
 {
+	if (previewFiles.empty())
+	{
+		previewFiles.push_back(filesystem::temp_directory_path() / patch_notes_constants::stylesFileName);
+	}
+
 	previewFiles.push_back(previewFile);
 }
 
