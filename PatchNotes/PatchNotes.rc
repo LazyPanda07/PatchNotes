@@ -54,6 +54,14 @@ END
 // remains consistent on all systems.
 APPLICATION_ICON        ICON                    "assets\\icon.ico"
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// BASE64
+//
+
+DEFAULT_BACKGROUND_IMAGE BASE64                  "assets\\default_background.b64"
+
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
