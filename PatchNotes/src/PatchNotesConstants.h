@@ -34,7 +34,8 @@ namespace patch_notes_constants
 {
 	inline const std::string styles = R"(html {
     font-family: Calibri;
-    --transparent-gray: rgba(0.5, 0.5, 0.5, 0.1);
+    --patch-notes-background-color: rgba(247, 207, 129, 0.25);
+    background-size: 100%;
 }
 
 td {
@@ -52,7 +53,7 @@ td {
     margin-left: 30%;
     margin-right: 30%;
     align-items: center;
-    background-color: var(--transparent-gray);
+    background-color: var(--patch-notes-background-color);
 }
 
 .category {
