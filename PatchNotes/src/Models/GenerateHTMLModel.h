@@ -20,6 +20,8 @@ namespace models
 
 		static std::string insertPatchRowAndLink(const std::string& projectName);
 
+		static std::string insertEmptyPatchLink();
+
 	private:
 		json::JSONBuilder processData(const json::JSONParser& data) override;
 

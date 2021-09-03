@@ -56,6 +56,11 @@ namespace models
 		return result;
 	}
 
+	string GenerateHTMLModel::insertEmptyPatchLink()
+	{
+		return "\n<td></td>";
+	}
+
 	json::JSONBuilder GenerateHTMLModel::processData(const json::JSONParser& data)
 	{
 		using json::utility::toUTF8JSON;
@@ -116,6 +121,10 @@ namespace models
 			{
 				return;
 			}
+			else if (tem.find("<td></td>") != string::npos)
+			{
+				continue;
+			}
 			else if (tem.find("<td>") != string::npos)
 			{
 				columnCount++;
@@ -142,6 +151,13 @@ namespace models
 			}
 
 			indexHTMLData.insert(insertRowPosition, GenerateHTMLModel::insertPatchRowAndLink(projectFileName));
+		}
+
+		while (columnCount < 4)
+		{
+			indexHTMLData.insert(indexHTMLData.rfind(closeTd) + closeTd.size(), GenerateHTMLModel::insertEmptyPatchLink());
+
+			columnCount++;
 		}
 
 		ofstream(pathToIndexHTML) << indexHTMLData;
