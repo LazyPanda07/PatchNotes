@@ -232,10 +232,42 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 {
 	auto [x, y] = utility::getScreenCenter(sizes::mainWindowWidth, sizes::mainWindowHeight);
 	gui_framework::utility::ComponentSettings settings(x, y, sizes::mainWindowWidth, sizes::mainWindowHeight);
+	string& styles = patch_notes_constants::styles;
 
 	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch notes", settings, "patchNotes", false, false, "", APPLICATION_ICON, APPLICATION_ICON));
 
 	globals::dataFolder = (filesystem::path(json::utility::fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject"), utility::getCodepage())) /= patch_notes_constants::jsonVersionsFolder).string();
+
+	try
+	{
+		styles.replace(styles.find("[]"), 2, gui_framework::GUIFramework::get().getJSONSettings().getString("pathToBackgroundImage"));
+	}
+	catch (const bad_variant_access&)
+	{
+		gui_framework::GUIFramework::get().getJSONSettings().getNull("pathToBackgroundImage");
+
+		HRSRC backgroundResourceHandle = FindResourceA(nullptr, MAKEINTRESOURCEA(DEFAULT_BACKGROUND_IMAGE), "Base64");
+
+		if (backgroundResourceHandle)
+		{
+			HGLOBAL backgroundDataHandle = LoadResource(nullptr, backgroundResourceHandle);
+
+			if (backgroundDataHandle)
+			{
+				void* data = LockResource(backgroundDataHandle);
+
+				if (data)
+				{
+					string tem = format(R"("data:image/png;base64,{}")", string_view(static_cast<char*>(data), SizeofResource(GetModuleHandleW(nullptr), backgroundResourceHandle)));
+
+					erase(tem, '\r');
+					erase(tem, '\n');
+
+					styles.replace(styles.find("[]"), 2, tem);
+				}
+			}
+		}
+	}
 
 	filesystem::create_directory(globals::dataFolder);
 

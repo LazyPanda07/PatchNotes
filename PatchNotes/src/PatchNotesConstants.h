@@ -32,14 +32,17 @@ namespace sizes
 
 namespace patch_notes_constants
 {
-	inline const std::string styles = R"(html {
+	inline std::string styles = R"(html {
     font-family: Calibri;
-    --patch-notes-background-color: rgba(247, 207, 129, 0.25);
-    background-size: 100%;
 }
 
 td {
     width: 20%;
+}
+
+.patch-notes {
+    background-image: url([]);
+    background-size: 100%;
 }
 
 .version {
@@ -53,7 +56,7 @@ td {
     margin-left: 30%;
     margin-right: 30%;
     align-items: center;
-    background-color: var(--patch-notes-background-color);
+    background-color: rgba(247, 207, 129, 0.25);
 }
 
 .category {

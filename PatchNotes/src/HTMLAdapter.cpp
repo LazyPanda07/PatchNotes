@@ -20,7 +20,7 @@ void HTMLAdapter::addPageInformation(const string& projectName, const string& ve
 	<link href="styles.css" rel="stylesheet" type="text/css">
 </head>
 
-<body>
+<body class="patch-notes">
 
 )", projectName, version);
 }
