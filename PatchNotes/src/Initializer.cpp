@@ -260,9 +260,6 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 				{
 					string tem = format(R"("data:image/png;base64,{}")", string_view(static_cast<char*>(data), SizeofResource(GetModuleHandleW(nullptr), backgroundResourceHandle)));
 
-					erase(tem, '\r');
-					erase(tem, '\n');
-
 					styles.replace(styles.find("[]"), 2, tem);
 				}
 			}
