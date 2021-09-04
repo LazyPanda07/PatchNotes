@@ -163,6 +163,31 @@ void Initializer::registerHotkeys()
 		});
 }
 
+void Initializer::initBackgroundPatchNotesColor()
+{
+	string& styles = patch_notes_constants::styles;
+
+	const auto& color = gui_framework::GUIFramework::get().getJSONSettings().getArray("patchNotesBackgroundColor");
+	string colorFormat;
+
+	for (const auto& i : color)
+	{
+		try
+		{
+			colorFormat += to_string(std::get<int64_t>(i->data.front().second)) + ", ";
+		}
+		catch (const bad_variant_access&)
+		{
+			colorFormat += to_string(std::get<double>(i->data.front().second)) + ", ";
+		}
+	}
+
+	colorFormat.pop_back();
+	colorFormat.pop_back();
+
+	styles.replace(styles.find("[1]"), 3, colorFormat);
+}
+
 Initializer::Initializer() :
 	mainWindow(nullptr)
 {
@@ -232,15 +257,55 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 {
 	auto [x, y] = utility::getScreenCenter(sizes::mainWindowWidth, sizes::mainWindowHeight);
 	gui_framework::utility::ComponentSettings settings(x, y, sizes::mainWindowWidth, sizes::mainWindowHeight);
-	string& styles = patch_notes_constants::styles;
-
+	
 	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch notes", settings, "patchNotes", false, false, "", APPLICATION_ICON, APPLICATION_ICON));
 
 	globals::dataFolder = (filesystem::path(json::utility::fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject"), utility::getCodepage())) /= patch_notes_constants::jsonVersionsFolder).string();
 
+	filesystem::create_directory(globals::dataFolder);
+
+	mainWindow = static_cast<gui_framework::SeparateWindow*>(holder->get());
+
+	mainWindow->setExitMode(gui_framework::BaseComponent::exitMode::quit);
+
+	mainWindow->setAutoResize(true);
+
+	this->createMenus();
+
+	this->createUI();
+
+	this->registerHotkeys();
+
+	this->initBackgroundImage();
+
+	this->initBackgroundPatchNotesColor();
+}
+
+void Initializer::addPreviewFile(const filesystem::path& previewFile)
+{
+	if (previewFiles.empty())
+	{
+		previewFiles.push_back(filesystem::temp_directory_path() / patch_notes_constants::stylesFileName);
+	}
+
+	previewFiles.push_back(previewFile);
+}
+
+void Initializer::removePreviewFiles()
+{
+	for (const auto& i : previewFiles)
+	{
+		filesystem::remove(i);
+	}
+}
+
+void Initializer::initBackgroundImage()
+{
+	string& styles = patch_notes_constants::styles;
+
 	try
 	{
-		styles.replace(styles.find("[]"), 2, gui_framework::GUIFramework::get().getJSONSettings().getString("pathToBackgroundImage"));
+		styles.replace(styles.find("[0]"), 3, gui_framework::GUIFramework::get().getJSONSettings().getString("pathToBackgroundImage"));
 	}
 	catch (const bad_variant_access&)
 	{
@@ -260,41 +325,9 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 				{
 					string tem = format(R"("data:image/png;base64,{}")", string_view(static_cast<char*>(data), SizeofResource(GetModuleHandleW(nullptr), backgroundResourceHandle)));
 
-					styles.replace(styles.find("[]"), 2, tem);
+					styles.replace(styles.find("[0]"), 3, tem);
 				}
 			}
 		}
-	}
-
-	filesystem::create_directory(globals::dataFolder);
-
-	mainWindow = static_cast<gui_framework::SeparateWindow*>(holder->get());
-
-	mainWindow->setExitMode(gui_framework::BaseComponent::exitMode::quit);
-
-	mainWindow->setAutoResize(true);
-
-	this->createMenus();
-
-	this->createUI();
-
-	this->registerHotkeys();
-}
-
-void Initializer::addPreviewFile(const filesystem::path& previewFile)
-{
-	if (previewFiles.empty())
-	{
-		previewFiles.push_back(filesystem::temp_directory_path() / patch_notes_constants::stylesFileName);
-	}
-
-	previewFiles.push_back(previewFile);
-}
-
-void Initializer::removePreviewFiles()
-{
-	for (const auto& i : previewFiles)
-	{
-		filesystem::remove(i);
 	}
 }

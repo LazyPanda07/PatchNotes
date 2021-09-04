@@ -6,5 +6,7 @@
 
   "codepage": 1251,
   "pathToProject": "C:\\Users\\semen\\source\\repos\\PatchNotes\\TestProject",
-  "pathToBackgroundImage": null
+
+  "pathToBackgroundImage": null,
+  "patchNotesBackgroundColor": [ 247, 207, 129, 0.25 ]
 }

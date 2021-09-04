@@ -30,6 +30,8 @@ private:
 
 	void registerHotkeys();
 
+	void initBackgroundPatchNotesColor();
+
 private:
 	Initializer();
 
@@ -57,4 +59,7 @@ public:
 	void addPreviewFile(const std::filesystem::path& previewFile);
 
 	void removePreviewFiles();
+
+	// TODO: Call in EntryPoint and make progress bar
+	void initBackgroundImage();
 };

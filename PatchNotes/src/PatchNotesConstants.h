@@ -41,7 +41,7 @@ td {
 }
 
 .patch-notes {
-    background-image: url([]);
+    background-image: url([0]);
     background-size: 100%;
 }
 
@@ -56,7 +56,7 @@ td {
     margin-left: 30%;
     margin-right: 30%;
     align-items: center;
-    background-color: rgba(247, 207, 129, 0.25);
+    background-color: rgba([1]);
 }
 
 .category {
