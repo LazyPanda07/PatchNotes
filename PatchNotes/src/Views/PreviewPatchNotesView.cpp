@@ -2,6 +2,7 @@
 
 #include "Components/ProgressBars/ProgressBar.h"
 
+#include "Composites/DialogBox.h"
 #include "Initializer.h"
 #include "Controllers/PreviewPatchNotesController.h"
 #include "PatchNotesConstants.h"
@@ -20,16 +21,25 @@ namespace views
 
 	void PreviewPatchNotesView::update(const json::JSONParser& data)
 	{
+		using gui_framework::BaseDialogBox;
+
 		string pathToFile = data.getString("pathToFile");
 		gui_framework::ProgressBar* updateProgressBar = static_cast<gui_framework::ProgressBar*>(static_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"));
 
 		if (data.getBool("success"))
 		{
-			updateProgressBar->update(0);
-
 			system(format("\"{}\"", pathToFile).data());
 
+			updateProgressBar->update(0);
+
 			Initializer::get().addPreviewFile(pathToFile);
+		}
+		else
+		{
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(data.getString("message"), CP_UTF8), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+			{
+				updateProgressBar->update(0);
+			}
 		}
 	}
 

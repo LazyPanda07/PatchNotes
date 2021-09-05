@@ -1,5 +1,6 @@
 #include "GenerateHTMLModel.h"
 
+#include "Initializer.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
 #include "HTMLAdapter.h"
@@ -72,8 +73,8 @@ namespace models
 		filesystem::path pathToProjectFile;
 		filesystem::path out;
 		json::JSONParser projectFile;
-		bool success = true;
-		string message = format("Файл \"{}.html\" успешно сгенерирован", projectFileName);
+		bool success;
+		string message;
 
 		pathToProjectFile.append(globals::dataFolder).append(projectFileName) += ".json";
 
@@ -81,12 +82,23 @@ namespace models
 
 		(out /= fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject"), utility::getCodepage())).append(patch_notes_constants::htmlGeneratedFolder);
 
-		filesystem::create_directory(out);
+		if (Initializer::get().getIsBackgroundImageLoaded())
+		{
+			filesystem::create_directory(out);
 
-		ofstream(out / (projectFileName + ".html")) << HTMLAdapter(projectFile, mainWindow).getHTML();
-		ofstream(out / patch_notes_constants::stylesFileName) << patch_notes_constants::styles;
+			ofstream(out / (projectFileName + ".html")) << HTMLAdapter(projectFile, mainWindow).getHTML();
+			ofstream(out / patch_notes_constants::stylesFileName) << patch_notes_constants::styles;
 
-		this->updateIndex(out, projectFileName);
+			this->updateIndex(out, projectFileName);
+
+			success = true;
+			message = format("Файл \"{}.html\" успешно сгенерирован", projectFileName);
+		}
+		else
+		{
+			success = false;
+			message = format("Не удалось сгенерировать изменения.\nЕще не завершена загрузка заднего фона.\nПовторите команду позже.");
+		}
 
 		builder.
 			append("success", success).

@@ -105,7 +105,7 @@ void Initializer::createMenus()
 
 	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Предпросмотр", previewPatchNotes));
 
-	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать HTML", generateHTML));
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать список изменений", generateHTML));
 
 	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить конфигурацию", [this]() { deleteProjectConfigurationView = make_unique<::views::DeleteProjectConfigurationView>(); }));
 
@@ -188,8 +188,42 @@ void Initializer::initBackgroundPatchNotesColor()
 	styles.replace(styles.find("[1]"), 3, colorFormat);
 }
 
+void Initializer::initBackgroundImage()
+{
+	string& styles = patch_notes_constants::styles;
+
+	try
+	{
+		styles.replace(styles.find("[0]"), 3, gui_framework::GUIFramework::get().getJSONSettings().getString("pathToBackgroundImage"));
+	}
+	catch (const bad_variant_access&)
+	{
+		gui_framework::GUIFramework::get().getJSONSettings().getNull("pathToBackgroundImage");
+
+		HRSRC backgroundResourceHandle = FindResourceA(nullptr, MAKEINTRESOURCEA(DEFAULT_BACKGROUND_IMAGE), "Base64");
+
+		if (backgroundResourceHandle)
+		{
+			HGLOBAL backgroundDataHandle = LoadResource(nullptr, backgroundResourceHandle);
+
+			if (backgroundDataHandle)
+			{
+				void* data = LockResource(backgroundDataHandle);
+
+				if (data)
+				{
+					string tem = format(R"("data:image/png;base64,{}")", string_view(static_cast<char*>(data), SizeofResource(GetModuleHandleW(nullptr), backgroundResourceHandle)));
+
+					styles.replace(styles.find("[0]"), 3, tem);
+				}
+			}
+		}
+	}
+}
+
 Initializer::Initializer() :
-	mainWindow(nullptr)
+	mainWindow(nullptr),
+	isBackgroundImageLoaded(false)
 {
 
 }
@@ -276,9 +310,9 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 
 	this->registerHotkeys();
 
-	this->initBackgroundImage();
-
 	this->initBackgroundPatchNotesColor();
+
+	gui_framework::GUIFramework::get().addTask([this]() { this->initBackgroundImage(); }, [this]() { isBackgroundImageLoaded = true; });
 }
 
 void Initializer::addPreviewFile(const filesystem::path& previewFile)
@@ -299,35 +333,7 @@ void Initializer::removePreviewFiles()
 	}
 }
 
-void Initializer::initBackgroundImage()
+bool Initializer::getIsBackgroundImageLoaded() const
 {
-	string& styles = patch_notes_constants::styles;
-
-	try
-	{
-		styles.replace(styles.find("[0]"), 3, gui_framework::GUIFramework::get().getJSONSettings().getString("pathToBackgroundImage"));
-	}
-	catch (const bad_variant_access&)
-	{
-		gui_framework::GUIFramework::get().getJSONSettings().getNull("pathToBackgroundImage");
-
-		HRSRC backgroundResourceHandle = FindResourceA(nullptr, MAKEINTRESOURCEA(DEFAULT_BACKGROUND_IMAGE), "Base64");
-
-		if (backgroundResourceHandle)
-		{
-			HGLOBAL backgroundDataHandle = LoadResource(nullptr, backgroundResourceHandle);
-
-			if (backgroundDataHandle)
-			{
-				void* data = LockResource(backgroundDataHandle);
-
-				if (data)
-				{
-					string tem = format(R"("data:image/png;base64,{}")", string_view(static_cast<char*>(data), SizeofResource(GetModuleHandleW(nullptr), backgroundResourceHandle)));
-
-					styles.replace(styles.find("[0]"), 3, tem);
-				}
-			}
-		}
-	}
+	return isBackgroundImageLoaded;
 }

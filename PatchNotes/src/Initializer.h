@@ -24,6 +24,7 @@ private:
 	std::unique_ptr<::views::BaseView> deleteNoteView;
 
 	std::vector<std::filesystem::path> previewFiles;
+	bool isBackgroundImageLoaded;
 
 private:
 	void createMenus();
@@ -31,6 +32,8 @@ private:
 	void registerHotkeys();
 
 	void initBackgroundPatchNotesColor();
+
+	void initBackgroundImage();
 
 private:
 	Initializer();
@@ -60,6 +63,5 @@ public:
 
 	void removePreviewFiles();
 
-	// TODO: Call in EntryPoint and make progress bar
-	void initBackgroundImage();
+	bool getIsBackgroundImageLoaded() const;
 };

@@ -1,7 +1,7 @@
 {
   "settings": {
     "usingDefaultCreators": true,
-    "threadsCount": 0
+    "threadsCount": 1
   },
 
   "codepage": 1251,
