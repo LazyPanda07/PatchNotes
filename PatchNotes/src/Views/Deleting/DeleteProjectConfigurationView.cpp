@@ -2,7 +2,7 @@
 
 #include "Composites/DialogBox.h"
 
-#include "Controllers/DeleteProjectConfigurationController.h"
+#include "Controllers/Deleting/DeleteProjectConfigurationController.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
 #include "Initializer.h"

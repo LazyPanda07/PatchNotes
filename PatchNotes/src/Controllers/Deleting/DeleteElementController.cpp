@@ -1,6 +1,6 @@
 #include "DeleteElementController.h"
 
-#include "Models/DeleteElementModel.h"
+#include "Models/Deleting/DeleteElementModel.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BaseModel.h"
+#include "Models/BaseModel.h"
 
 namespace models
 {

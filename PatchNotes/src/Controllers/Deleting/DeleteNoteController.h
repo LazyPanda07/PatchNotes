@@ -1,17 +1,17 @@
 #pragma once
 
-#include "BaseController.h"
+#include "Controllers/BaseController.h"
 
 namespace controllers
 {
-	class DeleteCategoryController : public BaseController
+	class DeleteNoteController : public BaseController
 	{
 	private:
 		json::JSONBuilder collectData(gui_framework::BaseComposite* window) const override;
 
 	public:
-		DeleteCategoryController();
+		DeleteNoteController();
 
-		~DeleteCategoryController() = default;
+		~DeleteNoteController() = default;
 	};
 }

@@ -1,6 +1,6 @@
 #include "DeleteCategoryController.h"
 
-#include "Models/DeleteCategoryModel.h"
+#include "Models/Deleting/DeleteCategoryModel.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
 

@@ -1,25 +1,25 @@
-#include "DeleteNoteView.h"
+#include "DeleteElementView.h"
 
 #include "Composites/DialogBox.h"
 
-#include "Controllers/DeleteNoteController.h"
+#include "Controllers/Deleting/DeleteElementController.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
 #include "Initializer.h"
 
 using namespace std;
 
-CREATE_DEFAULT_WINDOW_FUNCTION(deleteNote)
+CREATE_DEFAULT_WINDOW_FUNCTION(deleteElement)
 
 namespace views
 {
-	gui_framework::BaseComposite* DeleteNoteView::createDeleteNoteDialog(const unique_ptr<controllers::BaseController>& controller)
+	gui_framework::BaseComposite* DeleteElementView::createDeleteElementDialog(const unique_ptr<controllers::BaseController>& controller)
 	{
 		using gui_framework::DialogBox;
 
 		auto [x, y] = utility::getScreenCenter(gui_framework::standard_sizes::dialogBoxBuilderMinWidth, gui_framework::standard_sizes::dialogBoxBuilderMinHeight);
 
-		DialogBox::DialogBoxBuilder builder(L"DeleteNote", L"Удаление описания", x, y, "deleteNote");
+		DialogBox::DialogBoxBuilder builder(L"DeleteElement", L"Удаление элемента", x, y, "deleteElement");
 
 		gui_framework::utility::AdditionalCreationData<gui_framework::DropDownListComboBox> availableProjects(utility::getAvailableProjectsFiles());
 		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(L"Удалить", []() {});
@@ -27,16 +27,14 @@ namespace views
 		builder.
 			addComponent<gui_framework::DropDownListComboBox>(L"AvailableProjects", 200, 25, DialogBox::DialogBoxBuilder::alignment::center, availableProjects).
 			addComponent<gui_framework::DropDownListComboBox>(L"AvailableCategories", 200, 25, DialogBox::DialogBoxBuilder::alignment::center).
-			addComponent<gui_framework::DropDownListComboBox>(L"AvailableElements", 200, 25, DialogBox::DialogBoxBuilder::alignment::center).
-			addComponent<gui_framework::DropDownListComboBox>(L"NoteToDelete", 200, 25, DialogBox::DialogBoxBuilder::alignment::center).
-			addComponent<gui_framework::Button>(L"ConfirmDeleteNote", 200, 20, DialogBox::DialogBoxBuilder::alignment::center, confirm);
+			addComponent<gui_framework::DropDownListComboBox>(L"ElementToDelete", 200, 25, DialogBox::DialogBoxBuilder::alignment::center).
+			addComponent<gui_framework::Button>(L"ConfirmDeleteElement", 200, 20, DialogBox::DialogBoxBuilder::alignment::center, confirm);
 
 		DialogBox* result = builder.build();
 		gui_framework::DropDownListComboBox* categories = static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"AvailableCategories"));
-		gui_framework::DropDownListComboBox* elements = static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"AvailableElements"));
-		gui_framework::DropDownListComboBox* notes = static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"NoteToDelete"));
+		gui_framework::DropDownListComboBox* elements = static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"ElementToDelete"));
 
-		static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"AvailableProjects"))->setOnSelectionChange([categories](gui_framework::BaseComboBox& current)
+		static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"AvailableProjects"))->setOnSelectionChange([categories, elements](gui_framework::BaseComboBox& current)
 			{
 				if (current.getCurrentSelectionIndex() == -1)
 				{
@@ -69,25 +67,7 @@ namespace views
 				}
 			});
 
-		elements->setOnSelectionChange([result, notes](gui_framework::BaseComboBox& current)
-			{
-				if (current.getCurrentSelectionIndex() == -1)
-				{
-					return;
-				}
-
-				notes->clear();
-				gui_framework::DropDownListComboBox* projects = static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"AvailableProjects"));
-				gui_framework::DropDownListComboBox* categories = static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"AvailableCategories"));
-				vector<wstring> findedNotes = utility::getAvailableNotes(projects->getValue(projects->getCurrentSelectionIndex()), categories->getValue(categories->getCurrentSelectionIndex()), current.getValue(current.getCurrentSelectionIndex()));
-
-				for (const auto& i : findedNotes)
-				{
-					notes->addValue(i);
-				}
-			});
-
-		static_cast<gui_framework::Button*>(result->findChild(L"ConfirmDeleteNote"))->setOnClick([&controller, result]()
+		static_cast<gui_framework::Button*>(result->findChild(L"ConfirmDeleteElement"))->setOnClick([&controller, result]()
 			{
 				if (static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"AvailableProjects"))->getCurrentSelectionIndex() == -1)
 				{
@@ -99,12 +79,7 @@ namespace views
 					return;
 				}
 
-				if (static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"AvailableElements"))->getCurrentSelectionIndex() == -1)
-				{
-					return;
-				}
-
-				if (static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"NoteToDelete"))->getCurrentSelectionIndex() == -1)
+				if (static_cast<gui_framework::DropDownListComboBox*>(result->findChild(L"ElementToDelete"))->getCurrentSelectionIndex() == -1)
 				{
 					return;
 				}
@@ -117,13 +92,13 @@ namespace views
 		return result;
 	}
 
-	DeleteNoteView::DeleteNoteView() :
-		BaseView(make_unique<controllers::DeleteNoteController>(), DeleteNoteView::createDeleteNoteDialog(controller))
+	DeleteElementView::DeleteElementView() :
+		BaseView(make_unique<controllers::DeleteElementController>(), DeleteElementView::createDeleteElementDialog(controller))
 	{
 
 	}
 
-	void DeleteNoteView::update(const json::JSONParser& data)
+	void DeleteElementView::update(const json::JSONParser& data)
 	{
 		using gui_framework::BaseDialogBox;
 
@@ -135,7 +110,7 @@ namespace views
 		{
 			Initializer::get().createUI();
 
-			Initializer::get().closeDeleteNote();
+			Initializer::get().closeDeleteElement();
 		}
 	}
 }

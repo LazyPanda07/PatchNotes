@@ -24,22 +24,18 @@ namespace views
 		using gui_framework::BaseDialogBox;
 
 		string pathToFile = data.getString("pathToFile");
-		gui_framework::ProgressBar* updateProgressBar = static_cast<gui_framework::ProgressBar*>(static_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"));
 
 		if (data.getBool("success"))
 		{
 			system(format("\"{}\"", pathToFile).data());
 
-			updateProgressBar->update(0);
+			static_cast<gui_framework::ProgressBar*>(static_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"))->update(0);
 
 			Initializer::get().addPreviewFile(pathToFile);
 		}
 		else
 		{
-			if (BaseDialogBox::createMessageBox(utility::to_wstring(data.getString("message"), CP_UTF8), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
-			{
-				updateProgressBar->update(0);
-			}
+			BaseDialogBox::createMessageBox(utility::to_wstring(data.getString("message"), CP_UTF8), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window));
 		}
 	}
 
