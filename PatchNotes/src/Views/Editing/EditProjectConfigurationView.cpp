@@ -3,7 +3,9 @@
 #include "Composites/DialogBox.h"
 
 #include "Controllers/Editing/EditProjectConfigurationController.h"
+#include "Initializer.h"
 #include "PatchNotesUtility.h"
+#include "PatchNotesConstants.h"
 
 using namespace std;
 
@@ -26,8 +28,8 @@ namespace views
 
 		builder.
 			addComponent<gui_framework::DropDownListComboBox>(L"ProjectsToEdit", 300, 25, DialogBox::DialogBoxBuilder::alignment::center, configurationToEdit).
-			addComponent<gui_framework::EditControl>(L"NewConfigurationName", 300, 25, DialogBox::DialogBoxBuilder::alignment::center, newConfigurationName).
-			addComponent<gui_framework::EditControl>(L"NewConfigurationVersion", 300, 25, DialogBox::DialogBoxBuilder::alignment::center, newConfigurationVersion).
+			addComponent<gui_framework::EditControl>(L"NewConfigurationName", 300, 20, DialogBox::DialogBoxBuilder::alignment::center, newConfigurationName).
+			addComponent<gui_framework::EditControl>(L"NewConfigurationVersion", 300, 20, DialogBox::DialogBoxBuilder::alignment::center, newConfigurationVersion).
 			addComponent<gui_framework::Button>(L"ConfirmEditConfiguration", 300, 20, DialogBox::DialogBoxBuilder::alignment::center, confirm);
 
 		DialogBox* result = builder.build();
@@ -55,6 +57,22 @@ namespace views
 
 	void EditProjectConfigurationView::update(const json::JSONParser& data)
 	{
+		using gui_framework::BaseDialogBox;
 
+		string message = data.getString("message");
+
+		if (data.getBool("success"))
+		{
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::successTitle, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+			{
+				Initializer::get().createUI();
+
+				Initializer::get().closeEditProjectConfiguration();
+			}
+		}
+		else
+		{
+			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window));
+		}
 	}
 }

@@ -59,6 +59,7 @@ public:
 
 	void closeProjectConfiguration();
 
+#pragma region Deleting
 	void closeDeleteConfiguration();
 
 	void closeDeleteCategory();
@@ -66,6 +67,11 @@ public:
 	void closeDeleteElement();
 
 	void closeDeleteNote();
+#pragma endregion
+
+#pragma region Editing
+	void closeEditProjectConfiguration();
+#pragma endregion
 
 	void initialize(std::unique_ptr<gui_framework::WindowHolder>& holder);
 

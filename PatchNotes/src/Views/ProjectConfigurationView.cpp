@@ -63,10 +63,9 @@ namespace views
 	{
 		using gui_framework::BaseDialogBox;
 
-		bool success = data.getBool("success");
 		string message = data.getString("message");
 
-		if (success)
+		if (data.getBool("success"))
 		{
 			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::successTitle, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
 			{
