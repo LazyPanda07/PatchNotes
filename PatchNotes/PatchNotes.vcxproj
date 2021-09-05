@@ -178,6 +178,10 @@
     <ClCompile Include="src\Controllers\Deleting\DeleteElementController.cpp" />
     <ClCompile Include="src\Controllers\Deleting\DeleteNoteController.cpp" />
     <ClCompile Include="src\Controllers\Deleting\DeleteProjectConfigurationController.cpp" />
+    <ClCompile Include="src\Controllers\Editing\EditCategoryController.cpp" />
+    <ClCompile Include="src\Controllers\Editing\EditElementController.cpp" />
+    <ClCompile Include="src\Controllers\Editing\EditNoteController.cpp" />
+    <ClCompile Include="src\Controllers\Editing\EditProjectConfigurationController.cpp" />
     <ClCompile Include="src\Controllers\GenerateHTMLController.cpp" />
     <ClCompile Include="src\Controllers\PreviewPatchNotesController.cpp" />
     <ClCompile Include="src\Controllers\PatchNotesController.cpp" />
@@ -192,6 +196,10 @@
     <ClCompile Include="src\Models\Deleting\DeleteElementModel.cpp" />
     <ClCompile Include="src\Models\Deleting\DeleteNoteModel.cpp" />
     <ClCompile Include="src\Models\Deleting\DeleteProjectConfigurationModel.cpp" />
+    <ClCompile Include="src\Models\Editing\EditCategoryModel.cpp" />
+    <ClCompile Include="src\Models\Editing\EditElementModel.cpp" />
+    <ClCompile Include="src\Models\Editing\EditNoteModel.cpp" />
+    <ClCompile Include="src\Models\Editing\EditProjectConfigurationModel.cpp" />
     <ClCompile Include="src\Models\GenerateHTMLModel.cpp" />
     <ClCompile Include="src\Models\Interfaces\IEventNotifier.cpp" />
     <ClCompile Include="src\Models\PreviewPatchNotesModel.cpp" />
@@ -205,6 +213,10 @@
     <ClCompile Include="src\Views\Deleting\DeleteElementView.cpp" />
     <ClCompile Include="src\Views\Deleting\DeleteNoteView.cpp" />
     <ClCompile Include="src\Views\Deleting\DeleteProjectConfigurationView.cpp" />
+    <ClCompile Include="src\Views\Editing\EditCategoryView.cpp" />
+    <ClCompile Include="src\Views\Editing\EditElementView.cpp" />
+    <ClCompile Include="src\Views\Editing\EditNoteView.cpp" />
+    <ClCompile Include="src\Views\Editing\EditProjectConfigurationView.cpp" />
     <ClCompile Include="src\Views\GenerateHTMLView.cpp" />
     <ClCompile Include="src\Views\PreviewPatchNotesView.cpp" />
     <ClCompile Include="src\Views\PatchNotesView.cpp" />
@@ -221,6 +233,10 @@
     <ClInclude Include="src\Controllers\Deleting\DeleteCategoryController.h" />
     <ClInclude Include="src\Controllers\Deleting\DeleteElementController.h" />
     <ClInclude Include="src\Controllers\Deleting\DeleteNoteController.h" />
+    <ClInclude Include="src\Controllers\Editing\EditCategoryController.h" />
+    <ClInclude Include="src\Controllers\Editing\EditElementController.h" />
+    <ClInclude Include="src\Controllers\Editing\EditNoteController.h" />
+    <ClInclude Include="src\Controllers\Editing\EditProjectConfigurationController.h" />
     <ClInclude Include="src\Controllers\GenerateHTMLController.h" />
     <ClInclude Include="src\Controllers\Deleting\DeleteProjectConfigurationController.h" />
     <ClInclude Include="src\Controllers\PreviewPatchNotesController.h" />
@@ -235,6 +251,10 @@
     <ClInclude Include="src\Models\Deleting\DeleteElementModel.h" />
     <ClInclude Include="src\Models\Deleting\DeleteNoteModel.h" />
     <ClInclude Include="src\Models\Deleting\DeleteProjectConfigurationModel.h" />
+    <ClInclude Include="src\Models\Editing\EditCategoryModel.h" />
+    <ClInclude Include="src\Models\Editing\EditElementModel.h" />
+    <ClInclude Include="src\Models\Editing\EditNoteModel.h" />
+    <ClInclude Include="src\Models\Editing\EditProjectConfigurationModel.h" />
     <ClInclude Include="src\Models\GenerateHTMLModel.h" />
     <ClInclude Include="src\Models\Interfaces\IEventNotifier.h" />
     <ClInclude Include="src\Models\PreviewPatchNotesModel.h" />
@@ -250,6 +270,10 @@
     <ClInclude Include="src\Views\Deleting\DeleteElementView.h" />
     <ClInclude Include="src\Views\Deleting\DeleteNoteView.h" />
     <ClInclude Include="src\Views\Deleting\DeleteProjectConfigurationView.h" />
+    <ClInclude Include="src\Views\Editing\EditCategoryView.h" />
+    <ClInclude Include="src\Views\Editing\EditElementView.h" />
+    <ClInclude Include="src\Views\Editing\EditNoteView.h" />
+    <ClInclude Include="src\Views\Editing\EditProjectConfigurationView.h" />
     <ClInclude Include="src\Views\GenerateHTMLView.h" />
     <ClInclude Include="src\Views\Interfaces\IObserver.h" />
     <ClInclude Include="src\Views\PreviewPatchNotesView.h" />

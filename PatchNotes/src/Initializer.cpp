@@ -10,10 +10,16 @@
 #include "Views/CategoryView.h"
 #include "Views/GenerateHTMLView.h"
 #include "Views/PreviewPatchNotesView.h"
+
 #include "Views/Deleting/DeleteProjectConfigurationView.h"
 #include "Views/Deleting/DeleteCategoryView.h"
 #include "Views/Deleting/DeleteElementView.h"
 #include "Views/Deleting/DeleteNoteView.h"
+
+#include "Views/Editing/EditProjectConfigurationView.h"
+#include "Views/Editing/EditCategoryView.h"
+#include "Views/Editing/EditElementView.h"
+#include "Views/Editing/EditNoteView.h"
 
 #include "Controllers/ProjectConfigurationController.h"
 #include "Controllers/PatchNotesController.h"
@@ -30,6 +36,36 @@
 using namespace std;
 
 CREATE_DEFAULT_WINDOW_FUNCTION(patchNotes)
+
+void Initializer::initDeletingMenuItem(unique_ptr<gui_framework::Menu>& menu)
+{
+	gui_framework::Menu& deletionsDropDown = mainWindow->addPopupMenu(L"Deletions");
+
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить конфигурацию", [this]() { deleteProjectConfigurationView = make_unique<::views::DeleteProjectConfigurationView>(); }));
+
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить категорию", [this]() { deleteCategoryView = make_unique<::views::DeleteCategoryView>(); }));
+
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить элемент", [this]() { deleteElementView = make_unique<::views::DeleteElementView>(); }));
+
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить описание", [this]() { deleteNoteView = make_unique<::views::DeleteNoteView>(); }));
+
+	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Удалить", deletionsDropDown.getHandle()));
+}
+
+void Initializer::initEditingMenuItem(unique_ptr<gui_framework::Menu>& menu)
+{
+	gui_framework::Menu& editionsDropDown = mainWindow->addPopupMenu(L"Editions");
+
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать конфигурацию", [this]() { editProjectConfigurationView = make_unique<::views::EditProjectConfigurationView>(); }));
+
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать категорию", [this]() { editCategoryView = make_unique<::views::EditCategoryView>(); }));
+
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать элемент", [this]() { editElementView = make_unique<::views::EditElementView>(); }));
+
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать описание", [this]() { editNoteView = make_unique<::views::EditNoteView>(); }));
+
+	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Редактировать", editionsDropDown.getHandle()));
+}
 
 void Initializer::createMenus()
 {
@@ -95,8 +131,7 @@ void Initializer::createMenus()
 	};
 
 	gui_framework::Menu& creationsDropDown = mainWindow->addPopupMenu(L"Creations");
-	gui_framework::Menu& deletionsDropDown = mainWindow->addPopupMenu(L"Deletions");
-
+	
 	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую конфигурацию", createProjectConfiguration));
 
 	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую категорию", createCategory));
@@ -107,15 +142,9 @@ void Initializer::createMenus()
 
 	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать список изменений", generateHTML));
 
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить конфигурацию", [this]() { deleteProjectConfigurationView = make_unique<::views::DeleteProjectConfigurationView>(); }));
+	this->initEditingMenuItem(menu);
 
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить категорию", [this]() { deleteCategoryView = make_unique<::views::DeleteCategoryView>(); }));
-
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить элемент", [this]() { deleteElementView = make_unique<::views::DeleteElementView>(); }));
-
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить описание", [this]() { deleteNoteView = make_unique<::views::DeleteNoteView>(); }));
-
-	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Удалить", deletionsDropDown.getHandle()));
+	this->initDeletingMenuItem(menu);
 }
 
 void Initializer::registerHotkeys()

@@ -18,15 +18,25 @@ private:
 	std::unique_ptr<::views::BaseView> categoryConfigurationView;
 	std::unique_ptr<::views::BaseView> generateHTMLView;
 	std::unique_ptr<::views::BaseView> previewPatchNotesView;
+
 	std::unique_ptr<::views::BaseView> deleteProjectConfigurationView;
 	std::unique_ptr<::views::BaseView> deleteCategoryView;
 	std::unique_ptr<::views::BaseView> deleteElementView;
 	std::unique_ptr<::views::BaseView> deleteNoteView;
 
+	std::unique_ptr<::views::BaseView> editProjectConfigurationView;
+	std::unique_ptr<::views::BaseView> editCategoryView;
+	std::unique_ptr<::views::BaseView> editElementView;
+	std::unique_ptr<::views::BaseView> editNoteView;
+
 	std::vector<std::filesystem::path> previewFiles;
 	bool isBackgroundImageLoaded;
 
 private:
+	void initDeletingMenuItem(std::unique_ptr<gui_framework::Menu>& menu);
+
+	void initEditingMenuItem(std::unique_ptr<gui_framework::Menu>& menu);
+
 	void createMenus();
 
 	void registerHotkeys();
