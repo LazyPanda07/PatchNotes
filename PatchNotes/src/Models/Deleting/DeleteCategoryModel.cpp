@@ -29,6 +29,6 @@ namespace models
 
 		return json::JSONBuilder(utility::getCodepage()).
 			append("success", true).
-			append("message", format("Категория \"{}\" была успешно удалена", move(categoryToDelete)));
+			append("message", format(R"(Категория \"{}\" была успешно удалена)", move(categoryToDelete)));
 	}
 }

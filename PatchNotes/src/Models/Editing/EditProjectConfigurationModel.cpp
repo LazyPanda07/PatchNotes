@@ -41,7 +41,7 @@ namespace models
 
         filesystem::rename(pathToProject, newProject);
 
-        message = format("Конфигурация \"{}\" была успешно переименована в \"{}\"", projectToEdit, newProject.filename().stem().string());
+        message = format(R"(Конфигурация \"{}\" была успешно переименована в \"{}\")", projectToEdit, newProject.filename().stem().string());
 
         builder.
             append("success", success).

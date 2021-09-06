@@ -40,6 +40,6 @@ namespace models
 
 		return json::JSONBuilder(utility::getCodepage()).
 			append("success", true).
-			append("message", format("Ёлемент \"{}\" был успешно удален", move(elementToDelete)));
+			append("message", format(R"(Ёлемент \"{}\" был успешно удален)", move(elementToDelete)));
 	}
 }

@@ -71,6 +71,8 @@ public:
 
 #pragma region Editing
 	void closeEditProjectConfiguration();
+
+	void closeEditCategory();
 #pragma endregion
 
 	void initialize(std::unique_ptr<gui_framework::WindowHolder>& holder);
