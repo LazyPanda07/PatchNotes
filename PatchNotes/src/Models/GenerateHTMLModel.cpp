@@ -12,6 +12,17 @@ namespace models
 	void GenerateHTMLModel::generateIndexHTML(const filesystem::path& outFolder, const string& projectName)
 	{
 		ofstream indexHTML(outFolder / "index.html");
+		gui_framework::GUIFramework& instance = gui_framework::GUIFramework::get();
+		const string* logo = nullptr;
+
+		try
+		{
+			logo = instance.getJSONSettings().getNull("pathToProjectLogo");
+		}
+		catch (const bad_variant_access&)
+		{
+			logo = &instance.getJSONSettings().getString("pathToProjectLogo");
+		}
 
 		indexHTML << format(R"(<!DOCTYPE html>
 <html>
@@ -27,18 +38,19 @@ namespace models
 <body>
 
     <div class="title-container">
+		<img src="{}" alt="Project logo" class="project-logo" {}>
         <div class="title">Patch notes</div>
     </div>
 
     <div class="links-container">
-        <table style="width:100%;">
+        <table style="width: 100%;">
         </table>
     </div>
 
 </body>
 
 </html>
-)", projectName) << endl;
+)", projectName, logo ? *logo : "", logo ? "" : "hidden") << endl;
 	}
 
 	string GenerateHTMLModel::insertPatchLink(const string& projectName)
@@ -59,7 +71,7 @@ namespace models
 
 	string GenerateHTMLModel::insertEmptyPatchLink()
 	{
-		return "\n<td></td>";
+		return "\n\t\t\t\t<td></td>";
 	}
 
 	json::JSONBuilder GenerateHTMLModel::processData(const json::JSONParser& data)

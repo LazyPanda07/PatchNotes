@@ -78,11 +78,20 @@ td {
     color: rgba(0, 0, 0, 0.7);
 }
 
+.project-logo {
+    width: 64px;
+    height: 64px;
+    margin-top: 18px;
+    margin-left: 40px;
+    float: left;
+}
+
 .title {
     color: white;
     margin-left: 20%;
     font-style: italic;
     padding-top: 30.5px;
+    float: left;
 }
 
 .title-container {
