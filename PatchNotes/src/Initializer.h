@@ -85,5 +85,9 @@ public:
 
 	void removePreviewFiles();
 
+	void generateHTML();
+
+	void previewPatchNotes();
+
 	bool getIsBackgroundImageLoaded() const;
 };

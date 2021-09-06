@@ -4,6 +4,7 @@
 #include "Components/ProgressBars/ProgressBar.h"
 
 #include "Controllers/GenerateHTMLController.h"
+#include "Initializer.h"
 #include "PatchNotesConstants.h"
 #include "PatchNotesUtility.h"
 
@@ -21,15 +22,22 @@ namespace views
 	void GenerateHTMLView::update(const json::JSONParser& data)
 	{
 		using gui_framework::BaseDialogBox;
-
-		bool success = data.getBool("success");
 		string message = data.getString("message");
-		const wstring& title = success ? patch_notes_constants::successTitle : patch_notes_constants::errorTitle;
 
-		if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), title, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+		if (data.getBool("success"))
 		{
-			static_cast<gui_framework::ProgressBar*>(static_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"))->update(0);
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::successTitle, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::ok)
+			{
+				static_cast<gui_framework::ProgressBar*>(static_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"GenerateHTMLProgressBar"))->update(0);
+			}
 		}
+		else
+		{
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::retryCancel, static_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::retry)
+			{
+				Initializer::get().generateHTML();
+			}
+		}	
 	}
 
 	void GenerateHTMLView::onClick(gui_framework::BaseComposite* patchNotesWindow)

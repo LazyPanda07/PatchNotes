@@ -103,32 +103,6 @@ void Initializer::createMenus()
 			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
 		}
 	};
-	auto generateHTML = [this]()
-	{
-		generateHTMLView = make_unique<::views::GenerateHTMLView>(mainWindow);
-
-		try
-		{
-			static_cast<::views::GenerateHTMLView*>(generateHTMLView.get())->onClick(patchNotesView->getWindow());
-		}
-		catch (const exceptions::ValidationException& e)
-		{
-			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
-		}
-	};
-	auto previewPatchNotes = [this]()
-	{
-		previewPatchNotesView = make_unique<::views::PreviewPatchNotesView>(mainWindow);
-
-		try
-		{
-			static_cast<::views::PreviewPatchNotesView*>(previewPatchNotesView.get())->onClick(patchNotesView->getWindow());
-		}
-		catch (const exceptions::ValidationException& e)
-		{
-			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
-		}
-	};
 
 	gui_framework::Menu& creationsDropDown = mainWindow->addPopupMenu(L"Creations");
 	
@@ -138,9 +112,9 @@ void Initializer::createMenus()
 
 	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Создать", creationsDropDown.getHandle()));
 
-	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Предпросмотр", previewPatchNotes));
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Предпросмотр", [this]() { this->previewPatchNotes(); }));
 
-	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать список изменений", generateHTML));
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать список изменений", [this]() { this->generateHTML(); }));
 
 	this->initEditingMenuItem(menu);
 
@@ -387,6 +361,34 @@ void Initializer::removePreviewFiles()
 	for (const auto& i : previewFiles)
 	{
 		filesystem::remove(i);
+	}
+}
+
+void Initializer::generateHTML()
+{
+	generateHTMLView = make_unique<::views::GenerateHTMLView>(mainWindow);
+
+	try
+	{
+		static_cast<::views::GenerateHTMLView*>(generateHTMLView.get())->onClick(patchNotesView->getWindow());
+	}
+	catch (const exceptions::ValidationException& e)
+	{
+		gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
+	}
+}
+
+void Initializer::previewPatchNotes()
+{
+	previewPatchNotesView = make_unique<::views::PreviewPatchNotesView>(mainWindow);
+
+	try
+	{
+		static_cast<::views::PreviewPatchNotesView*>(previewPatchNotesView.get())->onClick(patchNotesView->getWindow());
+	}
+	catch (const exceptions::ValidationException& e)
+	{
+		gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
 	}
 }
 

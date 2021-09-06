@@ -35,7 +35,10 @@ namespace views
 		}
 		else
 		{
-			BaseDialogBox::createMessageBox(utility::to_wstring(data.getString("message"), CP_UTF8), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::ok, static_cast<gui_framework::BaseComponent*>(window));
+			if (BaseDialogBox::createMessageBox(utility::to_wstring(data.getString("message"), CP_UTF8), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::retryCancel, static_cast<gui_framework::BaseComponent*>(window)) == BaseDialogBox::messageBoxResponse::retry)
+			{
+				Initializer::get().previewPatchNotes();
+			}
 		}
 	}
 
