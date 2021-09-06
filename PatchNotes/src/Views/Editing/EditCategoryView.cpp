@@ -40,6 +40,10 @@ namespace views
 				{
 					return;
 				}
+				else if (static_cast<gui_framework::EditControl*>(result->findChild(L"NewCategoryName"))->getText().empty())
+				{
+					return;
+				}
 
 				controller->receiveData(result);
 			});

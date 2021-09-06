@@ -337,6 +337,13 @@ void Initializer::closeEditElement()
 	editElementView.reset();
 }
 
+void Initializer::closeEditNote()
+{
+	editNoteView->remove();
+
+	editNoteView.reset();
+}
+
 void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 {
 	auto [x, y] = utility::getScreenCenter(sizes::mainWindowWidth, sizes::mainWindowHeight);

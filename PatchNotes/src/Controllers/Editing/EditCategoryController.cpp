@@ -12,7 +12,7 @@ namespace controllers
 		uint32_t codepage = utility::getCodepage();
 		gui_framework::DropDownListComboBox* projects = static_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"Projects"));
 		gui_framework::DropDownListComboBox* categories = static_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"Categories"));
-		const wstring& newCategory = static_cast<gui_framework::EditControl*>(window->findChild(L"NewCategoryName"))->getText();
+		wstring newCategory = static_cast<gui_framework::EditControl*>(window->findChild(L"NewCategoryName"))->getText();
 		string project = gui_framework::utility::to_string(projects->getValue(projects->getCurrentSelectionIndex()), codepage);
 		string category = gui_framework::utility::to_string(categories->getValue(categories->getCurrentSelectionIndex()), codepage);
 

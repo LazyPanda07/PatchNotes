@@ -57,6 +57,7 @@ td {
     margin-right: 30%;
     align-items: center;
     background-color: rgba([1]);
+    border-radius: 5px;
 }
 
 .category {

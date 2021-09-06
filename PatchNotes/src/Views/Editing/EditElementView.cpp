@@ -43,6 +43,10 @@ namespace views
 				{
 					return;
 				}
+				else if (static_cast<gui_framework::EditControl*>(result->findChild(L"NewElementName"))->getText().empty())
+				{
+					return;
+				}
 
 				controller->receiveData(result);
 			});

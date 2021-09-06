@@ -75,6 +75,8 @@ public:
 	void closeEditCategory();
 
 	void closeEditElement();
+
+	void closeEditNote();
 #pragma endregion
 
 	void initialize(std::unique_ptr<gui_framework::WindowHolder>& holder);
