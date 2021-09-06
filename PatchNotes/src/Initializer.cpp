@@ -330,6 +330,13 @@ void Initializer::closeEditCategory()
 	editCategoryView.reset();
 }
 
+void Initializer::closeEditElement()
+{
+	editElementView->remove();
+
+	editElementView.reset();
+}
+
 void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 {
 	auto [x, y] = utility::getScreenCenter(sizes::mainWindowWidth, sizes::mainWindowHeight);
