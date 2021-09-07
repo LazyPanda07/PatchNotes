@@ -1,5 +1,5 @@
 # PatchNotes
 Patch notes generator.
 
-## Application icon
+## Assets
 Creator [Mebebonk](https://github.com/Mebebonk).
