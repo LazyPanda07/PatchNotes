@@ -16,11 +16,9 @@ namespace models
 	private:
 		static void generateIndexHTML(const std::filesystem::path& outFolder, const std::string& projectName);
 
-		static std::string insertPatchLink(const std::string& projectName);
+		static std::string generatePatchLink(const std::string& projectName);
 
-		static std::string insertPatchRowAndLink(const std::string& projectName);
-
-		static std::string insertEmptyPatchLink();
+		static std::string generateEmptyPatchLink();
 
 	private:
 		json::JSONBuilder processData(const json::JSONParser& data) override;

@@ -53,25 +53,14 @@ namespace models
 )", projectName, logo ? *logo : "", logo ? "" : "hidden") << endl;
 	}
 
-	string GenerateHTMLModel::insertPatchLink(const string& projectName)
+	string GenerateHTMLModel::generatePatchLink(const string& projectName)
 	{
-		return format(R"({0}{1}<td>{0}{2}<a href="{3}.html" class="link-to-patch">{3}</a>{0}{1}</td>)", '\n', "\t\t\t\t", "\t\t\t\t\t", projectName);
+		return format(R"({0}<td><a href="{1}.html" class="link-to-patch">{1}</a></td>{2})", "\t\t\t\t", projectName, '\n');
 	}
 
-	string GenerateHTMLModel::insertPatchRowAndLink(const string& projectName)
+	string GenerateHTMLModel::generateEmptyPatchLink()
 	{
-		string result = "\n\t\t\t<tr>";
-
-		result += GenerateHTMLModel::insertPatchLink(projectName);
-
-		result += "\n\t\t\t</tr>";
-
-		return result;
-	}
-
-	string GenerateHTMLModel::insertEmptyPatchLink()
-	{
-		return "\n\t\t\t\t<td></td>";
+		return "\t\t\t\t<td></td>\n";
 	}
 
 	json::JSONBuilder GenerateHTMLModel::processData(const json::JSONParser& data)
@@ -125,10 +114,9 @@ namespace models
 		filesystem::path pathToIndexHTML = outFolder / "index.html";
 		ifstream indexHTML(pathToIndexHTML);
 		string tem;
-		size_t columnCount = 0;
-		static constexpr string_view closeTd = "</td>";
-		static constexpr string_view closeTr = "</tr>";
 		static constexpr string_view openTable = "<table";
+		vector<string> result = { GenerateHTMLModel::generatePatchLink(projectFileName) };
+		size_t start = 0;
 
 		if (!indexHTML.is_open())
 		{
@@ -145,44 +133,48 @@ namespace models
 			{
 				return;
 			}
-			else if (tem.find("<td></td>") != string::npos)
+			else if (tem.find("<td></td>") != string::npos || tem.find("<tr>") != string::npos || tem.find("</tr>") != string::npos)
 			{
 				continue;
 			}
 			else if (tem.find("<td>") != string::npos)
 			{
-				columnCount++;
+				result.push_back(move(tem) + '\n');
+				
+				continue;
 			}
 
 			indexHTMLData += tem + '\n';
 		}
 
-		if (columnCount % 5)
+		while (result.size() < 5)
 		{
-			indexHTMLData.insert(indexHTMLData.rfind(closeTd) + closeTd.size(), GenerateHTMLModel::insertPatchLink(projectFileName));
+			result.push_back(GenerateHTMLModel::generateEmptyPatchLink());
 		}
-		else
-		{
-			size_t insertRowPosition = 0;
 
-			if (indexHTMLData.find("</tr>") != string::npos)
+		start = indexHTMLData.find(">", indexHTMLData.find(openTable)) + 1;
+
+		for (size_t i = 0; i < result.size(); i++)
+		{
+			if (!i)
 			{
-				insertRowPosition = indexHTMLData.rfind(closeTr) + closeTr.size();
+				indexHTMLData.insert(start, "\n\t\t\t<tr>");
+
+				start += 9;
 			}
-			else
+			else if (!(i % 5))
 			{
-				insertRowPosition = indexHTMLData.find('\n', indexHTMLData.find("<table"));
+				indexHTMLData.insert(start, "\t\t\t</tr>\n");
+
+				start += 10;
 			}
 
-			indexHTMLData.insert(insertRowPosition, GenerateHTMLModel::insertPatchRowAndLink(projectFileName));
+			indexHTMLData.insert(start, result[i]);
+
+			start += result[i].size();
 		}
 
-		while (columnCount < 4)
-		{
-			indexHTMLData.insert(indexHTMLData.rfind(closeTd) + closeTd.size(), GenerateHTMLModel::insertEmptyPatchLink());
-
-			columnCount++;
-		}
+		indexHTMLData.insert(start, "\t\t\t</tr>\n");
 
 		ofstream(pathToIndexHTML) << indexHTMLData;
 	}
