@@ -10,6 +10,7 @@
 #include "Views/CategoryView.h"
 #include "Views/GenerateHTMLView.h"
 #include "Views/PreviewPatchNotesView.h"
+#include "Views/ChangeCategoriesOrderView.h"
 
 #include "Views/Deleting/DeleteProjectConfigurationView.h"
 #include "Views/Deleting/DeleteCategoryView.h"
@@ -103,9 +104,22 @@ void Initializer::createMenus()
 			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
 		}
 	};
+	auto createChangeCategoriesOrder = [this]()
+	{
+		gui_framework::DropDownListComboBox* projectConfiguration = static_cast<gui_framework::DropDownListComboBox*>(patchNotesView->getWindow()->findChild(L"ProjectNameAndVersion"));
+
+		if (projectConfiguration->getCurrentSelectionIndex() == -1)
+		{
+			gui_framework::BaseDialogBox::createMessageBox(L"Не удалось обнаружить конфигурацию проекта", patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
+
+			return;
+		}
+
+		changeCategoriesOrder = make_unique<::views::ChangeCategoriesOrderView>(projectConfiguration->getValue(projectConfiguration->getCurrentSelectionIndex()));
+	};
 
 	gui_framework::Menu& creationsDropDown = mainWindow->addPopupMenu(L"Creations");
-	
+
 	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую конфигурацию", createProjectConfiguration));
 
 	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую категорию", createCategory));
@@ -115,6 +129,8 @@ void Initializer::createMenus()
 	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Предпросмотр", [this]() { this->previewPatchNotes(); }));
 
 	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать список изменений", [this]() { this->generateHTML(); }));
+
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Изменить порядок категорий", createChangeCategoriesOrder));
 
 	this->initEditingMenuItem(menu);
 
@@ -262,6 +278,13 @@ void Initializer::closeProjectConfiguration()
 	projectConfigurationView.reset();
 }
 
+void Initializer::closeChangeCategoriesOrder()
+{
+	changeCategoriesOrder->remove();
+
+	changeCategoriesOrder.reset();
+}
+
 void Initializer::closeDeleteConfiguration()
 {
 	deleteProjectConfigurationView->remove();
@@ -322,7 +345,7 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 {
 	auto [x, y] = utility::getScreenCenter(sizes::mainWindowWidth, sizes::mainWindowHeight);
 	gui_framework::utility::ComponentSettings settings(x, y, sizes::mainWindowWidth, sizes::mainWindowHeight);
-	
+
 	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch notes", settings, "patchNotes", false, false, "", APPLICATION_ICON, APPLICATION_ICON));
 
 	globals::dataFolder = (filesystem::path(json::utility::fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject"), utility::getCodepage())) /= patch_notes_constants::jsonVersionsFolder).string();
