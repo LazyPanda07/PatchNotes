@@ -5,7 +5,7 @@
   },
 
   "codepage": 1251,
-  "pathToProject": "PathToProject",
+  "pathToProject": "../TestProject",
 
   "pathToBackgroundImage": null,
   "pathToProjectLogo": null,

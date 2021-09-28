@@ -18,7 +18,7 @@ private:
 	std::unique_ptr<::views::BaseView> categoryConfigurationView;
 	std::unique_ptr<::views::BaseView> generateHTMLView;
 	std::unique_ptr<::views::BaseView> previewPatchNotesView;
-	std::unique_ptr<::views::BaseView> changeCategoriesOrder;
+	std::unique_ptr<::views::BaseView> changeCategoriesOrderView;
 
 	std::unique_ptr<::views::BaseView> deleteProjectConfigurationView;
 	std::unique_ptr<::views::BaseView> deleteCategoryView;
@@ -54,6 +54,8 @@ private:
 	void createProjectConfiguration();
 
 	void createCategory();
+
+	void changeCategoriesOrder();
 
 private:
 	Initializer();

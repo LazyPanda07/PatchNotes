@@ -71,19 +71,6 @@ void Initializer::initEditingMenuItem(unique_ptr<gui_framework::Menu>& menu)
 void Initializer::createMenus()
 {
 	unique_ptr<gui_framework::Menu>& menu = mainWindow->createMainMenu(L"PatchNotesMenu");
-	auto createChangeCategoriesOrder = [this]()
-	{
-		gui_framework::DropDownListComboBox* projectConfiguration = static_cast<gui_framework::DropDownListComboBox*>(patchNotesView->getWindow()->findChild(L"ProjectNameAndVersion"));
-
-		if (projectConfiguration->getCurrentSelectionIndex() == -1)
-		{
-			gui_framework::BaseDialogBox::createMessageBox(L"Не удалось обнаружить конфигурацию проекта", patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
-
-			return;
-		}
-
-		changeCategoriesOrder = make_unique<::views::ChangeCategoriesOrderView>(projectConfiguration->getValue(projectConfiguration->getCurrentSelectionIndex()));
-	};
 
 	gui_framework::Menu& creationsDropDown = mainWindow->addPopupMenu(L"Creations");
 
@@ -97,7 +84,7 @@ void Initializer::createMenus()
 
 	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать список изменений", [this]() { this->generateHTML(); }));
 
-	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Изменить порядок категорий", createChangeCategoriesOrder));
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Изменить порядок категорий", [this]() { this->changeCategoriesOrder(); }));
 
 	this->initEditingMenuItem(menu);
 
@@ -172,6 +159,24 @@ void Initializer::registerHotkeys()
 			{
 				addButton->getOnClick()();
 			}
+		}, { additionalKey::control });
+
+	// Ctrl + P
+	instance.registerHotkey(0x50, [this]()
+		{
+			this->previewPatchNotes();
+		}, { additionalKey::control });
+
+	// Ctrl + G
+	instance.registerHotkey(0x47, [this]()
+		{
+			this->generateHTML();
+		}, { additionalKey::control });
+
+	// Ctrl + R
+	instance.registerHotkey(0x52, [this]()
+		{
+			this->changeCategoriesOrder();
 		}, { additionalKey::control });
 }
 
@@ -297,6 +302,20 @@ void Initializer::createCategory()
 	}
 }
 
+void Initializer::changeCategoriesOrder()
+{
+	gui_framework::DropDownListComboBox* projectConfiguration = static_cast<gui_framework::DropDownListComboBox*>(patchNotesView->getWindow()->findChild(L"ProjectNameAndVersion"));
+
+	if (projectConfiguration->getCurrentSelectionIndex() == -1)
+	{
+		gui_framework::BaseDialogBox::createMessageBox(L"Не удалось обнаружить конфигурацию проекта", patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
+
+		return;
+	}
+
+	changeCategoriesOrderView = make_unique<::views::ChangeCategoriesOrderView>(projectConfiguration->getValue(projectConfiguration->getCurrentSelectionIndex()));
+}
+
 Initializer::Initializer() :
 	mainWindow(nullptr),
 	isBackgroundImageLoaded(false),
@@ -338,9 +357,9 @@ void Initializer::closeProjectConfiguration()
 
 void Initializer::closeChangeCategoriesOrder()
 {
-	changeCategoriesOrder->remove();
+	changeCategoriesOrderView->remove();
 
-	changeCategoriesOrder.reset();
+	changeCategoriesOrderView.reset();
 }
 
 void Initializer::closeDeleteConfiguration()
