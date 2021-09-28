@@ -1,6 +1,6 @@
 {
   "settings": {
-    "usingDefaultCreators": true,
+    "usingCreators": true,
     "threadsCount": 1
   },
 

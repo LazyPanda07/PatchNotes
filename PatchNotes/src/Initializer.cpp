@@ -71,39 +71,6 @@ void Initializer::initEditingMenuItem(unique_ptr<gui_framework::Menu>& menu)
 void Initializer::createMenus()
 {
 	unique_ptr<gui_framework::Menu>& menu = mainWindow->createMainMenu(L"PatchNotesMenu");
-	auto createProjectConfiguration = [this]()
-	{
-		if (projectConfigurationView)
-		{
-			projectConfigurationView->remove();
-		}
-
-		projectConfigurationView = make_unique<::views::ProjectConfigurationView>();
-	};
-	auto createCategory = [this]()
-	{
-		if (categoryConfigurationView)
-		{
-			categoryConfigurationView->remove();
-		}
-
-		gui_framework::DropDownListComboBox* currentProject = static_cast<gui_framework::DropDownListComboBox*>(static_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"ProjectNameAndVersion"));
-		wstring projectNameAndVersion;
-
-		if (currentProject->getCurrentSelectionIndex() != -1)
-		{
-			projectNameAndVersion = currentProject->getValue(currentProject->getCurrentSelectionIndex());
-		}
-
-		try
-		{
-			categoryConfigurationView = make_unique<::views::CategoryView>(projectNameAndVersion);
-		}
-		catch (const exceptions::ValidationException& e)
-		{
-			gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
-		}
-	};
 	auto createChangeCategoriesOrder = [this]()
 	{
 		gui_framework::DropDownListComboBox* projectConfiguration = static_cast<gui_framework::DropDownListComboBox*>(patchNotesView->getWindow()->findChild(L"ProjectNameAndVersion"));
@@ -120,9 +87,9 @@ void Initializer::createMenus()
 
 	gui_framework::Menu& creationsDropDown = mainWindow->addPopupMenu(L"Creations");
 
-	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую конфигурацию", createProjectConfiguration));
+	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую конфигурацию", [this]() { this->createProjectConfiguration(); }));
 
-	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую категорию", createCategory));
+	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую категорию", [this]() { this->createCategory(); }));
 
 	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Создать", creationsDropDown.getHandle()));
 
@@ -139,13 +106,16 @@ void Initializer::createMenus()
 
 void Initializer::registerHotkeys()
 {
-	gui_framework::GUIFramework& framework = gui_framework::GUIFramework::get();
+	using namespace gui_framework::hotkeys;;
 
-	framework.registerHotkey(VK_TAB, [&framework]()
+	gui_framework::GUIFramework& instance = gui_framework::GUIFramework::get();
+
+	// Tab
+	instance.registerHotkey(VK_TAB, [&instance]()
 		{
 			using namespace gui_framework;
 
-			BaseComponent* component = framework.findComponent(GetFocus());
+			BaseComponent* component = instance.findComponent(GetFocus());
 
 			if (component)
 			{
@@ -180,6 +150,29 @@ void Initializer::registerHotkeys()
 				}
 			}
 		});
+
+	// Ctrl + Shift + S
+	instance.registerHotkey(0x53, [this]()
+		{
+			this->createProjectConfiguration();
+		}, { additionalKey::control, additionalKey::shift });
+
+	// Ctrl + Shift + N
+	instance.registerHotkey(0x4E, [this]()
+		{
+			this->createCategory();
+		}, { additionalKey::control, additionalKey::shift });
+
+	// Ctrl + S
+	instance.registerHotkey(0x53, [&instance]()
+		{
+			gui_framework::BaseButton* addButton = static_cast<gui_framework::BaseButton*>(instance.findComponent(L"AddNotes"));
+
+			if (addButton)
+			{
+				addButton->getOnClick()();
+			}
+		}, { additionalKey::control });
 }
 
 void Initializer::initBackgroundPatchNotesColor()
@@ -266,6 +259,41 @@ void Initializer::initFavicon()
 				}
 			}
 		}
+	}
+}
+
+void Initializer::createProjectConfiguration()
+{
+	if (projectConfigurationView)
+	{
+		projectConfigurationView->remove();
+	}
+
+	projectConfigurationView = make_unique<::views::ProjectConfigurationView>();
+}
+
+void Initializer::createCategory()
+{
+	if (categoryConfigurationView)
+	{
+		categoryConfigurationView->remove();
+	}
+
+	gui_framework::DropDownListComboBox* currentProject = static_cast<gui_framework::DropDownListComboBox*>(static_cast<gui_framework::BaseComposite*>(mainWindow->findChild(L"PatchNotesUI"))->findChild(L"ProjectNameAndVersion"));
+	wstring projectNameAndVersion;
+
+	if (currentProject->getCurrentSelectionIndex() != -1)
+	{
+		projectNameAndVersion = currentProject->getValue(currentProject->getCurrentSelectionIndex());
+	}
+
+	try
+	{
+		categoryConfigurationView = make_unique<::views::CategoryView>(projectNameAndVersion);
+	}
+	catch (const exceptions::ValidationException& e)
+	{
+		gui_framework::BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
 	}
 }
 

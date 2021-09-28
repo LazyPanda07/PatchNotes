@@ -51,6 +51,11 @@ private:
 	void initFavicon();
 
 private:
+	void createProjectConfiguration();
+
+	void createCategory();
+
+private:
 	Initializer();
 
 	~Initializer() = default;
