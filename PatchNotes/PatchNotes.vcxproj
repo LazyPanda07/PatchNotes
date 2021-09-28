@@ -236,6 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\default_background_image.b64" />
+    <None Include="assets\default_favicon.b64" />
     <None Include="gui_framework.json" />
   </ItemGroup>
   <ItemGroup>

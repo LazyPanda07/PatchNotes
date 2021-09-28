@@ -33,6 +33,7 @@ namespace models
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{}</title>
     <link href="styles.css" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="{}" type="image/x-icon">
 </head>
 
 <body>
@@ -50,7 +51,7 @@ namespace models
 </body>
 
 </html>
-)", projectName, logo ? *logo : "", logo ? "" : "hidden") << endl;
+)", projectName, logo ? *logo : Initializer::get().getFavicon(), logo ? *logo : "", logo ? "" : "hidden") << endl;
 	}
 
 	string GenerateHTMLModel::generatePatchLink(const string& projectName)
@@ -83,7 +84,10 @@ namespace models
 
 		(out /= fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject"), utility::getCodepage())).append(patch_notes_constants::htmlGeneratedFolder);
 
-		if (Initializer::get().getIsBackgroundImageLoaded())
+		bool isBackgroundImageLoaded = Initializer::get().getIsBackgroundImageLoaded();
+		bool isFaviconLoaded = Initializer::get().getIsFaviconLoaded();
+
+		if (isBackgroundImageLoaded && isFaviconLoaded)
 		{
 			filesystem::create_directory(out);
 
@@ -95,10 +99,15 @@ namespace models
 			success = true;
 			message = format("Файл \"{}.html\" успешно сгенерирован", projectFileName);
 		}
-		else
+		else if (!isBackgroundImageLoaded)
 		{
 			success = false;
 			message = format("Не удалось сгенерировать изменения.\nЕще не завершена загрузка заднего фона.\nПовторите команду позже.");
+		}
+		else if (!isFaviconLoaded)
+		{
+			success = false;
+			message = format("Не удалось сгенерировать изменения.\nЕще не завершена загрузка favicon.\nПовторите команду позже.");
 		}
 
 		builder.

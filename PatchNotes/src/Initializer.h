@@ -32,6 +32,8 @@ private:
 
 	std::vector<std::filesystem::path> previewFiles;
 	bool isBackgroundImageLoaded;
+	bool isFaviconLoaded;
+	std::string favicon;
 
 private:
 	void initDeletingMenuItem(std::unique_ptr<gui_framework::Menu>& menu);
@@ -45,6 +47,8 @@ private:
 	void initBackgroundPatchNotesColor();
 
 	void initBackgroundImage();
+
+	void initFavicon();
 
 private:
 	Initializer();
@@ -93,4 +97,8 @@ public:
 	void previewPatchNotes();
 
 	bool getIsBackgroundImageLoaded() const;
+
+	bool getIsFaviconLoaded() const;
+
+	const std::string& getFavicon() const;
 };

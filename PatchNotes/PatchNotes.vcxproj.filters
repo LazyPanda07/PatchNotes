@@ -175,6 +175,7 @@
   <ItemGroup>
     <None Include="gui_framework.json" />
     <None Include="assets\default_background_image.b64" />
+    <None Include="assets\default_favicon.b64" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ProjectConfiguration.h">

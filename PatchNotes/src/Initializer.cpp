@@ -213,11 +213,11 @@ void Initializer::initBackgroundImage()
 
 	try
 	{
-		styles.replace(styles.find("[0]"), 3, gui_framework::GUIFramework::get().getJSONSettings().getString("pathToBackgroundImage"));
+		styles.replace(styles.find("[0]"), 3, gui_framework::GUIFramework::get().getJSONSettings().getString(json_settings::pathToBackgroundImage));
 	}
 	catch (const bad_variant_access&)
 	{
-		gui_framework::GUIFramework::get().getJSONSettings().getNull("pathToBackgroundImage");
+		gui_framework::GUIFramework::get().getJSONSettings().getNull(json_settings::pathToBackgroundImage);
 
 		HRSRC backgroundResourceHandle = FindResourceA(nullptr, MAKEINTRESOURCEA(DEFAULT_BACKGROUND_IMAGE), "Base64");
 
@@ -240,9 +240,39 @@ void Initializer::initBackgroundImage()
 	}
 }
 
+void Initializer::initFavicon()
+{
+	try
+	{
+		favicon = gui_framework::GUIFramework::get().getJSONSettings().getString(json_settings::pathToProjectLogo);
+	}
+	catch (const bad_variant_access&)
+	{
+		gui_framework::GUIFramework::get().getJSONSettings().getNull(json_settings::pathToProjectLogo);
+
+		HRSRC faviconResourceHandle = FindResourceA(nullptr, MAKEINTRESOURCEA(DEFAULT_FAVICON), "Base64");
+
+		if (faviconResourceHandle)
+		{
+			HGLOBAL faviconDataHandle = LoadResource(nullptr, faviconResourceHandle);
+
+			if (faviconDataHandle)
+			{
+				void* data = LockResource(faviconDataHandle);
+
+				if (data)
+				{
+					favicon = format(R"(data:image/x-icon;base64,{})", string_view(static_cast<char*>(data), SizeofResource(GetModuleHandleW(nullptr), faviconResourceHandle)));
+				}
+			}
+		}
+	}
+}
+
 Initializer::Initializer() :
 	mainWindow(nullptr),
-	isBackgroundImageLoaded(false)
+	isBackgroundImageLoaded(false),
+	isFaviconLoaded(false)
 {
 
 }
@@ -367,6 +397,8 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 	this->initBackgroundPatchNotesColor();
 
 	gui_framework::GUIFramework::get().addTask([this]() { this->initBackgroundImage(); }, [this]() { isBackgroundImageLoaded = true; });
+
+	gui_framework::GUIFramework::get().addTask([this]() { this->initFavicon(); }, [this]() { isFaviconLoaded = true; });
 }
 
 void Initializer::addPreviewFile(const filesystem::path& previewFile)
@@ -418,4 +450,14 @@ void Initializer::previewPatchNotes()
 bool Initializer::getIsBackgroundImageLoaded() const
 {
 	return isBackgroundImageLoaded;
+}
+
+bool Initializer::getIsFaviconLoaded() const
+{
+	return isFaviconLoaded;
+}
+
+const string& Initializer::getFavicon() const
+{
+	return favicon;
 }

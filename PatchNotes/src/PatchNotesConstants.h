@@ -7,6 +7,12 @@ namespace globals
 	inline std::string dataFolder;
 }
 
+namespace json_settings
+{
+    inline const std::string pathToBackgroundImage = "pathToBackgroundImage";
+    inline const std::string pathToProjectLogo = "pathToProjectLogo";
+}
+
 namespace patch_notes_constants
 {
 	inline const std::wstring successTitle = L"Успех";

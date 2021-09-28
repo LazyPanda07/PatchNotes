@@ -28,7 +28,10 @@ namespace models
 
 		ifstream(pathToProjectFile) >> projectFile;
 
-		if (Initializer::get().getIsBackgroundImageLoaded())
+		bool isBackgroundImageLoaded = Initializer::get().getIsBackgroundImageLoaded();
+		bool isFaviconLoaded = Initializer::get().getIsFaviconLoaded();
+
+		if (isBackgroundImageLoaded && isFaviconLoaded)
 		{
 			ofstream(out) << HTMLAdapter(projectFile, mainWindow).getHTML();
 			ofstream(filesystem::temp_directory_path() / patch_notes_constants::stylesFileName) << patch_notes_constants::styles;
@@ -36,10 +39,15 @@ namespace models
 			success = true;
 			message = "Данные для предпросмотра успешно сгенерированы";
 		}
-		else
+		else if (!isBackgroundImageLoaded)
 		{
 			success = false;
 			message = format("Не удалось сгенерировать данные для предпросмотра.\nЕще не завершена загрузка заднего фона.\nПовторите команду позже.");
+		}
+		else if (!isFaviconLoaded)
+		{
+			success = false;
+			message = format("Не удалось сгенерировать данные для предпросмотра.\nЕще не завершена загрузка favicon.\nПовторите команду позже.");
 		}
 
 		ranges::replace(absolutePathToFile, '\\', '/');

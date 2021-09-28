@@ -4,10 +4,24 @@
 
 #include "Components/ProgressBars/ProgressBar.h"
 
+#include "Initializer.h"
+
 using namespace std;
 
 void HTMLAdapter::addPageInformation(const string& projectName, const string& version)
 {
+	gui_framework::GUIFramework& instance = gui_framework::GUIFramework::get();
+	const string* logo = nullptr;
+
+	try
+	{
+		logo = instance.getJSONSettings().getNull("pathToProjectLogo");
+	}
+	catch (const bad_variant_access&)
+	{
+		logo = &instance.getJSONSettings().getString("pathToProjectLogo");
+	}
+
 	html += format(R"(<!DOCTYPE html>
 
 <html>
@@ -18,11 +32,12 @@ void HTMLAdapter::addPageInformation(const string& projectName, const string& ve
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{} {}</title>
 	<link href="styles.css" rel="stylesheet" type="text/css">
+	<link rel="shortcut icon" href="{}" type="image/x-icon">
 </head>
 
 <body class="patch-notes">
 
-)", projectName, version);
+)", projectName, version, logo ? *logo : Initializer::get().getFavicon());
 }
 
 void HTMLAdapter::addProjectNameAndVersion(const string& projectName, const string& version)
