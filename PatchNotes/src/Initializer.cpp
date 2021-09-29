@@ -42,13 +42,13 @@ void Initializer::initDeletingMenuItem(unique_ptr<gui_framework::Menu>& menu)
 {
 	gui_framework::Menu& deletionsDropDown = mainWindow->addPopupMenu(L"Deletions");
 
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить конфигурацию", [this]() { deleteProjectConfigurationView = make_unique<::views::DeleteProjectConfigurationView>(); }));
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить конфигурацию", [this]() { this->deleteProjectConfiguration(); }));
 
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить категорию", [this]() { deleteCategoryView = make_unique<::views::DeleteCategoryView>(); }));
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить категорию", [this]() { this->deleteCategory(); }));
 
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить элемент", [this]() { deleteElementView = make_unique<::views::DeleteElementView>(); }));
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить элемент", [this]() { this->deleteElement(); }));
 
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить описание", [this]() { deleteNoteView = make_unique<::views::DeleteNoteView>(); }));
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить описание", [this]() { this->deleteNote(); }));
 
 	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Удалить", deletionsDropDown.getHandle()));
 }
@@ -57,13 +57,13 @@ void Initializer::initEditingMenuItem(unique_ptr<gui_framework::Menu>& menu)
 {
 	gui_framework::Menu& editionsDropDown = mainWindow->addPopupMenu(L"Editions");
 
-	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать конфигурацию", [this]() { editProjectConfigurationView = make_unique<::views::EditProjectConfigurationView>(); }));
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать конфигурацию", [this]() { this->editProjectConfiguration(); }));
 
-	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать категорию", [this]() { editCategoryView = make_unique<::views::EditCategoryView>(); }));
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать категорию", [this]() { this->editCategory(); }));
 
-	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать элемент", [this]() { editElementView = make_unique<::views::EditElementView>(); }));
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать элемент", [this]() { this->editElement(); }));
 
-	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать описание", [this]() { editNoteView = make_unique<::views::EditNoteView>(); }));
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать описание", [this]() { this->editNote(); }));
 
 	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Редактировать", editionsDropDown.getHandle()));
 }
@@ -142,13 +142,13 @@ void Initializer::registerHotkeys()
 	instance.registerHotkey(0x53, [this]()
 		{
 			this->createProjectConfiguration();
-		}, { additionalKey::control, additionalKey::shift });
+		}, { additionalKeys::control, additionalKeys::shift });
 
 	// Ctrl + Shift + N
 	instance.registerHotkey(0x4E, [this]()
 		{
 			this->createCategory();
-		}, { additionalKey::control, additionalKey::shift });
+		}, { additionalKeys::control, additionalKeys::shift });
 
 	// Ctrl + S
 	instance.registerHotkey(0x53, [&instance]()
@@ -159,25 +159,137 @@ void Initializer::registerHotkeys()
 			{
 				addButton->getOnClick()();
 			}
-		}, { additionalKey::control });
+		}, { additionalKeys::control });
 
 	// Ctrl + P
 	instance.registerHotkey(0x50, [this]()
 		{
 			this->previewPatchNotes();
-		}, { additionalKey::control });
+		}, { additionalKeys::control });
 
 	// Ctrl + G
 	instance.registerHotkey(0x47, [this]()
 		{
 			this->generateHTML();
-		}, { additionalKey::control });
+		}, { additionalKeys::control });
 
 	// Ctrl + R
 	instance.registerHotkey(0x52, [this]()
 		{
 			this->changeCategoriesOrder();
-		}, { additionalKey::control });
+		}, { additionalKeys::control });
+
+	// Ctrl + E
+	instance.registerHotkey(0x45, [this]()
+		{
+			currentHotkeyType = hotkeyTypes::editType;
+		}, { additionalKeys::control });
+
+	// Ctrl + X
+	instance.registerHotkey(0x58, [this]()
+		{
+			currentHotkeyType = hotkeyTypes::deleteType;
+		}, { additionalKeys::control });
+
+	// 1 after Ctrl + E or Ctrl + X
+	instance.registerHotkey(0x31, [this]()
+		{
+			switch (currentHotkeyType)
+			{
+			case Initializer::hotkeyTypes::none:
+				break;
+
+			case Initializer::hotkeyTypes::editType:
+				this->editProjectConfiguration();
+
+				break;
+
+			case Initializer::hotkeyTypes::deleteType:
+				this->deleteProjectConfiguration();
+
+				break;
+
+			default:
+				break;
+			}
+
+			currentHotkeyType = hotkeyTypes::none;
+		});
+
+	// 2 after Ctrl + E or Ctrl + X
+	instance.registerHotkey(0x32, [this]()
+		{
+			switch (currentHotkeyType)
+			{
+			case Initializer::hotkeyTypes::none:
+				break;
+
+			case Initializer::hotkeyTypes::editType:
+				this->editCategory();
+
+				break;
+
+			case Initializer::hotkeyTypes::deleteType:
+				this->deleteCategory();
+
+				break;
+
+			default:
+				break;
+			}
+
+			currentHotkeyType = hotkeyTypes::none;
+		});
+
+	// 3 after Ctrl + E or Ctrl + X
+	instance.registerHotkey(0x33, [this]()
+		{
+			switch (currentHotkeyType)
+			{
+			case Initializer::hotkeyTypes::none:
+				break;
+
+			case Initializer::hotkeyTypes::editType:
+				this->editElement();
+
+				break;
+
+			case Initializer::hotkeyTypes::deleteType:
+				this->deleteElement();
+
+				break;
+
+			default:
+				break;
+			}
+
+			currentHotkeyType = hotkeyTypes::none;
+		});
+
+	// 4 after Ctrl + E or Ctrl + X
+	instance.registerHotkey(0x34, [this]()
+		{
+			switch (currentHotkeyType)
+			{
+			case Initializer::hotkeyTypes::none:
+				break;
+
+			case Initializer::hotkeyTypes::editType:
+				this->editNote();
+
+				break;
+
+			case Initializer::hotkeyTypes::deleteType:
+				this->deleteNote();
+
+				break;
+
+			default:
+				break;
+			}
+
+			currentHotkeyType = hotkeyTypes::none;
+		});
 }
 
 void Initializer::initBackgroundPatchNotesColor()
@@ -316,10 +428,51 @@ void Initializer::changeCategoriesOrder()
 	changeCategoriesOrderView = make_unique<::views::ChangeCategoriesOrderView>(projectConfiguration->getValue(projectConfiguration->getCurrentSelectionIndex()));
 }
 
+void Initializer::deleteProjectConfiguration()
+{
+	deleteProjectConfigurationView = make_unique<::views::DeleteProjectConfigurationView>();
+}
+
+void Initializer::deleteCategory()
+{
+	deleteCategoryView = make_unique<::views::DeleteCategoryView>();
+}
+
+void Initializer::deleteElement()
+{
+	deleteElementView = make_unique<::views::DeleteElementView>();
+}
+
+void Initializer::deleteNote()
+{
+	deleteNoteView = make_unique<::views::DeleteNoteView>();
+}
+
+void Initializer::editProjectConfiguration()
+{
+	editProjectConfigurationView = make_unique<::views::EditProjectConfigurationView>();
+}
+
+void Initializer::editCategory()
+{
+	editCategoryView = make_unique<::views::EditCategoryView>();
+}
+
+void Initializer::editElement()
+{
+	editElementView = make_unique<::views::EditElementView>();
+}
+
+void Initializer::editNote()
+{
+	editNoteView = make_unique<::views::EditNoteView>();
+}
+
 Initializer::Initializer() :
 	mainWindow(nullptr),
 	isBackgroundImageLoaded(false),
-	isFaviconLoaded(false)
+	isFaviconLoaded(false),
+	currentHotkeyType(hotkeyTypes::none)
 {
 
 }

@@ -10,6 +10,14 @@
 class Initializer
 {
 private:
+	enum class hotkeyTypes
+	{
+		none,
+		editType,
+		deleteType
+	};
+
+private:
 	gui_framework::SeparateWindow* mainWindow;
 
 private:
@@ -34,6 +42,7 @@ private:
 	bool isBackgroundImageLoaded;
 	bool isFaviconLoaded;
 	std::string favicon;
+	hotkeyTypes currentHotkeyType;
 
 private:
 	void initDeletingMenuItem(std::unique_ptr<gui_framework::Menu>& menu);
@@ -56,6 +65,26 @@ private:
 	void createCategory();
 
 	void changeCategoriesOrder();
+
+#pragma region Deleting
+	void deleteProjectConfiguration();
+
+	void deleteCategory();
+
+	void deleteElement();
+
+	void deleteNote();
+#pragma endregion
+
+#pragma region Editing
+	void editProjectConfiguration();
+
+	void editCategory();
+
+	void editElement();
+
+	void editNote();
+#pragma endregion
 
 private:
 	Initializer();
