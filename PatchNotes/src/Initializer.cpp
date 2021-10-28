@@ -28,7 +28,7 @@
 #include "Controllers/GenerateHTMLController.h"
 #include "Controllers/PreviewPatchNotesController.h"
 
-#include "../resource.h"
+#include "resource.h"
 
 #include "Exceptions/ValidationException.h"
 #include "PatchNotesConstants.h"
@@ -584,7 +584,7 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 
 	mainWindow = static_cast<gui_framework::SeparateWindow*>(holder->get());
 
-	mainWindow->setExitMode(gui_framework::BaseComponent::exitMode::quit);
+	mainWindow->setExitMode(gui_framework::BaseComposite::exitMode::quit);
 
 	mainWindow->setAutoResize(true);
 

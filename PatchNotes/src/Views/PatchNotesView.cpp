@@ -67,7 +67,7 @@ namespace views
 			}
 		}
 
-		EditControl* element = new EditControl(L"Item", sizes::patchNotesWidth / 4, 50, patchNotesWindow, sizes::patchNotesWidth / 2);
+		EditControl* element = new EditControl(L"Item", gui_framework::utility::ComponentSettings(sizes::patchNotesWidth / 4, 50, sizes::patchNotesWidth / 2, 20), patchNotesWindow);
 
 		element->setAutoResize(true);
 
@@ -77,7 +77,7 @@ namespace views
 
 		notes->setAutoResize(true);
 
-		Button* add = new Button(L"AddNotes", L"Добавить", 0, sizes::patchNotesHeight - 78 - menuHeight, patchNotesWindow, [&controller, patchNotesWindow]()
+		Button* add = new Button(L"AddNotes", L"Добавить", gui_framework::utility::ComponentSettings(0, sizes::patchNotesHeight - 78 - menuHeight, 200, 40), patchNotesWindow, [&controller, patchNotesWindow]()
 			{
 				try
 				{
@@ -87,7 +87,7 @@ namespace views
 				{
 					BaseDialogBox::createMessageBox(e.getMessage(), L"Ошибка", BaseDialogBox::messageBoxType::ok, patchNotesWindow);
 				}
-			}, 200, 40);
+			});
 
 		add->setAutoResize(true);
 
