@@ -36,9 +36,18 @@ namespace models
 		{
 			utility::copyJSON(pathToProjectFile, updateBuilder);
 
-			if (updateBuilder.contains(itemName, json::utility::variantTypeEnum::jJSONObject))
+			const json::JSONBuilder& checkItem = updateBuilder;
+
+			try
 			{
-				throw runtime_error(toUTF8JSON(R"(Ёлемент \")", codepage) + itemName + toUTF8JSON(R"(\" уже существует)", codepage));
+				if (get<objectSmartPointer<jsonObject>>(checkItem[categoryName])->contains(itemName, json::utility::variantTypeEnum::jJSONObject))
+				{
+					throw runtime_error(toUTF8JSON(R"(Ёлемент \")", codepage) + itemName + toUTF8JSON(R"(\" уже существует)", codepage));
+				}
+			}
+			catch (const json::exceptions::CantFindValueException&)
+			{
+
 			}
 
 			objectSmartPointer<jsonObject> userObject = json::utility::make_object<jsonObject>();

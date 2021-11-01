@@ -2,6 +2,7 @@
 
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
+#include "Exceptions/CantFindValueException.h"
 
 using namespace std;
 
@@ -34,9 +35,17 @@ namespace models
 		{
 			utility::copyJSON(pathToProjectFile, updateBuilder);
 
-			if (updateBuilder.contains(utf8CategoryName, json::utility::variantTypeEnum::jJSONObject))
+			const json::JSONBuilder& checkCategory = updateBuilder;
+
+			try
 			{
+				checkCategory[categoryName];
+
 				throw runtime_error(format(R"(Категория \"{}\" уже существует)", categoryName));
+			}
+			catch (const json::exceptions::CantFindValueException&)
+			{
+
 			}
 
 			objectSmartPointer<jsonObject> category = json::utility::make_object<jsonObject>();
