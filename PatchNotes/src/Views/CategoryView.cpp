@@ -22,15 +22,17 @@ namespace views
 		using gui_framework::DialogBox;
 		using gui_framework::BaseDialogBox;
 
-		validation::emptyValidation(projectNameAndVersion, L"Текущий проект");
+		localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
+
+		validation::emptyValidation(projectNameAndVersion, textLocalization[patch_notes_localization::currentProject]);
 
 		auto [x, y] = utility::getScreenCenter(gui_framework::standard_sizes::dialogBoxBuilderMinWidth, gui_framework::standard_sizes::dialogBoxBuilderMinHeight);
 
-		DialogBox::DialogBoxBuilder builder(L"CategoryConfiguration", L"Конфигурация категории", x, y, "categoryConfiguration");
+		DialogBox::DialogBoxBuilder builder(L"CategoryConfiguration", textLocalization[patch_notes_localization::categoryConfiguration], x, y, "categoryConfiguration");
 
 		gui_framework::utility::AdditionalCreationData<gui_framework::StaticControl> project(projectNameAndVersion);
-		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> name(L"Название категории");
-		gui_framework::utility::AdditionalCreationData<gui_framework::Button> add(L"Добавить", []() {});
+		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> name(textLocalization[patch_notes_localization::categoryName]);
+		gui_framework::utility::AdditionalCreationData<gui_framework::Button> add(textLocalization[patch_notes_localization::add], []() {});
 
 		builder.
 			addComponent<gui_framework::StaticControl>(L"ProjectCategory", 200, 20, DialogBox::DialogBoxBuilder::alignment::center, project).

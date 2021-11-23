@@ -38,34 +38,36 @@ using namespace std;
 
 CREATE_DEFAULT_WINDOW_FUNCTION(patchNotes)
 
+localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
+
 void Initializer::initDeletingMenuItem(unique_ptr<gui_framework::Menu>& menu)
 {
 	gui_framework::Menu& deletionsDropDown = mainWindow->addPopupMenu(L"Deletions");
 
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить конфигурацию", [this]() { this->deleteProjectConfiguration(); }));
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::deleteConfiguration], [this]() { this->deleteProjectConfiguration(); }));
 
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить категорию", [this]() { this->deleteCategory(); }));
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::deleteCategory], [this]() { this->deleteCategory(); }));
 
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить элемент", [this]() { this->deleteElement(); }));
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::deleteElement], [this]() { this->deleteElement(); }));
 
-	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Удалить описание", [this]() { this->deleteNote(); }));
+	deletionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::deleteNote], [this]() { this->deleteNote(); }));
 
-	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Удалить", deletionsDropDown.getHandle()));
+	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(textLocalization[patch_notes_localization::deleteButton], deletionsDropDown.getHandle()));
 }
 
 void Initializer::initEditingMenuItem(unique_ptr<gui_framework::Menu>& menu)
 {
 	gui_framework::Menu& editionsDropDown = mainWindow->addPopupMenu(L"Editions");
 
-	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать конфигурацию", [this]() { this->editProjectConfiguration(); }));
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::editConfiguration], [this]() { this->editProjectConfiguration(); }));
 
-	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать категорию", [this]() { this->editCategory(); }));
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::editCategory], [this]() { this->editCategory(); }));
 
-	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать элемент", [this]() { this->editElement(); }));
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::editElement], [this]() { this->editElement(); }));
 
-	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Редактировать описание", [this]() { this->editNote(); }));
+	editionsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::editNote], [this]() { this->editNote(); }));
 
-	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Редактировать", editionsDropDown.getHandle()));
+	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(textLocalization[patch_notes_localization::editButton], editionsDropDown.getHandle()));
 }
 
 void Initializer::createMenus()
@@ -74,17 +76,17 @@ void Initializer::createMenus()
 
 	gui_framework::Menu& creationsDropDown = mainWindow->addPopupMenu(L"Creations");
 
-	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую конфигурацию", [this]() { this->createProjectConfiguration(); }));
+	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::createNewConfiguration], [this]() { this->createProjectConfiguration(); }));
 
-	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(L"Создать новую категорию", [this]() { this->createCategory(); }));
+	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::createNewCategory], [this]() { this->createCategory(); }));
 
-	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(L"Создать", creationsDropDown.getHandle()));
+	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(textLocalization[patch_notes_localization::create], creationsDropDown.getHandle()));
 
-	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Предпросмотр", [this]() { this->previewPatchNotes(); }));
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::preview], [this]() { this->previewPatchNotes(); }));
 
-	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Сгенерировать список изменений", [this]() { this->generateHTML(); }));
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::generateNotes], [this]() { this->generateHTML(); }));
 
-	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Изменить порядок категорий", [this]() { this->changeCategoriesOrder(); }));
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::changeCategoriesOrder], [this]() { this->changeCategoriesOrder(); }));
 
 	this->initEditingMenuItem(menu);
 
@@ -420,7 +422,7 @@ void Initializer::changeCategoriesOrder()
 
 	if (projectConfiguration->getCurrentSelectionIndex() == -1)
 	{
-		gui_framework::BaseDialogBox::createMessageBox(L"Не удалось обнаружить конфигурацию проекта", patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
+		gui_framework::BaseDialogBox::createMessageBox(textLocalization[patch_notes_localization::failedToFindConfiguration], patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok, mainWindow);
 
 		return;
 	}

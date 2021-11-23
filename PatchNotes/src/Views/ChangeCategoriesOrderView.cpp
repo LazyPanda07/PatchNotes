@@ -18,12 +18,13 @@ namespace views
 		using gui_framework::DialogBox;
 
 		auto [x, y] = utility::getScreenCenter(gui_framework::standard_sizes::dialogBoxBuilderMinWidth, gui_framework::standard_sizes::dialogBoxBuilderMinHeight);
+		localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
 
-		DialogBox::DialogBoxBuilder builder(L"ChangeCategoriesOrder", L"Изменение порядка категорий", x, y, "changeCategoriesOrder");
+		DialogBox::DialogBoxBuilder builder(L"ChangeCategoriesOrder", textLocalization[patch_notes_localization::changeCategoriesOrder], x, y, "changeCategoriesOrder");
 
 		vector<wstring> categories(utility::getAvailableCategories(projectConfiguration));
 		gui_framework::utility::AdditionalCreationData<gui_framework::StaticControl> currentProject(projectConfiguration);
-		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(L"Изменить", []() {});
+		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(textLocalization[patch_notes_localization::editButton], []() {});
 		wstring categoriesOrder;
 
 		builder.

@@ -21,7 +21,7 @@ namespace models
 		string projectFile = fromUTF8JSON(data.getString("projectFile"), codepage);
 		string categoryName = fromUTF8JSON(data.getString("category"), codepage);
 		bool success = true;
-		string message = format(R"(Категория \"{}\" успешно добавлена)", categoryName);
+		string message = format(localization::TextLocalization::get()[patch_notes_localization::categoryAddedSuccessfully], categoryName);
 		filesystem::path pathToProjectFile;
 		const string& utf8CategoryName = data.getString("category");
 
@@ -41,7 +41,7 @@ namespace models
 			{
 				checkCategory[categoryName];
 
-				throw runtime_error(format(R"(Категория \"{}\" уже существует)", categoryName));
+				throw runtime_error(format(localization::TextLocalization::get()[patch_notes_localization::categoryAlreadyExists], categoryName));
 			}
 			catch (const json::exceptions::CantFindValueException&)
 			{

@@ -5,8 +5,11 @@
 #include "Models/PatchNotesModel.h"
 #include "PatchNotesUtility.h"
 #include "Validation.h"
+#include "PatchNotesConstants.h"
 
 #include "Exceptions/ValidationException.h"
+
+#pragma warning(disable: 26800)
 
 using namespace std;
 
@@ -20,20 +23,21 @@ namespace controllers
 		gui_framework::DropDownListComboBox* currentCategory = static_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectCategory"));
 		string item = gui_framework::utility::to_string(static_cast<gui_framework::EditControl*>(window->findChild(L"Item"))->getText(), codepage);
 		wstring textNotes = static_cast<gui_framework::RichEdit*>(window->findChild(L"Notes"))->getText();
+		localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
 
 		if (currentProject->getCurrentSelectionIndex() == -1)
 		{
-			throw exceptions::ValidationException("Не удалось определить проект");
+			throw exceptions::ValidationException(textLocalization[patch_notes_localization::failedToFindProject]);
 		}
 
 		if (currentCategory->getCurrentSelectionIndex() == -1)
 		{
-			throw exceptions::ValidationException("Не удалось определить категорию");
+			throw exceptions::ValidationException(textLocalization[patch_notes_localization::failedToFindCategory]);
 		}
 
 		validation::emptyValidation(item, static_cast<gui_framework::EditControl*>(window->findChild(L"Element"))->getPlaceholder());
 
-		validation::emptyValidation(textNotes, L"Примечания");
+		validation::emptyValidation(textNotes, textLocalization[patch_notes_localization::notes]);
 
 		istringstream is(gui_framework::utility::to_string(textNotes, codepage));
 		string tem;

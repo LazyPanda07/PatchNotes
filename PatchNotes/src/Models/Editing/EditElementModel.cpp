@@ -9,8 +9,7 @@ namespace models
 {
 	json::JSONBuilder EditElementModel::processData(const json::JSONParser& data)
 	{
-		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
+		json::JSONBuilder builder(CP_UTF8);
 		const string& category = data.getString("category");
 		const string& element = data.getString("element");
 		const string& newElement = data.getString("newElement");
@@ -42,7 +41,7 @@ namespace models
 
 		ofstream(pathToProject) << projectConfiguration;
 
-		message = format(R"(Ёлемент \"{}\" изменен на \"{}\")", json::utility::fromUTF8JSON(element, codepage), json::utility::fromUTF8JSON(newElement, codepage));
+		message = format(localization::TextLocalization::get()[patch_notes_localization::elementChanged], element, newElement);
 
 		builder.
 			append("success", success).

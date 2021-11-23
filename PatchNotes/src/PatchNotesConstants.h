@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "TextLocalization.h"
+
 namespace globals
 {
 	inline std::string dataFolder;
@@ -15,8 +17,8 @@ namespace json_settings
 
 namespace patch_notes_constants
 {
-	inline const std::wstring successTitle = L"Успех";
-	inline const std::wstring errorTitle = L"Ошибка";
+    inline const std::wstring successTitle = localization::WTextLocalization::get()["success"];
+    inline const std::wstring errorTitle = localization::WTextLocalization::get()["error"];
 
 	inline const std::string assetsFolder = "assets";
 
@@ -34,6 +36,47 @@ namespace sizes
 
 	inline constexpr uint16_t patchNotesWidth = mainWindowWidth;
 	inline constexpr uint16_t patchNotesHeight = mainWindowHeight;
+}
+
+namespace patch_notes_localization
+{
+    inline const std::string createNewConfiguration = "createNewConfiguration";
+    inline const std::string createNewCategory = "createNewCategory";
+    inline const std::string create= "create";
+    inline const std::string preview= "preview";
+    inline const std::string generateNotes = "generateNotes";
+    inline const std::string changeCategoriesOrder = "changeCategoriesOrder";
+    inline const std::string deleteConfiguration = "deleteConfiguration";
+    inline const std::string deleteCategory = "deleteCategory";
+    inline const std::string deleteElement = "deleteElement";
+    inline const std::string deleteNote = "deleteNote";
+    inline const std::string deleteButton = "delete";
+    inline const std::string editConfiguration = "editConfiguration";
+    inline const std::string editCategory = "editCategory";
+    inline const std::string editElement = "editElement";
+    inline const std::string editNote = "editNote";
+    inline const std::string editButton = "edit";
+    inline const std::string fieldCantBeEmpty = "fieldCantBeEmpty";
+    inline const std::string notes = "notes";
+    inline const std::string failedToFindConfiguration = "failedToFindConfiguration";
+    inline const std::string failedToFindProject = "failedToFindProject";
+    inline const std::string failedToFindCategory = "failedToFindCategory";
+    inline const std::string currentProject = "currentProject";
+    inline const std::string categoryConfiguration = "categoryConfiguration";
+    inline const std::string categoryName = "categoryName";
+    inline const std::string add = "add";
+    inline const std::string categoryAddedSuccessfully = "categoryAddedSuccessfully";
+    inline const std::string categoryAlreadyExists = "categoryAlreadyExists";
+    inline const std::string categoryOrderChangedSuccessfully = "categoryOrderChangedSuccessfully";
+    inline const std::string categorySuccessfullyDeleted = "categorySuccessfullyDeleted";
+    inline const std::string elementSuccessfullyDeleted = "elementSuccessfullyDeleted";
+    inline const std::string noteSuccessfullyDeleted = "noteSuccessfullyDeleted";
+    inline const std::string configurationSuccessfullyDeleted = "configurationSuccessfullyDeleted";
+    inline const std::string failedToDeleteConfiguration = "failedToDeleteConfiguration";
+    inline const std::string categoryChanged = "categoryChanged";
+    inline const std::string elementChanged = "elementChanged";
+    inline const std::string noteChanged = "noteChanged";
+    inline const std::string configurationChanged = "configurationChanged";
 }
 
 namespace patch_notes_constants

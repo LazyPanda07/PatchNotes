@@ -11,11 +11,6 @@ using namespace std;
 
 namespace utility
 {
-	uint32_t getCodepage()
-	{
-		return static_cast<uint32_t>(gui_framework::GUIFramework::get().getJSONSettings().getUnsignedInt("codepage"));
-	}
-
 	pair<int, int> getScreenCenter(uint16_t width, uint16_t height)
 	{
 		uint16_t screenWidth = static_cast<uint16_t>(GetSystemMetrics(SM_CXSCREEN));

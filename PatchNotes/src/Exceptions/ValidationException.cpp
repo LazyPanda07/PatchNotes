@@ -8,14 +8,8 @@ using namespace std;
 
 namespace exceptions
 {
-	ValidationException::ValidationException(const string& message) :
-		runtime_error(json::utility::toUTF8JSON(message, utility::getCodepage()))
-	{
-
-	}
-
 	ValidationException::ValidationException(const wstring& message) :
-		runtime_error(json::utility::toUTF8JSON(gui_framework::utility::to_string(message, utility::getCodepage()), utility::getCodepage()))
+		runtime_error(gui_framework::utility::to_string(message, CP_UTF8))
 	{
 
 	}

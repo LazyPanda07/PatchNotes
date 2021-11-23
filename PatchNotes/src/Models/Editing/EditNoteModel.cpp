@@ -9,8 +9,7 @@ namespace models
 {
 	json::JSONBuilder EditNoteModel::processData(const json::JSONParser& data)
 	{
-		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
+		json::JSONBuilder builder(CP_UTF8);
 		filesystem::path pathToProject = filesystem::path(globals::dataFolder) /= data.getString("project") + ".json";
 		json::JSONParser projectConfiguration = ifstream(pathToProject);
 		const string& category = data.getString("category");
@@ -65,7 +64,7 @@ namespace models
 
 		ofstream(pathToProject) << projectConfiguration;
 
-		message = format(R"(Описание \"{}\" было изменено на \"{}\")", json::utility::fromUTF8JSON(note, codepage), json::utility::fromUTF8JSON(newNote, codepage));
+		message = format(localization::TextLocalization::get()[patch_notes_localization::noteChanged], note, newNote);
 
 		builder.
 			append("success", true).

@@ -9,13 +9,13 @@ namespace models
 {
 	json::JSONBuilder EditCategoryModel::processData(const json::JSONParser& data)
 	{
-		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
+		json::JSONBuilder builder(CP_UTF8);
 		const string& project = data.getString("project");
 		const string& category = data.getString("category");
 		const string& newCategory = data.getString("newCategory");
 		bool success = true;
-		string message = format(R"(Категория \"{}\" изменена на \"{}\")", json::utility::fromUTF8JSON(category, codepage), json::utility::fromUTF8JSON(newCategory, codepage));
+		localization::TextLocalization& textLocalization = localization::TextLocalization::get();
+		string message = format(textLocalization[patch_notes_localization::categoryChanged], category, newCategory);
 		filesystem::path pathToProject = filesystem::path(globals::dataFolder) /= project + ".json";
 		json::JSONParser projectConfiguration = ifstream(pathToProject);
 		json::utility::jsonObject& parsedData = const_cast<json::utility::jsonObject&>(projectConfiguration.getParsedData());

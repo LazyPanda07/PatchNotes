@@ -9,12 +9,11 @@ namespace models
 {
     json::JSONBuilder EditProjectConfigurationModel::processData(const json::JSONParser& data)
     {
-        uint32_t codepage = utility::getCodepage();
-        json::JSONBuilder builder(codepage);
-        const string& projectToEdit = json::utility::fromUTF8JSON(data.getString("projectToEdit"), codepage);
+        json::JSONBuilder builder(CP_UTF8);
+        const string& projectToEdit = data.getString("projectToEdit");
         filesystem::path pathToProject = filesystem::path(globals::dataFolder) /= projectToEdit + ".json";
-        const string& newProjectName = json::utility::fromUTF8JSON(data.getString("newProjectName"), codepage);
-        const string& newProjectVersion = json::utility::fromUTF8JSON( data.getString("newProjectVersion"), codepage);
+        const string& newProjectName = data.getString("newProjectName");
+        const string& newProjectVersion =  data.getString("newProjectVersion");
         filesystem::path newProject = filesystem::path(globals::dataFolder);
         bool success = true;
         string message;
@@ -41,7 +40,7 @@ namespace models
 
         filesystem::rename(pathToProject, newProject);
 
-        message = format(R"(Конфигурация \"{}\" была успешно переименована в \"{}\")", projectToEdit, newProject.filename().stem().string());
+        message = format(localization::TextLocalization::get()[patch_notes_localization::configurationChanged], projectToEdit, newProject.filename().stem().string());
 
         builder.
             append("success", success).

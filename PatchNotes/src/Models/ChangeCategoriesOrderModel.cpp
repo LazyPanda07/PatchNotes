@@ -15,8 +15,7 @@ namespace models
 		using json::utility::objectSmartPointer;
 		using json::utility::jsonObject;
 
-		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
+		json::JSONBuilder builder(CP_UTF8);
 		filesystem::path pathToProjectConfiguration = filesystem::path(globals::dataFolder) /= data.getString("project") + ".json";
 		vector<string> temCategories = json::utility::JSONArrayWrapper(data.getArray("categories")).getAsStringArray();
 		vector<wstring> categories;
@@ -61,7 +60,7 @@ namespace models
 
 		builder.
 			append("success", true).
-			append("message", "Порядок категорий успешно изменен"s);
+			append("message", localization::TextLocalization::get()[patch_notes_localization::categoryOrderChangedSuccessfully]);
 
 		return builder;
 	}

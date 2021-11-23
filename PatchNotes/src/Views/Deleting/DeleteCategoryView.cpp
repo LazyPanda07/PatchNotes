@@ -18,11 +18,12 @@ namespace views
 		using gui_framework::DialogBox;
 
 		auto [x, y] = utility::getScreenCenter(gui_framework::standard_sizes::dialogBoxBuilderMinWidth, gui_framework::standard_sizes::dialogBoxBuilderMinHeight);
+		localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
 
-		DialogBox::DialogBoxBuilder builder(L"DeleteCategory", L"Удаление категории", x, y, "deleteCategory");
+		DialogBox::DialogBoxBuilder builder(L"DeleteCategory", textLocalization[patch_notes_localization::deleteCategory], x, y, "deleteCategory");
 
 		gui_framework::utility::AdditionalCreationData<gui_framework::DropDownListComboBox> availableProjects(utility::getAvailableProjectsFiles());
-		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(L"Удалить", []() {});
+		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(textLocalization[patch_notes_localization::deleteButton], []() {});
 
 		builder.
 			addComponent<gui_framework::DropDownListComboBox>(L"AvailableProjects", 200, 25, DialogBox::DialogBoxBuilder::alignment::center, availableProjects).

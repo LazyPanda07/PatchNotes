@@ -1,8 +1,8 @@
 #include "PreviewPatchNotesController.h"
 
 #include "Models/PreviewPatchNotesModel.h"
-
 #include "PatchNotesUtility.h"
+#include "PatchNotesConstants.h"
 
 #include "Exceptions/ValidationException.h"
 
@@ -17,7 +17,7 @@ namespace controllers
 
 		if (currentProject->getCurrentSelectionIndex() == -1)
 		{
-			throw exceptions::ValidationException("Не удалось определить проект");
+			throw exceptions::ValidationException(localization::WTextLocalization::get()[patch_notes_localization::failedToFindProject]);
 		}
 
 		builder.

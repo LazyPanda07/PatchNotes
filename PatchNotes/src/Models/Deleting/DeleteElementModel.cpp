@@ -2,7 +2,9 @@
 
 #include <filesystem>
 
+#include "headers.h"
 #include "PatchNotesUtility.h"
+#include "PatchNotesConstants.h"
 
 using namespace std;
 
@@ -38,8 +40,8 @@ namespace models
 
 		ofstream(pathToProject) << json;
 
-		return json::JSONBuilder(utility::getCodepage()).
+		return json::JSONBuilder(CP_UTF8).
 			append("success", true).
-			append("message", format(R"(Ёлемент \"{}\" был успешно удален)", move(elementToDelete)));
+			append("message", format(localization::TextLocalization::get()[patch_notes_localization::elementSuccessfullyDeleted], move(elementToDelete)));
 	}
 }
