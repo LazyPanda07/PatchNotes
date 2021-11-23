@@ -22,12 +22,13 @@ namespace views
 		using gui_framework::BaseDialogBox;
 
 		auto [x, y] = utility::getScreenCenter(gui_framework::standard_sizes::dialogBoxBuilderMinWidth, gui_framework::standard_sizes::dialogBoxBuilderMinHeight);
+		localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
 
-		DialogBox::DialogBoxBuilder builder(L"ProjectConfiguration", L"Конфигурация проекта", x, y, "projectConfiguration");
+		DialogBox::DialogBoxBuilder builder(L"ProjectConfiguration", textLocalization[patch_notes_localization::projectConfiguration], x, y, "projectConfiguration");
 
-		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> name(L"Название проекта");
-		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> version(L"Версия проекта");
-		gui_framework::utility::AdditionalCreationData<gui_framework::Button> add(L"Добавить", []() {});
+		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> name(textLocalization[patch_notes_localization::projectName]);
+		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> version(textLocalization[patch_notes_localization::projectVersion]);
+		gui_framework::utility::AdditionalCreationData<gui_framework::Button> add(textLocalization[patch_notes_localization::add], []() {});
 
 		builder.
 			addComponent<gui_framework::EditControl>(L"ProjectName", 200, 20, DialogBox::DialogBoxBuilder::alignment::center, name).

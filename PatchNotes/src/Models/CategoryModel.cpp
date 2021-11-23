@@ -15,11 +15,10 @@ namespace models
 		using json::utility::toUTF8JSON;
 		using json::utility::fromUTF8JSON;
 
-		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
+		json::JSONBuilder builder(CP_UTF8);
 		json::JSONBuilder updateBuilder(CP_UTF8);
-		string projectFile = fromUTF8JSON(data.getString("projectFile"), codepage);
-		string categoryName = fromUTF8JSON(data.getString("category"), codepage);
+		string projectFile = fromUTF8JSON(data.getString("projectFile"), CP_UTF8);
+		string categoryName = fromUTF8JSON(data.getString("category"), CP_UTF8);
 		bool success = true;
 		string message = format(localization::TextLocalization::get()[patch_notes_localization::categoryAddedSuccessfully], categoryName);
 		filesystem::path pathToProjectFile;
@@ -28,8 +27,8 @@ namespace models
 		pathToProjectFile.append(globals::dataFolder).append(projectFile) += ".json";
 
 		updateBuilder.
-			append("projectName"s, toUTF8JSON(projectFile.substr(0, projectFile.rfind('_')), codepage)).
-			append("projectVersion"s, toUTF8JSON(projectFile.substr(projectFile.rfind('_') + 1), codepage));
+			append("projectName"s, toUTF8JSON(projectFile.substr(0, projectFile.rfind('_')), CP_UTF8)).
+			append("projectVersion"s, toUTF8JSON(projectFile.substr(projectFile.rfind('_') + 1), CP_UTF8));
 
 		try
 		{

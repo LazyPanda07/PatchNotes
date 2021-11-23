@@ -14,15 +14,15 @@ namespace models
 		using json::utility::toUTF8JSON;
 		using json::utility::fromUTF8JSON;
 
-		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
-		string projectFileName = fromUTF8JSON(data.getString("projectFile"), codepage);
+		json::JSONBuilder builder(CP_UTF8);
+		string projectFileName = data.getString("projectFile");
 		filesystem::path pathToProjectFile;
 		filesystem::path out = filesystem::temp_directory_path() / (projectFileName + ".html");
 		json::JSONParser projectFile;
 		string absolutePathToFile = filesystem::absolute(out).string();
 		bool success;
 		string message;
+		localization::TextLocalization& textLocalization = localization::TextLocalization::get();
 
 		pathToProjectFile.append(globals::dataFolder).append(projectFileName) += ".json";
 
@@ -37,17 +37,22 @@ namespace models
 			ofstream(filesystem::temp_directory_path() / patch_notes_constants::stylesFileName) << patch_notes_constants::styles;
 
 			success = true;
-			message = "Данные для предпросмотра успешно сгенерированы";
+			message = textLocalization[patch_notes_localization::dataForPreviewSuccessfullyGenerated];
 		}
 		else if (!isBackgroundImageLoaded)
 		{
 			success = false;
-			message = format("Не удалось сгенерировать данные для предпросмотра.\nЕще не завершена загрузка заднего фона.\nПовторите команду позже.");
+			message = textLocalization[patch_notes_localization::failedToGeneratePreview] + '\n' +
+				textLocalization[patch_notes_localization::backgroundNotLoadedYet] + '\n' +
+				textLocalization[patch_notes_localization::repeatCommandLater];
+				
 		}
 		else if (!isFaviconLoaded)
 		{
 			success = false;
-			message = format("Не удалось сгенерировать данные для предпросмотра.\nЕще не завершена загрузка favicon.\nПовторите команду позже.");
+			message = textLocalization[patch_notes_localization::failedToGeneratePreview] + '\n' +
+				textLocalization[patch_notes_localization::faviconNotLoadedYet] + '\n' +
+				textLocalization[patch_notes_localization::repeatCommandLater];
 		}
 
 		ranges::replace(absolutePathToFile, '\\', '/');

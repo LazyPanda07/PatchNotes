@@ -23,7 +23,7 @@ int wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 	{
 		try
 		{
-			gui_framework::BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), utility::getCodepage()), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
+			gui_framework::BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), CP_UTF8), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
 		}
 		catch (const json::exceptions::CantFindValueException&)
 		{

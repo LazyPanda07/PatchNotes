@@ -19,10 +19,10 @@ namespace views
 
 		auto [x, y] = utility::getScreenCenter(gui_framework::standard_sizes::dialogBoxBuilderMinWidth, gui_framework::standard_sizes::dialogBoxBuilderMinHeight);
 
-		DialogBox::DialogBoxBuilder builder(L"DeleteConfiguration", L"Удаление конфигурации", x, y, "deleteConfiguration");
+		DialogBox::DialogBoxBuilder builder(L"DeleteConfiguration", localization::WTextLocalization::get()[patch_notes_localization::deleteConfiguration], x, y, "deleteConfiguration");
 
 		gui_framework::utility::AdditionalCreationData<gui_framework::DropDownListComboBox> configurationToDelete(utility::getAvailableProjectsFiles());
-		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(L"Удалить", []() {});
+		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(localization::WTextLocalization::get()[patch_notes_localization::deleteButton], []() {});
 
 		builder.
 			addComponent<gui_framework::DropDownListComboBox>(L"ProjectsToDelete", 200, 25, DialogBox::DialogBoxBuilder::alignment::center, configurationToDelete).

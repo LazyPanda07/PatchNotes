@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "TextLocalization.h"
+#include "WTextLocalization.h"
 
 namespace globals
 {
@@ -77,6 +77,26 @@ namespace patch_notes_localization
     inline const std::string elementChanged = "elementChanged";
     inline const std::string noteChanged = "noteChanged";
     inline const std::string configurationChanged = "configurationChanged";
+    inline const std::string fileGeneratedSuccessfully = "fileGeneratedSuccessfully";
+    inline const std::string repeatCommandLater = "repeatCommandLater";
+    inline const std::string failedToGenerateNotes = "failedToGenerateNotes";
+    inline const std::string backgroundNotLoadedYet = "backgroundNotLoadedYet";
+    inline const std::string faviconNotLoadedYet = "faviconNotLoadedYet";
+    inline const std::string elementSuccessfullyAdded = "elementSuccessfullyAdded";
+    inline const std::string elementAlreadyExists = "elementAlreadyExists";
+    inline const std::string dataForPreviewSuccessfullyGenerated = "dataForPreviewSuccessfullyGenerated";
+    inline const std::string failedToGeneratePreview = "failedToGeneratePreview";
+    inline const std::string fileAlreadyExists = "fileAlreadyExists";
+    inline const std::string configurationSuccessfullyAdded = "configurationSuccessfullyAdded";
+    inline const std::string newCategoryName = "newCategoryName";
+    inline const std::string newElementName = "newElementName";
+    inline const std::string newNoteName = "newNoteName";
+    inline const std::string newConfigurationName = "newConfigurationName";
+    inline const std::string newVersion= "newVersion";
+    inline const std::string element= "element";
+    inline const std::string projectConfiguration = "projectConfiguration";
+    inline const std::string projectName = "projectName";
+    inline const std::string projectVersion = "projectVersion";
 }
 
 namespace patch_notes_constants

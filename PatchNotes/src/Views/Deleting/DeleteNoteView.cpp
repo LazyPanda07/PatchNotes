@@ -19,10 +19,10 @@ namespace views
 
 		auto [x, y] = utility::getScreenCenter(gui_framework::standard_sizes::dialogBoxBuilderMinWidth, gui_framework::standard_sizes::dialogBoxBuilderMinHeight);
 
-		DialogBox::DialogBoxBuilder builder(L"DeleteNote", L"Удаление описания", x, y, "deleteNote");
+		DialogBox::DialogBoxBuilder builder(L"DeleteNote", localization::WTextLocalization::get()[patch_notes_localization::deleteNote], x, y, "deleteNote");
 
 		gui_framework::utility::AdditionalCreationData<gui_framework::DropDownListComboBox> availableProjects(utility::getAvailableProjectsFiles());
-		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(L"Удалить", []() {});
+		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(localization::WTextLocalization::get()[patch_notes_localization::deleteButton], []() {});
 
 		builder.
 			addComponent<gui_framework::DropDownListComboBox>(L"AvailableProjects", 200, 25, DialogBox::DialogBoxBuilder::alignment::center, availableProjects).

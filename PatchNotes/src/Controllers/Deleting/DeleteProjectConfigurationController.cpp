@@ -10,10 +10,9 @@ namespace controllers
 {
 	json::JSONBuilder DeleteProjectConfigurationController::collectData(gui_framework::BaseComposite* window) const
 	{
-		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
+		json::JSONBuilder builder(CP_UTF8);
 		gui_framework::DropDownListComboBox* list = static_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectsToDelete"));
-		string pathToProjectToDelete = globals::dataFolder + '\\' + gui_framework::utility::to_string(list->getValue(list->getCurrentSelectionIndex()), codepage) + ".json";
+		string pathToProjectToDelete = globals::dataFolder + '\\' + gui_framework::utility::to_string(list->getValue(list->getCurrentSelectionIndex()), CP_UTF8) + ".json";
 
 		ranges::replace(pathToProjectToDelete, '\\', '/');
 

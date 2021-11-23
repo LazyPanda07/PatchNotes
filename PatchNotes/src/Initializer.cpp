@@ -580,7 +580,7 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 
 	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch Notes", settings, "patchNotes", false, false, "", APPLICATION_ICON, APPLICATION_ICON));
 
-	globals::dataFolder = (filesystem::path(json::utility::fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject"), utility::getCodepage())) /= patch_notes_constants::jsonVersionsFolder).string();
+	globals::dataFolder = (filesystem::path(gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject")) /= patch_notes_constants::jsonVersionsFolder).string();
 
 	filesystem::create_directory(globals::dataFolder);
 

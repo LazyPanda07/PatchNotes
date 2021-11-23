@@ -15,7 +15,6 @@ namespace models
 		using json::utility::jsonObject;
 		using json::utility::toUTF8JSON;
 
-		uint32_t codepage = utility::getCodepage();
 		json::JSONBuilder updateBuilder(CP_UTF8);
 		json::JSONBuilder builder(CP_UTF8);
 		filesystem::path pathToProjectFile;
@@ -23,10 +22,11 @@ namespace models
 		const string& categoryName =  data.getString("category");
 		const vector<objectSmartPointer<jsonObject>>& notes = data.get<vector<objectSmartPointer<jsonObject>>>("notes");
 		bool success = true;
-		string message = toUTF8JSON(R"(Ёлемент \")", codepage) + itemName + toUTF8JSON(R"(\" успешно добавлен)", codepage);
+		localization::TextLocalization& textLocalization = localization::TextLocalization::get();
+		string message = format(textLocalization[patch_notes_localization::elementSuccessfullyAdded], itemName);
 		const string& projectNameAndVersion = data.getString("projectFile");
 
-		pathToProjectFile.append(globals::dataFolder).append(json::utility::fromUTF8JSON(projectNameAndVersion, codepage)) += ".json";
+		pathToProjectFile.append(globals::dataFolder).append(projectNameAndVersion) += ".json";
 
 		updateBuilder.
 			append("projectName"s, projectNameAndVersion.substr(0, projectNameAndVersion.rfind('_'))).
@@ -42,7 +42,7 @@ namespace models
 			{
 				if (get<objectSmartPointer<jsonObject>>(checkItem[categoryName])->contains(itemName, json::utility::variantTypeEnum::jJSONObject))
 				{
-					throw runtime_error(toUTF8JSON(R"(Ёлемент \")", codepage) + itemName + toUTF8JSON(R"(\" уже существует)", codepage));
+					throw runtime_error(format(textLocalization[patch_notes_localization::elementAlreadyExists], itemName));
 				}
 			}
 			catch (const json::exceptions::CantFindValueException&)

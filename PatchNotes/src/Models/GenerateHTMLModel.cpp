@@ -74,20 +74,20 @@ namespace models
 		using json::utility::toUTF8JSON;
 		using json::utility::fromUTF8JSON;
 
-		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
-		string projectFileName = fromUTF8JSON(data.getString("projectFile"), codepage);
+		json::JSONBuilder builder(CP_UTF8);
+		string projectFileName = data.getString("projectFile");
 		filesystem::path pathToProjectFile;
 		filesystem::path out;
 		json::JSONParser projectFile;
 		bool success;
 		string message;
+		localization::TextLocalization& textLocalization = localization::TextLocalization::get();
 
 		pathToProjectFile.append(globals::dataFolder).append(projectFileName) += ".json";
 
 		ifstream(pathToProjectFile) >> projectFile;
 
-		(out /= fromUTF8JSON(gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject"), utility::getCodepage())).append(patch_notes_constants::htmlGeneratedFolder);
+		(out /= gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject")).append(patch_notes_constants::htmlGeneratedFolder);
 
 		bool isBackgroundImageLoaded = Initializer::get().getIsBackgroundImageLoaded();
 		bool isFaviconLoaded = Initializer::get().getIsFaviconLoaded();
@@ -102,17 +102,21 @@ namespace models
 			this->updateIndex(out, projectFileName);
 
 			success = true;
-			message = format("Файл \"{}.html\" успешно сгенерирован", projectFileName);
+			message = format(textLocalization[patch_notes_localization::fileGeneratedSuccessfully], projectFileName);
 		}
 		else if (!isBackgroundImageLoaded)
 		{
 			success = false;
-			message = format("Не удалось сгенерировать изменения.\nЕще не завершена загрузка заднего фона.\nПовторите команду позже.");
+			message = textLocalization[patch_notes_localization::failedToGenerateNotes] + '\n' +
+				textLocalization[patch_notes_localization::backgroundNotLoadedYet] + '\n' +
+				textLocalization[patch_notes_localization::repeatCommandLater];
 		}
 		else if (!isFaviconLoaded)
 		{
 			success = false;
-			message = format("Не удалось сгенерировать изменения.\nЕще не завершена загрузка favicon.\nПовторите команду позже.");
+			message = textLocalization[patch_notes_localization::failedToGenerateNotes] + '\n' +
+				textLocalization[patch_notes_localization::faviconNotLoadedYet] + '\n' +
+				textLocalization[patch_notes_localization::repeatCommandLater];
 		}
 
 		builder.

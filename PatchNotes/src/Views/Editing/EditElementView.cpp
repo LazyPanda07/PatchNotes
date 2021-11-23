@@ -19,11 +19,11 @@ namespace views
 
 		auto [x, y] = utility::getScreenCenter(gui_framework::standard_sizes::dialogBoxBuilderMinWidth, gui_framework::standard_sizes::dialogBoxBuilderMinHeight);
 
-		DialogBox::DialogBoxBuilder builder(L"EditElement", L"Редактирование элемента", x, y, "editElement");
+		DialogBox::DialogBoxBuilder builder(L"EditElement", localization::WTextLocalization::get()[patch_notes_localization::editElement], x, y, "editElement");
 
 		gui_framework::utility::AdditionalCreationData<gui_framework::DropDownListComboBox> projects(utility::getAvailableProjectsFiles());
-		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> newElementName(L"Новое название элемента");
-		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(L"Изменить", []() {});
+		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> newElementName(localization::WTextLocalization::get()[patch_notes_localization::newElementName]);
+		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(localization::WTextLocalization::get()[patch_notes_localization::editButton], []() {});
 
 		builder.
 			addComponent<gui_framework::DropDownListComboBox>(L"Projects", 200, 25, DialogBox::DialogBoxBuilder::alignment::center, projects).

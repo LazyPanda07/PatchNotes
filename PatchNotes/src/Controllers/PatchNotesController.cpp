@@ -17,11 +17,10 @@ namespace controllers
 {
 	json::JSONBuilder PatchNotesController::collectData(gui_framework::BaseComposite* window) const
 	{
-		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
+		json::JSONBuilder builder(CP_UTF8);
 		gui_framework::DropDownListComboBox* currentProject = static_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectNameAndVersion"));
 		gui_framework::DropDownListComboBox* currentCategory = static_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectCategory"));
-		string item = gui_framework::utility::to_string(static_cast<gui_framework::EditControl*>(window->findChild(L"Item"))->getText(), codepage);
+		string item = gui_framework::utility::to_string(static_cast<gui_framework::EditControl*>(window->findChild(L"Item"))->getText(), CP_UTF8);
 		wstring textNotes = static_cast<gui_framework::RichEdit*>(window->findChild(L"Notes"))->getText();
 		localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
 
@@ -35,11 +34,11 @@ namespace controllers
 			throw exceptions::ValidationException(textLocalization[patch_notes_localization::failedToFindCategory]);
 		}
 
-		validation::emptyValidation(item, static_cast<gui_framework::EditControl*>(window->findChild(L"Element"))->getPlaceholder());
+		validation::emptyValidation(static_cast<gui_framework::EditControl*>(window->findChild(L"Item"))->getText(), static_cast<gui_framework::EditControl*>(window->findChild(L"Element"))->getPlaceholder());
 
 		validation::emptyValidation(textNotes, textLocalization[patch_notes_localization::notes]);
 
-		istringstream is(gui_framework::utility::to_string(textNotes, codepage));
+		istringstream is(gui_framework::utility::to_string(textNotes, CP_UTF8));
 		string tem;
 		vector<json::utility::objectSmartPointer<json::utility::jsonObject>> notes;
 
@@ -51,8 +50,8 @@ namespace controllers
 		}
 
 		builder.
-			append("projectFile", gui_framework::utility::to_string(currentProject->getValue(currentProject->getCurrentSelectionIndex()), codepage)).
-			append("category", gui_framework::utility::to_string(currentCategory->getValue(currentCategory->getCurrentSelectionIndex()), codepage)).
+			append("projectFile", gui_framework::utility::to_string(currentProject->getValue(currentProject->getCurrentSelectionIndex()), CP_UTF8)).
+			append("category", gui_framework::utility::to_string(currentCategory->getValue(currentCategory->getCurrentSelectionIndex()), CP_UTF8)).
 			append("item", move(item)).
 			append("notes", move(notes));
 

@@ -12,7 +12,7 @@ namespace controllers
 {
 	json::JSONBuilder PreviewPatchNotesController::collectData(gui_framework::BaseComposite* window) const
 	{
-		json::JSONBuilder builder(utility::getCodepage());
+		json::JSONBuilder builder(CP_UTF8);
 		gui_framework::DropDownListComboBox* currentProject = static_cast<gui_framework::DropDownListComboBox*>(window->findChild(L"ProjectNameAndVersion"));
 
 		if (currentProject->getCurrentSelectionIndex() == -1)
@@ -21,7 +21,7 @@ namespace controllers
 		}
 
 		builder.
-			append("projectFile", gui_framework::utility::to_string(currentProject->getValue(currentProject->getCurrentSelectionIndex()), utility::getCodepage()));
+			append("projectFile", gui_framework::utility::to_string(currentProject->getValue(currentProject->getCurrentSelectionIndex()), CP_UTF8));
 
 		return builder;
 	}

@@ -18,13 +18,14 @@ namespace views
 		using gui_framework::DialogBox;
 
 		auto [x, y] = utility::getScreenCenter(gui_framework::standard_sizes::dialogBoxBuilderMinWidth, gui_framework::standard_sizes::dialogBoxBuilderMinHeight);
+		localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
 
-		DialogBox::DialogBoxBuilder builder(L"EditConfiguration", L"Редактирование конфигурации", x, y, "editConfiguration");
+		DialogBox::DialogBoxBuilder builder(L"EditConfiguration", textLocalization[patch_notes_localization::editConfiguration], x, y, "editConfiguration");
 
 		gui_framework::utility::AdditionalCreationData<gui_framework::DropDownListComboBox> configurationToEdit(utility::getAvailableProjectsFiles());
-		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> newConfigurationName(L"Новое название конфигурации");
-		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> newConfigurationVersion(L"Новая версия конфигурации");
-		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(L"Изменить", []() {});
+		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> newConfigurationName(textLocalization[patch_notes_localization::newConfigurationName]);
+		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> newConfigurationVersion(textLocalization[patch_notes_localization::newVersion]);
+		gui_framework::utility::AdditionalCreationData<gui_framework::Button> confirm(textLocalization[patch_notes_localization::editButton], []() {});
 
 		builder.
 			addComponent<gui_framework::DropDownListComboBox>(L"ProjectsToEdit", 300, 25, DialogBox::DialogBoxBuilder::alignment::center, configurationToEdit).

@@ -154,7 +154,7 @@ namespace utility
 		vector<wstring> result;
 		json::JSONParser parser;
 		filesystem::path pathToProject;
-		string jsonCategoryName = json::utility::toUTF8JSON(gui_framework::utility::to_string(categoryName, utility::getCodepage()), utility::getCodepage());
+		string jsonCategoryName = gui_framework::utility::to_string(categoryName, CP_UTF8);
 
 		pathToProject.append(globals::dataFolder).append(projectName) += (".json");
 
@@ -189,8 +189,8 @@ namespace utility
 		vector<wstring> result;
 		json::JSONParser parser;
 		filesystem::path pathToProject;
-		string jsonCategoryName = json::utility::toUTF8JSON(gui_framework::utility::to_string(categoryName, utility::getCodepage()), utility::getCodepage());
-		string jsonElementName = json::utility::toUTF8JSON(gui_framework::utility::to_string(elementName, utility::getCodepage()), utility::getCodepage());
+		string jsonCategoryName = gui_framework::utility::to_string(categoryName, CP_UTF8);
+		string jsonElementName = gui_framework::utility::to_string(elementName, CP_UTF8);
 
 		pathToProject.append(globals::dataFolder).append(projectName) += (".json");
 

@@ -14,12 +14,12 @@ namespace models
 		using json::utility::toUTF8JSON;
 		using json::utility::fromUTF8JSON;
 
-		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
+		json::JSONBuilder builder(CP_UTF8);
 		bool success = true;
 		string message;
-		string projectName = fromUTF8JSON(data.getString("projectName"), codepage);
-		string projectVersion = fromUTF8JSON(data.getString("projectVersion"), codepage);
+		string projectName = data.getString("projectName");
+		string projectVersion = data.getString("projectVersion");
+		localization::TextLocalization& textLocalization = localization::TextLocalization::get();
 
 		filesystem::path projectFile(filesystem::path(globals::dataFolder) /= projectName + '_' + projectVersion + ".json");
 
@@ -27,11 +27,11 @@ namespace models
 		{
 			success = false;
 
-			message = format("Файл с названием \"{}.json\" уже существует", projectName + '_' + projectVersion);
+			message = format(textLocalization[patch_notes_localization::fileAlreadyExists], projectName + '_' + projectVersion + ".json");
 		}
 		else
 		{
-			json::JSONBuilder projectData(utility::getCodepage());
+			json::JSONBuilder projectData(CP_UTF8);
 
 			projectData.
 				append("projectName", projectName).
@@ -39,7 +39,7 @@ namespace models
 
 			ofstream(projectFile) << projectData;
 
-			message = "Конфигурация успешно создана";
+			message = textLocalization[patch_notes_localization::configurationSuccessfullyAdded];
 		}
 
 		builder.

@@ -30,6 +30,7 @@ namespace views
 		gui_framework::utility::ComponentSettings settings(0, 0, sizes::patchNotesWidth, sizes::patchNotesHeight);
 		ChildWindow* patchNotesWindow = new ChildWindow(L"PatchNotesUI", L"PatchNotesUI", settings, parent, "patchNotesUI");
 		static const int menuHeight = GetSystemMetrics(SM_CYMENUSIZE);
+		localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
 
 		patchNotesWindow->setAutoResize(true);
 
@@ -71,13 +72,13 @@ namespace views
 
 		element->setAutoResize(true);
 
-		element->setPlaceholder(L"Элемент");
+		element->setPlaceholder(textLocalization[patch_notes_localization::element]);
 
 		RichEdit* notes = new RichEdit(L"Notes", gui_framework::utility::ComponentSettings(0, 70, sizes::patchNotesWidth - 17, sizes::patchNotesHeight - 148 - menuHeight), patchNotesWindow, true);
 
 		notes->setAutoResize(true);
 
-		Button* add = new Button(L"AddNotes", L"Добавить", gui_framework::utility::ComponentSettings(0, sizes::patchNotesHeight - 78 - menuHeight, 200, 40), patchNotesWindow, [&controller, patchNotesWindow]()
+		Button* add = new Button(L"AddNotes", textLocalization[patch_notes_localization::add], gui_framework::utility::ComponentSettings(0, sizes::patchNotesHeight - 78 - menuHeight, 200, 40), patchNotesWindow, [&controller, patchNotesWindow]()
 			{
 				try
 				{
@@ -85,7 +86,7 @@ namespace views
 				}
 				catch (const exceptions::ValidationException& e)
 				{
-					BaseDialogBox::createMessageBox(e.getMessage(), L"Ошибка", BaseDialogBox::messageBoxType::ok, patchNotesWindow);
+					BaseDialogBox::createMessageBox(e.getMessage(), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::ok, patchNotesWindow);
 				}
 			});
 

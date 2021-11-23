@@ -10,13 +10,12 @@ namespace controllers
 {
 	json::JSONBuilder CategoryController::collectData(gui_framework::BaseComposite* window) const
 	{
-		uint32_t codepage = utility::getCodepage();
-		json::JSONBuilder builder(codepage);
+		json::JSONBuilder builder(CP_UTF8);
 		gui_framework::EditControl* categoryEditControl = static_cast<gui_framework::EditControl*>(window->findChild(L"CategoryName"));
-		string projectFile = gui_framework::utility::to_string(static_cast<gui_framework::StaticControl*>(window->findChild(L"ProjectCategory"))->getText(), codepage);
-		string categoryName = gui_framework::utility::to_string(categoryEditControl->getText(), codepage);
+		string projectFile = gui_framework::utility::to_string(static_cast<gui_framework::StaticControl*>(window->findChild(L"ProjectCategory"))->getText(), CP_UTF8);
+		string categoryName = gui_framework::utility::to_string(categoryEditControl->getText(), CP_UTF8);
 
-		validation::emptyValidation(categoryName, categoryEditControl->getPlaceholder());
+		validation::emptyValidation(categoryEditControl->getText(), categoryEditControl->getPlaceholder());
 
 		builder.
 			append("projectFile", move(projectFile)).
