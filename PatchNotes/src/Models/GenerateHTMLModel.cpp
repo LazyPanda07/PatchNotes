@@ -5,7 +5,12 @@
 #include "PatchNotesConstants.h"
 #include "HTMLAdapter.h"
 
+#pragma warning(disable: 6031)
+#pragma warning(disable: 4834)
+
 using namespace std;
+
+string makeTableRows(const vector<string>& data, size_t index, size_t columns);
 
 namespace models
 {
@@ -28,25 +33,25 @@ namespace models
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{}</title>
-    <link href="styles.css" rel="stylesheet" type="text/css" />
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{}</title>
+	<link href="styles.css" rel="stylesheet" type="text/css" />
 	<link rel="shortcut icon" href="{}" type="image/x-icon">
 </head>
 
 <body>
 
-    <div class="title-container">
+	<div class="title-container">
 		<img src="{}" alt="Project logo" class="project-logo" {}>
-        <div class="title">Patch notes</div>
-    </div>
+		<div class="title">Patch notes</div>
+	</div>
 
-    <div class="links-container">
-        <table style="width: 100%;">
-        </table>
-    </div>
+	<div class="links-container">
+		<table style="width: 100%;">
+		</table>
+	</div>
 
 </body>
 
@@ -122,11 +127,9 @@ namespace models
 		string indexHTMLData;
 		filesystem::path pathToIndexHTML = outFolder / "index.html";
 		ifstream indexHTML(pathToIndexHTML);
-		string tem;
-		static constexpr string_view openTable = "<table";
-		vector<string> result = { GenerateHTMLModel::generatePatchLink(projectFileName) };
-		size_t start = 0;
-
+		static constexpr string_view table = "<table style=\"width: 100%;\">\n";
+		vector<string> rowsData = { GenerateHTMLModel::generatePatchLink(projectFileName) };
+		
 		if (!indexHTML.is_open())
 		{
 			GenerateHTMLModel::generateIndexHTML(outFolder, projectFileName.substr(0, projectFileName.rfind('_')));
@@ -136,6 +139,8 @@ namespace models
 
 		indexHTMLData.reserve(filesystem::file_size(pathToIndexHTML));
 
+		string tem;
+
 		while (getline(indexHTML, tem))
 		{
 			if (tem.find(projectFileName) != string::npos)
@@ -144,47 +149,27 @@ namespace models
 			}
 			else if (tem.find("<td></td>") != string::npos || tem.find("<tr>") != string::npos || tem.find("</tr>") != string::npos)
 			{
+
+
 				continue;
 			}
 			else if (tem.find("<td>") != string::npos)
 			{
-				result.push_back(move(tem) + '\n');
-				
+				rowsData.push_back(move(tem) + '\n');
+
 				continue;
 			}
 
 			indexHTMLData += tem + '\n';
 		}
 
-		while (result.size() < 5)
+		while (rowsData.size() < 5)
 		{
-			result.push_back(GenerateHTMLModel::generateEmptyPatchLink());
+			rowsData.push_back(GenerateHTMLModel::generateEmptyPatchLink());
 		}
 
-		start = indexHTMLData.find(">", indexHTMLData.find(openTable)) + 1;
-
-		for (size_t i = 0; i < result.size(); i++)
-		{
-			if (!i)
-			{
-				indexHTMLData.insert(start, "\n\t\t\t<tr>");
-
-				start += 9;
-			}
-			else if (!(i % 5))
-			{
-				indexHTMLData.insert(start, "\t\t\t</tr>\n");
-
-				start += 10;
-			}
-
-			indexHTMLData.insert(start, result[i]);
-
-			start += result[i].size();
-		}
-
-		indexHTMLData.insert(start, "\t\t\t</tr>\n");
-
+		indexHTMLData.insert(indexHTMLData.find(table) + table.size(), makeTableRows(rowsData, 0, 5));
+		
 		ofstream(pathToIndexHTML) << indexHTMLData;
 	}
 
@@ -193,4 +178,33 @@ namespace models
 	{
 
 	}
+}
+
+string makeTableRows(const vector<string>& data, size_t index, size_t columns)
+{
+	try
+	{
+		data.at(index);
+	}
+	catch (const exception&)
+	{
+		return ""s;
+	}
+
+	string tem = "\t\t\t<tr>\n";
+	size_t current = 0;
+
+	while (current != columns)
+	{
+		if (data.size() == index + current)
+		{
+			break;
+		}
+
+		tem += data[index + current++];
+	}
+
+	tem += "\t\t\t</tr>\n";
+
+	return tem + makeTableRows(data, index + current, columns);
 }
