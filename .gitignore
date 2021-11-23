@@ -42,3 +42,6 @@ TestProject/
 
 # Resource files
 *.aps
+
+# Localization intermediate
+ProjectLocalization/intermediate
