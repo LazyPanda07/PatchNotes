@@ -2,15 +2,48 @@
 
 #include <fstream>
 
-#include "GUIFramework.h"
-#include "JSONArrayWrapper.h"
-
+#include "headers.h"
+#include "CompositesHeader.h"
+#include "Initializer.h"
 #include "PatchNotesConstants.h"
 
 using namespace std;
 
 namespace utility
 {
+	void createMainWindow()
+	{
+		thread([]()
+			{
+				try
+				{
+					unique_ptr<gui_framework::WindowHolder> holder;
+
+					Initializer::get().initialize(holder);
+
+					holder->runMainLoop();
+				}
+				catch (const exception& e)
+				{
+					try
+					{
+						gui_framework::BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), CP_UTF8), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
+					}
+					catch (const json::exceptions::CantFindValueException&)
+					{
+						gui_framework::BaseDialogBox::createMessageBox(L"Can't find gui_framework.json", patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
+					}
+				}
+			}).detach();
+	}
+
+	bool& isRunning()
+	{
+		static bool isRunning = true;
+
+		return isRunning;
+	}
+
 	pair<int, int> getScreenCenter(uint16_t width, uint16_t height)
 	{
 		uint16_t screenWidth = static_cast<uint16_t>(GetSystemMetrics(SM_CXSCREEN));

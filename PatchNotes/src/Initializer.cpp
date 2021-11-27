@@ -594,6 +594,8 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 
 	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch Notes", settings, "patchNotes", false, false, "", APPLICATION_ICON, APPLICATION_ICON));
 
+	holder->get()->setOnDestroy([]() { utility::isRunning() = false; });
+
 	globals::dataFolder = (filesystem::path(jsonSettings.getString("pathToProject")) /= patch_notes_constants::jsonVersionsFolder).string();
 
 	localization::TextLocalization::get().changeLanguage(language);

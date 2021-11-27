@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "headers.h"
 #include "BaseComposites/StandardComposites/BaseDialogBox.h"
 
@@ -11,24 +13,11 @@ using namespace std;
 
 int wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {
-	try
-	{
-		unique_ptr<gui_framework::WindowHolder> holder;
+	utility::createMainWindow();
 
-		Initializer::get().initialize(holder);
-
-		holder->runMainLoop();
-	}
-	catch (const exception& e)
+	while (utility::isRunning())
 	{
-		try
-		{
-			gui_framework::BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), CP_UTF8), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
-		}
-		catch (const json::exceptions::CantFindValueException&)
-		{
-			gui_framework::BaseDialogBox::createMessageBox(L"Can't find gui_framework.json", patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
-		}
+		this_thread::sleep_for(1s);
 	}
 
 	Initializer::get().removePreviewFiles();
