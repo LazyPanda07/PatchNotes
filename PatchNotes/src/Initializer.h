@@ -23,6 +23,7 @@ private:
 private:
 	std::unique_ptr<::views::BaseView> projectConfigurationView;
 	std::unique_ptr<::views::BaseView> patchNotesView;
+	std::unique_ptr<::views::BaseView> changeLanguageView;
 	std::unique_ptr<::views::BaseView> categoryConfigurationView;
 	std::unique_ptr<::views::BaseView> generateHTMLView;
 	std::unique_ptr<::views::BaseView> previewPatchNotesView;
@@ -49,7 +50,7 @@ private:
 
 	void initEditingMenuItem(std::unique_ptr<gui_framework::Menu>& menu);
 
-	void createMenus();
+	void createMenus(std::unique_ptr<gui_framework::WindowHolder>& holder);
 
 	void registerHotkeys();
 
@@ -65,6 +66,8 @@ private:
 	void createCategory();
 
 	void changeCategoriesOrder();
+
+	void changeLanguage(std::unique_ptr<gui_framework::WindowHolder>& holder);
 
 #pragma region Deleting
 	void deleteProjectConfiguration();

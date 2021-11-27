@@ -9,7 +9,7 @@ namespace views
 	class ChangeLanguageView : public BaseView
 	{
 	public:
-		ChangeLanguageView(gui_framework::BaseComponent* parent, std::unique_ptr<gui_framework::WindowHolder>& mainWindow);
+		ChangeLanguageView(std::unique_ptr<gui_framework::WindowHolder>& mainWindow);
 
 		void update(const json::JSONParser& data) override;
 

@@ -11,6 +11,7 @@
 #include "Views/GenerateHTMLView.h"
 #include "Views/PreviewPatchNotesView.h"
 #include "Views/ChangeCategoriesOrderView.h"
+#include "Views/ChangeLanguageView.h"
 
 #include "Views/Deleting/DeleteProjectConfigurationView.h"
 #include "Views/Deleting/DeleteCategoryView.h"
@@ -70,10 +71,9 @@ void Initializer::initEditingMenuItem(unique_ptr<gui_framework::Menu>& menu)
 	menu->addMenuItem(make_unique<gui_framework::DropDownMenuItem>(textLocalization[patch_notes_localization::editButton], editionsDropDown.getHandle()));
 }
 
-void Initializer::createMenus()
+void Initializer::createMenus(unique_ptr<gui_framework::WindowHolder>& holder)
 {
 	unique_ptr<gui_framework::Menu>& menu = mainWindow->createMainMenu(L"PatchNotesMenu");
-
 	gui_framework::Menu& creationsDropDown = mainWindow->addPopupMenu(L"Creations");
 
 	creationsDropDown.addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::createNewConfiguration], [this]() { this->createProjectConfiguration(); }));
@@ -91,6 +91,8 @@ void Initializer::createMenus()
 	this->initEditingMenuItem(menu);
 
 	this->initDeletingMenuItem(menu);
+
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Language", [this, &holder]() { this->changeLanguage(holder); }));
 }
 
 void Initializer::registerHotkeys()
@@ -430,6 +432,16 @@ void Initializer::changeCategoriesOrder()
 	changeCategoriesOrderView = make_unique<::views::ChangeCategoriesOrderView>(projectConfiguration->getValue(projectConfiguration->getCurrentSelectionIndex()));
 }
 
+void Initializer::changeLanguage(unique_ptr<gui_framework::WindowHolder>& holder)
+{
+	if (!changeLanguageView)
+	{
+		changeLanguageView = make_unique<::views::ChangeLanguageView>(holder);
+	}
+	
+	static_cast<::views::ChangeLanguageView*>(changeLanguageView.get())->onClick();
+}
+
 void Initializer::deleteProjectConfiguration()
 {
 	deleteProjectConfigurationView = make_unique<::views::DeleteProjectConfigurationView>();
@@ -577,10 +589,15 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 {
 	auto [x, y] = utility::getScreenCenter(sizes::mainWindowWidth, sizes::mainWindowHeight);
 	gui_framework::utility::ComponentSettings settings(x, y, sizes::mainWindowWidth, sizes::mainWindowHeight);
+	const json::JSONParser& jsonSettings = gui_framework::GUIFramework::get().getJSONSettings();
+	const string& language = jsonSettings.getString(json_settings::language);
 
 	holder = make_unique<gui_framework::WindowHolder>(make_unique<gui_framework::SeparateWindow>(L"PatchNotesWindow", L"Patch Notes", settings, "patchNotes", false, false, "", APPLICATION_ICON, APPLICATION_ICON));
 
-	globals::dataFolder = (filesystem::path(gui_framework::GUIFramework::get().getJSONSettings().getString("pathToProject")) /= patch_notes_constants::jsonVersionsFolder).string();
+	globals::dataFolder = (filesystem::path(jsonSettings.getString("pathToProject")) /= patch_notes_constants::jsonVersionsFolder).string();
+
+	localization::TextLocalization::get().changeLanguage(language);
+	localization::WTextLocalization::get().changeLanguage(language);
 
 	filesystem::create_directory(globals::dataFolder);
 
@@ -590,7 +607,7 @@ void Initializer::initialize(unique_ptr<gui_framework::WindowHolder>& holder)
 
 	mainWindow->setAutoResize(true);
 
-	this->createMenus();
+	this->createMenus(holder);
 
 	this->createUI();
 

@@ -9,7 +9,7 @@ using namespace std;
 
 namespace views
 {
-	ChangeLanguageView::ChangeLanguageView(gui_framework::BaseComponent* parent, unique_ptr<gui_framework::WindowHolder>& mainWindow) :
+	ChangeLanguageView::ChangeLanguageView(unique_ptr<gui_framework::WindowHolder>& mainWindow) :
 		BaseView(make_unique<controllers::ChangeLanguageController>(mainWindow), nullptr)
 	{
 
