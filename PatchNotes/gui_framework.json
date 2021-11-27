@@ -4,7 +4,7 @@
     "threadsCount": 1
   },
 
-  "codepage": 1251,
+  "language": "en",
   "pathToProject": "PathToProject",
 
   "pathToBackgroundImage": null,

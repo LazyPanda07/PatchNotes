@@ -11,6 +11,7 @@ namespace globals
 
 namespace json_settings
 {
+    inline const std::string language = "language";
     inline const std::string pathToBackgroundImage = "pathToBackgroundImage";
     inline const std::string pathToProjectLogo = "pathToProjectLogo";
 }

@@ -186,6 +186,7 @@
     <ClCompile Include="src\Controllers\BaseController.cpp" />
     <ClCompile Include="src\Controllers\CategoryController.cpp" />
     <ClCompile Include="src\Controllers\ChangeCategoriesOrderController.cpp" />
+    <ClCompile Include="src\Controllers\ChangeLanguageController.cpp" />
     <ClCompile Include="src\Controllers\Deleting\DeleteCategoryController.cpp" />
     <ClCompile Include="src\Controllers\Deleting\DeleteElementController.cpp" />
     <ClCompile Include="src\Controllers\Deleting\DeleteNoteController.cpp" />
@@ -205,6 +206,7 @@
     <ClCompile Include="src\Models\BaseModel.cpp" />
     <ClCompile Include="src\Models\CategoryModel.cpp" />
     <ClCompile Include="src\Models\ChangeCategoriesOrderModel.cpp" />
+    <ClCompile Include="src\Models\ChangeLanguageModel.cpp" />
     <ClCompile Include="src\Models\Deleting\DeleteCategoryModel.cpp" />
     <ClCompile Include="src\Models\Deleting\DeleteElementModel.cpp" />
     <ClCompile Include="src\Models\Deleting\DeleteNoteModel.cpp" />
@@ -223,6 +225,7 @@
     <ClCompile Include="src\Views\BaseView.cpp" />
     <ClCompile Include="src\Views\CategoryView.cpp" />
     <ClCompile Include="src\Views\ChangeCategoriesOrderView.cpp" />
+    <ClCompile Include="src\Views\ChangeLanguageView.cpp" />
     <ClCompile Include="src\Views\Deleting\DeleteCategoryView.cpp" />
     <ClCompile Include="src\Views\Deleting\DeleteElementView.cpp" />
     <ClCompile Include="src\Views\Deleting\DeleteNoteView.cpp" />
@@ -246,6 +249,7 @@
     <ClInclude Include="src\Controllers\BaseController.h" />
     <ClInclude Include="src\Controllers\CategoryController.h" />
     <ClInclude Include="src\Controllers\ChangeCategoriesOrderController.h" />
+    <ClInclude Include="src\Controllers\ChangeLanguageController.h" />
     <ClInclude Include="src\Controllers\Deleting\DeleteCategoryController.h" />
     <ClInclude Include="src\Controllers\Deleting\DeleteElementController.h" />
     <ClInclude Include="src\Controllers\Deleting\DeleteNoteController.h" />
@@ -264,6 +268,7 @@
     <ClInclude Include="src\Models\BaseModel.h" />
     <ClInclude Include="src\Models\CategoryModel.h" />
     <ClInclude Include="src\Models\ChangeCategoriesOrderModel.h" />
+    <ClInclude Include="src\Models\ChangeLanguageModel.h" />
     <ClInclude Include="src\Models\Deleting\DeleteCategoryModel.h" />
     <ClInclude Include="src\Models\Deleting\DeleteElementModel.h" />
     <ClInclude Include="src\Models\Deleting\DeleteNoteModel.h" />
@@ -284,6 +289,7 @@
     <ClInclude Include="src\Views\BaseView.h" />
     <ClInclude Include="src\Views\CategoryView.h" />
     <ClInclude Include="src\Views\ChangeCategoriesOrderView.h" />
+    <ClInclude Include="src\Views\ChangeLanguageView.h" />
     <ClInclude Include="src\Views\Deleting\DeleteCategoryView.h" />
     <ClInclude Include="src\Views\Deleting\DeleteElementView.h" />
     <ClInclude Include="src\Views\Deleting\DeleteNoteView.h" />
