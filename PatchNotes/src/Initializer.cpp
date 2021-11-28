@@ -92,7 +92,7 @@ void Initializer::createMenus(unique_ptr<gui_framework::WindowHolder>& holder)
 
 	this->initDeletingMenuItem(menu);
 
-	menu->addMenuItem(make_unique<gui_framework::MenuItem>(L"Language", [this, &holder]() { this->changeLanguage(holder); }));
+	menu->addMenuItem(make_unique<gui_framework::MenuItem>(textLocalization[patch_notes_localization::changeLanguageButton], [this, &holder]() { this->changeLanguage(holder); }));
 }
 
 void Initializer::registerHotkeys()

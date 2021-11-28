@@ -106,6 +106,7 @@ namespace patch_notes_localization
     inline const std::string projectConfiguration = "projectConfiguration";
     inline const std::string projectName = "projectName";
     inline const std::string projectVersion = "projectVersion";
+    inline const std::string changeLanguageButton = "changeLanguageButton";
 }
 
 namespace patch_notes_constants
