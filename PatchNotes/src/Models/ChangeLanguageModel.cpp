@@ -1,6 +1,7 @@
 #include "ChangeLanguageModel.h"
 
 #include "PatchNotesConstants.h"
+#include "PatchNotesUtility.h"
 
 using namespace std;
 
@@ -24,6 +25,10 @@ namespace models
 				appendBool("success", false).
 				appendString("message", "Wrong language");
 		}
+
+		ShellExecuteW(NULL, L"open", globals::pathToPatchNotes.data(), command_line::restart.data(), nullptr, SW_SHOWDEFAULT);
+
+		exit(0);
 	
 		return json::JSONBuilder(CP_UTF8).
 			appendBool("success", true).
@@ -39,8 +44,6 @@ namespace models
 		builder[json_settings::language] = changeTo;
 
 		ofstream(gui_framework::json_settings::settingsJSONFile.data()) << builder;
-
-		const_cast<json::JSONParser&>(instance.getJSONSettings()) = json::JSONParser(ifstream(gui_framework::json_settings::settingsJSONFile.data()));
 	}
 
 	ChangeLanguageModel::ChangeLanguageModel(std::unique_ptr<gui_framework::WindowHolder>& mainWindow) :

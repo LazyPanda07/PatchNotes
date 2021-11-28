@@ -5,15 +5,13 @@
 #include <string>
 #include <filesystem>
 
+#include <Windows.h>
+
 #include "JSONParser.h"
 #include "JSONBuilder.h"
 
 namespace utility
 {
-	void createMainWindow();
-
-	bool& isRunning();
-
 	std::pair<int, int> getScreenCenter(uint16_t width, uint16_t height);
 
 	std::wstring to_wstring(const std::string& stringToConvert, uint32_t codepage);
@@ -27,4 +25,8 @@ namespace utility
 	std::vector<std::wstring> getAvailableElements(const std::wstring& projectName, const std::wstring& categoryName);
 
 	std::vector<std::wstring> getAvailableNotes(const std::wstring& projectName, const std::wstring& categoryName, const std::wstring& elementName);
+
+	void initPathToPatchNotes(HINSTANCE hInstance);
+
+	void restart();
 }

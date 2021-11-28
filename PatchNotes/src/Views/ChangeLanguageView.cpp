@@ -20,11 +20,7 @@ namespace views
 		using gui_framework::BaseDialogBox;
 		const string& message = data.getString("message");
 
-		if (data.getBool("success"))
-		{
-			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::successTitle, BaseDialogBox::messageBoxType::ok, nullptr);
-		}
-		else
+		if (!data.getBool("success"))
 		{
 			BaseDialogBox::createMessageBox(utility::to_wstring(message, CP_UTF8), patch_notes_constants::errorTitle, BaseDialogBox::messageBoxType::ok, nullptr);
 		}

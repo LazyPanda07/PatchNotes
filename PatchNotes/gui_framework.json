@@ -3,11 +3,14 @@
     "usingCreators": true,
     "threadsCount": 1
   },
-
   "language": "en",
   "pathToProject": "PathToProject",
-
   "pathToBackgroundImage": null,
   "pathToProjectLogo": null,
-  "patchNotesBackgroundColor": [ 0, 0, 0, 0.17 ]
+  "patchNotesBackgroundColor": [
+    0,
+    0,
+    0,
+    0.170000
+  ]
 }

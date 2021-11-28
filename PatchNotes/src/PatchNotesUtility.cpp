@@ -2,6 +2,10 @@
 
 #include <fstream>
 
+#include <Windows.h>
+#include <shellapi.h>
+#include <tlhelp32.h>
+
 #include "headers.h"
 #include "CompositesHeader.h"
 #include "Initializer.h"
@@ -9,41 +13,10 @@
 
 using namespace std;
 
+bool isRestartNeeded();
+
 namespace utility
 {
-	void createMainWindow()
-	{
-		thread([]()
-			{
-				try
-				{
-					unique_ptr<gui_framework::WindowHolder> holder;
-
-					Initializer::get().initialize(holder);
-
-					holder->runMainLoop();
-				}
-				catch (const exception& e)
-				{
-					try
-					{
-						gui_framework::BaseDialogBox::createMessageBox(utility::to_wstring(e.what(), CP_UTF8), patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
-					}
-					catch (const json::exceptions::CantFindValueException&)
-					{
-						gui_framework::BaseDialogBox::createMessageBox(L"Can't find gui_framework.json", patch_notes_constants::errorTitle, gui_framework::BaseDialogBox::messageBoxType::ok);
-					}
-				}
-			}).detach();
-	}
-
-	bool& isRunning()
-	{
-		static bool isRunning = true;
-
-		return isRunning;
-	}
-
 	pair<int, int> getScreenCenter(uint16_t width, uint16_t height)
 	{
 		uint16_t screenWidth = static_cast<uint16_t>(GetSystemMetrics(SM_CXSCREEN));
@@ -267,4 +240,54 @@ namespace utility
 
 		return result;
 	}
+
+	void initPathToPatchNotes(HINSTANCE hInstance)
+	{
+		wchar_t data[512] = {};
+		DWORD size = GetModuleFileNameW(hInstance, data, 512);
+
+		globals::pathToPatchNotes = data;
+
+		globals::pathToPatchNotes.resize(size);
+	}
+
+	void restart()
+	{
+		while (!isRestartNeeded())
+		{
+			this_thread::sleep_for(0.5s);
+		}
+
+		ShellExecuteW(NULL, L"open", globals::pathToPatchNotes.data(), nullptr, nullptr, SW_SHOWDEFAULT);
+	}
+}
+
+bool isRestartNeeded()
+{
+	PROCESSENTRY32W processInfo = {};
+	size_t processes = 0;
+	HANDLE processesSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+
+	if (processesSnapshot == INVALID_HANDLE_VALUE)
+	{
+		return false;
+	}
+
+	processInfo.dwSize = sizeof(processInfo);
+
+	if (!Process32FirstW(processesSnapshot, &processInfo))
+	{
+		CloseHandle(processesSnapshot);
+
+		return false;
+	}
+
+	do
+	{
+		processes += patch_notes_constants::projectName == processInfo.szExeFile;
+	} while (Process32NextW(processesSnapshot, &processInfo));
+
+	CloseHandle(processesSnapshot);
+
+	return processes == 1;
 }

@@ -7,6 +7,12 @@
 namespace globals
 {
 	inline std::string dataFolder;
+    inline std::wstring pathToPatchNotes;
+}
+
+namespace command_line
+{
+    inline constexpr std::wstring_view restart = L"restart";
 }
 
 namespace json_settings
@@ -18,6 +24,8 @@ namespace json_settings
 
 namespace patch_notes_constants
 {
+    inline const std::wstring projectName = OUT_PROJECT_NAME + std::wstring(L".exe");
+
     inline const std::wstring successTitle = localization::WTextLocalization::get()["success"];
     inline const std::wstring errorTitle = localization::WTextLocalization::get()["error"];
 
