@@ -39,7 +39,7 @@ namespace models
 
 			ofstream(projectFile) << projectData;
 
-			message = textLocalization[patch_notes_localization::configurationSuccessfullyAdded];
+			message = format(textLocalization[patch_notes_localization::configurationSuccessfullyAdded], projectName + '_' + projectVersion);
 		}
 
 		builder.
