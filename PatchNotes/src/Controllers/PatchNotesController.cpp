@@ -2,6 +2,8 @@
 
 #include "headers.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/PatchNotesModel.h"
 #include "PatchNotesUtility.h"
 #include "Validation.h"
@@ -40,7 +42,7 @@ namespace controllers
 
 		istringstream is(gui_framework::utility::to_string(textNotes, CP_UTF8));
 		string tem;
-		vector<json::utility::objectSmartPointer<json::utility::jsonObject>> notes;
+		vector<json::utility::jsonObject> notes;
 
 		while (getline(is, tem))
 		{

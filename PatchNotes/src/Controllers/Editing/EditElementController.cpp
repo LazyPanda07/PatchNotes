@@ -1,6 +1,6 @@
 #include "EditElementController.h"
 
-#include "Components/ComboBoxes/DropDownListComboBox.h"
+#include "ComponentsHeader.h"
 
 #include "Models/Editing/EditElementModel.h"
 #include "PatchNotesUtility.h"

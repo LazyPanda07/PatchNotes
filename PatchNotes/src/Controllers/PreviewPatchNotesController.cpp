@@ -1,5 +1,7 @@
 #include "PreviewPatchNotesController.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/PreviewPatchNotesModel.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"

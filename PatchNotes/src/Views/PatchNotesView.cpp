@@ -31,10 +31,13 @@ namespace views
 		ChildWindow* patchNotesWindow = new ChildWindow(L"PatchNotesUI", L"PatchNotesUI", settings, parent, "patchNotesUI");
 		static const int menuHeight = GetSystemMetrics(SM_CYMENUSIZE);
 		localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
+		gui_framework::utility::ComponentSettings componentSettings(sizes::patchNotesWidth / 4, 0, sizes::patchNotesWidth / 2, 20);
+
+		settings.styles.appendStyle(WS_VSCROLL);
 
 		patchNotesWindow->setAutoResize(true);
 
-		DropDownListComboBox* currentProject = new DropDownListComboBox(L"ProjectNameAndVersion", gui_framework::utility::ComponentSettings(sizes::patchNotesWidth / 4, 0, sizes::patchNotesWidth / 2, 20), patchNotesWindow);
+		DropDownListComboBox* currentProject = new DropDownListComboBox(L"ProjectNameAndVersion", componentSettings, patchNotesWindow);
 		vector<wstring> projects = ::utility::getAvailableProjectsFiles();
 
 		currentProject->setAutoResize(true);

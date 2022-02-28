@@ -11,7 +11,6 @@ namespace models
 {
 	json::JSONBuilder PatchNotesModel::processData(const json::JSONParser& data)
 	{
-		using json::utility::objectSmartPointer;
 		using json::utility::jsonObject;
 		using json::utility::toUTF8JSON;
 
@@ -20,7 +19,7 @@ namespace models
 		filesystem::path pathToProjectFile;
 		const string& itemName = data.getString("item");
 		const string& categoryName =  data.getString("category");
-		const vector<objectSmartPointer<jsonObject>>& notes = data.get<vector<objectSmartPointer<jsonObject>>>("notes");
+		const vector<jsonObject>& notes = data.get<vector<jsonObject>>("notes");
 		bool success = true;
 		localization::TextLocalization& textLocalization = localization::TextLocalization::get();
 		string message = format(textLocalization[patch_notes_localization::elementSuccessfullyAdded], itemName);
@@ -40,7 +39,7 @@ namespace models
 
 			try
 			{
-				if (get<objectSmartPointer<jsonObject>>(checkItem[categoryName])->contains(itemName, json::utility::variantTypeEnum::jJSONObject))
+				if (get<jsonObject>(checkItem[categoryName]).contains(itemName, json::utility::variantTypeEnum::jJSONObject))
 				{
 					throw runtime_error(format(textLocalization[patch_notes_localization::elementAlreadyExists], itemName));
 				}
@@ -50,19 +49,19 @@ namespace models
 
 			}
 
-			objectSmartPointer<jsonObject> userObject = json::utility::make_object<jsonObject>();
-			vector<smartPointerType<jsonObject>> newNotes;
+			jsonObject userObject;
+			vector<jsonObject> newNotes;
 
-			userObject->data.push_back({ "type"s, "item"s });
+			userObject.data.push_back({ "type"s, "item"s });
 
 			for (const auto& j : notes)
 			{
-				json::utility::appendArray(get<string>(j->data.back().second), newNotes);
+				json::utility::appendArray(get<string>(j.data.back().second), newNotes);
 			}
 
-			userObject->data.push_back({ "notes"s, move(newNotes) });
+			userObject.data.push_back({ "notes"s, move(newNotes) });
 
-			get<objectSmartPointer<jsonObject>>(updateBuilder[categoryName])->data.push_back({ itemName, move(userObject) });
+			get<jsonObject>(updateBuilder[categoryName]).data.push_back({ itemName, move(userObject) });
 
 			ofstream(pathToProjectFile) << updateBuilder;
 		}

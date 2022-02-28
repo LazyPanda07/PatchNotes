@@ -1,5 +1,7 @@
 #include "EditCategoryController.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/Editing/EditCategoryModel.h"
 #include "PatchNotesUtility.h"
 

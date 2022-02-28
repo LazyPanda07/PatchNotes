@@ -23,25 +23,25 @@ namespace models
 		{
 			if (parsedData[i].first == category)
 			{
-				const vector<pair<string, json::utility::jsonObject::variantType>>& jsonCategory = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(parsedData[i].second)->data;
+				const vector<pair<string, json::utility::jsonObject::variantType>>& jsonCategory = get<json::utility::jsonObject>(parsedData[i].second).data;
 
 				for (size_t j = 0; j < jsonCategory.size(); j++)
 				{
 					if (jsonCategory[j].first == element)
 					{
-						const vector<pair<string, json::utility::jsonObject::variantType>>& jsonElement = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(jsonCategory[j].second)->data;
+						const vector<pair<string, json::utility::jsonObject::variantType>>& jsonElement = get<json::utility::jsonObject>(jsonCategory[j].second).data;
 
 						for (size_t k = 0; k < jsonElement.size(); k++)
 						{
 							if (jsonElement[k].second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONArray))
 							{
-								const vector<json::utility::objectSmartPointer<json::utility::jsonObject>>& notes = get<vector<json::utility::objectSmartPointer<json::utility::jsonObject>>>(jsonElement[k].second);
+								const vector<json::utility::jsonObject>& notes = get<vector<json::utility::jsonObject>>(jsonElement[k].second);
 
 								for (size_t noteIndex = 0; noteIndex < notes.size(); noteIndex++)
 								{
-									if (get<string>(notes[noteIndex]->data.front().second) == noteToDelete)
+									if (get<string>(notes[noteIndex].data.front().second) == noteToDelete)
 									{
-										const_cast<vector<json::utility::objectSmartPointer<json::utility::jsonObject>>&>(notes).erase(notes.begin() + noteIndex);
+										const_cast<vector<json::utility::jsonObject>&>(notes).erase(notes.begin() + noteIndex);
 
 										break;
 									}

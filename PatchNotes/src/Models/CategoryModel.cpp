@@ -1,5 +1,7 @@
 #include "CategoryModel.h"
 
+#include <fstream>
+
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
 #include "Exceptions/CantFindValueException.h"
@@ -10,7 +12,6 @@ namespace models
 {
 	json::JSONBuilder CategoryModel::processData(const json::JSONParser& data)
 	{
-		using json::utility::objectSmartPointer;
 		using json::utility::jsonObject;
 		using json::utility::toUTF8JSON;
 		using json::utility::fromUTF8JSON;
@@ -47,9 +48,9 @@ namespace models
 
 			}
 
-			objectSmartPointer<jsonObject> category = json::utility::make_object<jsonObject>();
+			jsonObject category;
 
-			category->data.push_back({ "type"s, "category"s });
+			category.data.push_back({ "type"s, "category"s });
 
 			updateBuilder.append(utf8CategoryName, move(category));
 

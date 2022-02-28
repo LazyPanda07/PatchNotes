@@ -1,5 +1,7 @@
 #include "EditNoteModel.h"
 
+#include <fstream>
+
 #include "PatchNotesConstants.h"
 #include "PatchNotesUtility.h"
 
@@ -24,27 +26,27 @@ namespace models
 		{
 			if (i.first == category)
 			{
-				auto& categoryObject = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(i.second);
+				auto& categoryObject = get<json::utility::jsonObject>(i.second);
 
-				for (auto& j : categoryObject->data)
+				for (auto& j : categoryObject.data)
 				{
 					if (j.first == element)
 					{
-						auto& elementObject = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(j.second);
+						auto& elementObject = get<json::utility::jsonObject>(j.second);
 
-						for (auto& k : elementObject->data)
+						for (auto& k : elementObject.data)
 						{
 							if (k.second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONArray))
 							{
-								auto& notes = get<vector<json::utility::objectSmartPointer<json::utility::jsonObject>>>(k.second);
+								auto& notes = get<vector<json::utility::jsonObject>>(k.second);
 
 								for (auto& value : notes)
 								{
-									if (get<string>(value->data.front().second) == note)
+									if (get<string>(value.data.front().second) == note)
 									{
-										value->data.pop_back();
+										value.data.pop_back();
 
-										value->data.push_back({ ""s, newNote });
+										value.data.push_back({ ""s, newNote });
 
 										break;
 									}

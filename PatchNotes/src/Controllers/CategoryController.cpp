@@ -1,5 +1,7 @@
 #include "CategoryController.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/CategoryModel.h"
 #include "PatchNotesUtility.h"
 #include "Validation.h"

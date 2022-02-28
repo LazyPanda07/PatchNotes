@@ -2,6 +2,7 @@
 
 #include <format>
 
+#include "GUIFramework.h"
 #include "Components/ProgressBars/ProgressBar.h"
 
 #include "Initializer.h"
@@ -101,22 +102,22 @@ HTMLAdapter::HTMLAdapter(const json::JSONParser& jsonSchema, gui_framework::Base
 	{
 		if (i->second.index() == static_cast<size_t>(variantTypeEnum::jJSONObject))
 		{
-			const objectSmartPointer<jsonObject>& category = get<static_cast<size_t>(variantTypeEnum::jJSONObject)>(i->second);
-			const string& type = get<string>(find_if(category->data.begin(), category->data.end(), [](const pair<string, jsonObject::variantType>& value) { return value.first == "type"; })->second);
+			const jsonObject& category = get<static_cast<size_t>(variantTypeEnum::jJSONObject)>(i->second);
+			const string& type = get<string>(ranges::find_if(category.data, [](const pair<string, jsonObject::variantType>& value) { return value.first == "type"; })->second);
 
 			this->addCategory(i->first);
 
-			for (const auto& j : category->data)
+			for (const auto& j : category.data)
 			{
 				if (j.second.index() == static_cast<size_t>(variantTypeEnum::jJSONObject))
 				{
-					const objectSmartPointer<jsonObject>& item = get<static_cast<size_t>(variantTypeEnum::jJSONObject)>(j.second);
-					const vector<objectSmartPointer<jsonObject>>& data = get<vector<objectSmartPointer<jsonObject>>>(find_if(item->data.begin(), item->data.end(), [](const pair<string, jsonObject::variantType>& value) { return value.first == "notes"; })->second);
+					const jsonObject& item = get<static_cast<size_t>(variantTypeEnum::jJSONObject)>(j.second);
+					const vector<jsonObject>& data = get<vector<jsonObject>>(ranges::find_if(item.data, [](const pair<string, jsonObject::variantType>& value) { return value.first == "notes"; })->second);
 					vector<string> notes;
 
 					for (const auto& k : data)
 					{
-						notes.push_back(get<string>(k->data.back().second));
+						notes.push_back(get<string>(k.data.back().second));
 					}
 
 					this->addItem(j.first, notes);

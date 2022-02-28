@@ -1,5 +1,7 @@
 #include "EditProjectConfigurationController.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/Editing/EditProjectConfigurationModel.h"
 #include "PatchNotesUtility.h"
 

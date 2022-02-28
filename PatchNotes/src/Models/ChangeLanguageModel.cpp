@@ -1,5 +1,7 @@
 #include "ChangeLanguageModel.h"
 
+#include "GUIFramework.h"
+
 #include "PatchNotesConstants.h"
 #include "PatchNotesUtility.h"
 
@@ -37,9 +39,7 @@ namespace models
 
 	void ChangeLanguageModel::changeLanguage(const string& changeTo)
 	{
-		auto& instance = gui_framework::GUIFramework::get();
-
-		json::JSONBuilder builder(instance.getJSONSettings().getParsedData(), CP_UTF8);
+		json::JSONBuilder builder(gui_framework::GUIFramework::get().getJSONSettings().getParsedData(), CP_UTF8);
 
 		builder[json_settings::language] = changeTo;
 

@@ -22,7 +22,7 @@ namespace models
 		{
 			if (parsedData[i].first == category)
 			{
-				const vector<pair<string, json::utility::jsonObject::variantType>>& jsonCategory = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(parsedData[i].second)->data;
+				const vector<pair<string, json::utility::jsonObject::variantType>>& jsonCategory = get<json::utility::jsonObject>(parsedData[i].second).data;
 
 				for (size_t j = 0; j < jsonCategory.size(); j++)
 				{

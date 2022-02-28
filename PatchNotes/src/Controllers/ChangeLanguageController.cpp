@@ -1,5 +1,7 @@
 #include "ChangeLanguageController.h"
 
+#include "GUIFramework.h"
+
 #include "Models/ChangeLanguageModel.h"
 #include "PatchNotesConstants.h"
 

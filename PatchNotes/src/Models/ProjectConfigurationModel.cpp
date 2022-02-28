@@ -1,6 +1,7 @@
 #include "ProjectConfigurationModel.h"
 
 #include <filesystem>
+#include <fstream>
 
 #include "PatchNotesConstants.h"
 #include "PatchNotesUtility.h"

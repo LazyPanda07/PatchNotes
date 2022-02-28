@@ -1,5 +1,7 @@
 #include "DeleteProjectConfigurationController.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/Deleting/DeleteProjectConfigurationModel.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"

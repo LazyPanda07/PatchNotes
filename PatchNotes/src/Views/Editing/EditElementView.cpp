@@ -1,6 +1,10 @@
 #include "EditElementView.h"
 
-#include "Composites/DialogBox.h"
+#include "ComponentsHeader.h"
+#include "CompositesHeader.h"
+#include "Utility/AdditionalCreationData/ComboBoxAdditionalCreationData.h"
+#include "Utility/AdditionalCreationData/EditControlAdditionalCreationData.h"
+#include "Utility/AdditionalCreationData/ButtonAdditionalCreationData.h"
 
 #include "Controllers/Editing/EditElementController.h"
 #include "PatchNotesUtility.h"

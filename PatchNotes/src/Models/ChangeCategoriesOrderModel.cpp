@@ -12,14 +12,13 @@ namespace models
 {
 	json::JSONBuilder ChangeCategoriesOrderModel::processData(const json::JSONParser& data)
 	{
-		using json::utility::objectSmartPointer;
 		using json::utility::jsonObject;
 
 		json::JSONBuilder builder(CP_UTF8);
 		filesystem::path pathToProjectConfiguration = filesystem::path(globals::dataFolder) /= data.getString("project") + ".json";
 		vector<string> temCategories = json::utility::JSONArrayWrapper(data.getArray("categories")).getAsStringArray();
 		vector<wstring> categories;
-		unordered_map<wstring, objectSmartPointer<jsonObject>*> mappedCategories;
+		unordered_map<wstring, jsonObject*> mappedCategories;
 		json::JSONParser projectConfiguration = ifstream(pathToProjectConfiguration);
 		json::JSONBuilder outputData(CP_UTF8);
 
@@ -27,7 +26,7 @@ namespace models
 		{
 			if (i->second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
 			{
-				mappedCategories[gui_framework::utility::to_wstring(i->first, CP_UTF8)] = const_cast<objectSmartPointer<jsonObject>*>(&get<objectSmartPointer<jsonObject>>(i->second));
+				mappedCategories[gui_framework::utility::to_wstring(i->first, CP_UTF8)] = const_cast<jsonObject*>(&get<jsonObject>(i->second));
 			}
 			else
 			{

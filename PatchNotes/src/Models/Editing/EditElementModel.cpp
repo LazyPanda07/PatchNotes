@@ -1,5 +1,7 @@
 #include "EditElementModel.h"
 
+#include <fstream>
+
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
 
@@ -23,9 +25,9 @@ namespace models
 		{
 			if (i.first == category)
 			{
-				auto& categoryObject = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(i.second);
+				auto& categoryObject = get<json::utility::jsonObject>(i.second);
 
-				for (auto& j : categoryObject->data)
+				for (auto& j : categoryObject.data)
 				{
 					if (j.first == element)
 					{

@@ -1,7 +1,9 @@
 #include "ProjectConfigurationView.h"
 
-#include "Composites/DialogBox.h"
-#include "Components/EditControl.h"
+#include "ComponentsHeader.h"
+#include "CompositesHeader.h"
+#include "Utility/AdditionalCreationData/EditControlAdditionalCreationData.h"
+#include "Utility/AdditionalCreationData/ButtonAdditionalCreationData.h"
 
 #include "Initializer.h"
 #include "Controllers/ProjectConfigurationController.h"
@@ -23,7 +25,6 @@ namespace views
 
 		auto [x, y] = utility::getScreenCenter(gui_framework::standard_sizes::dialogBoxBuilderMinWidth, gui_framework::standard_sizes::dialogBoxBuilderMinHeight);
 		localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
-
 		DialogBox::DialogBoxBuilder builder(L"ProjectConfiguration", textLocalization[patch_notes_localization::projectConfiguration], x, y, "projectConfiguration");
 
 		gui_framework::utility::AdditionalCreationData<gui_framework::EditControl> name(textLocalization[patch_notes_localization::projectName]);

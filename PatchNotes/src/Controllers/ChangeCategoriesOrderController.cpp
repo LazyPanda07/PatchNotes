@@ -1,5 +1,7 @@
 #include "ChangeCategoriesOrderController.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/ChangeCategoriesOrderModel.h"
 #include "PatchNotesUtility.h"
 
@@ -11,7 +13,7 @@ namespace controllers
 	{
 		gui_framework::StaticControl* projectConfiguration = static_cast<gui_framework::StaticControl*>(window->findChild(L"ProjectConfiguration"));
 		wistringstream split(static_cast<gui_framework::RichEdit*>(window->findChild(L"Categories"))->getText());
-		vector<json::utility::objectSmartPointer<json::utility::jsonObject>> categories;
+		vector<json::utility::jsonObject> categories;
 		string currentProject = gui_framework::utility::to_string(projectConfiguration->getText(), CP_UTF8);
 		wstring tem;
 

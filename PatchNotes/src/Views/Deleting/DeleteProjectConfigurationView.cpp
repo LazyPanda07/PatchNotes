@@ -1,6 +1,9 @@
 #include "DeleteProjectConfigurationView.h"
 
-#include "Composites/DialogBox.h"
+#include "ComponentsHeader.h"
+#include "CompositesHeader.h"
+#include "Utility/AdditionalCreationData/ComboBoxAdditionalCreationData.h"
+#include "Utility/AdditionalCreationData/ButtonAdditionalCreationData.h"
 
 #include "Controllers/Deleting/DeleteProjectConfigurationController.h"
 #include "PatchNotesUtility.h"

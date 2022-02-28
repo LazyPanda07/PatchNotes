@@ -1,5 +1,7 @@
 #include "GenerateHTMLController.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/GenerateHTMLModel.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"

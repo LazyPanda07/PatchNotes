@@ -1,5 +1,7 @@
 #include "GenerateHTMLModel.h"
 
+#include "GUIFramework.h"
+
 #include "Initializer.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"

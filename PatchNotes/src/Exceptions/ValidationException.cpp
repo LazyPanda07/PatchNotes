@@ -3,6 +3,7 @@
 #include "headers.h"
 
 #include "PatchNotesUtility.h"
+#include "Utility/Utility.h"
 
 using namespace std;
 

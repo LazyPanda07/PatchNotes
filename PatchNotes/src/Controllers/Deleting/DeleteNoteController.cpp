@@ -1,5 +1,7 @@
 #include "DeleteNoteController.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/Deleting/DeleteNoteModel.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"

@@ -1,6 +1,10 @@
 #include "ChangeCategoriesOrderView.h"
 
-#include "Composites/DialogBox.h"
+#include "ComponentsHeader.h"
+#include "CompositesHeader.h"
+#include "Utility/AdditionalCreationData/StaticControlAdditionalCreationData.h"
+#include "Utility/AdditionalCreationData/ButtonAdditionalCreationData.h"
+#include "Utility/AdditionalCreationData/RichEditAdditionalCreationData.h"
 
 #include "Controllers/ChangeCategoriesOrderController.h"
 #include "PatchNotesUtility.h"

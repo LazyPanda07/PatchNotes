@@ -65,7 +65,6 @@ namespace utility
 	void copyJSON(const filesystem::path& pathToProjectFile, json::JSONBuilder& outBuilder)
 	{
 		using json::utility::variantTypeEnum;
-		using json::utility::objectSmartPointer;
 		using json::utility::jsonObject;
 
 		json::JSONParser projectFile;
@@ -76,36 +75,36 @@ namespace utility
 		{
 			if (static_cast<variantTypeEnum>(i->second.index()) == variantTypeEnum::jJSONObject)
 			{
-				const objectSmartPointer<jsonObject>& object = get<objectSmartPointer<jsonObject>>(i->second);
-				const string& type = get<string>(find_if(object->data.begin(), object->data.end(), [](const pair<string, jsonObject::variantType>& value) { return value.first == "type"; })->second);
+				const jsonObject& object = get<jsonObject>(i->second);
+				const string& type = get<string>(ranges::find_if(object.data, [](const pair<string, jsonObject::variantType>& value) { return value.first == "type"; })->second);
 
 				if (type == "category")
 				{
-					objectSmartPointer<jsonObject> newObject = json::utility::make_object<jsonObject>();
+					jsonObject newObject;
 
-					newObject->data.push_back({ "type"s, "category"s });
+					newObject.data.push_back({ "type"s, "category"s });
 
-					for (const auto& j : object->data)
+					for (const auto& j : object.data)
 					{
 						if (static_cast<variantTypeEnum>(j.second.index()) == variantTypeEnum::jJSONObject)
 						{
-							const objectSmartPointer<jsonObject>& item = get<objectSmartPointer<jsonObject>>(j.second);
-							const vector<objectSmartPointer<jsonObject>>& notes = get<vector<objectSmartPointer<jsonObject>>>(
-								find_if(item->data.begin(), item->data.end(), [](const pair<string, jsonObject::variantType>& value) { return value.first == "notes"; })->second
+							const jsonObject& item = get<jsonObject>(j.second);
+							const vector<jsonObject>& notes = get<vector<jsonObject>>(
+								ranges::find_if(item.data, [](const pair<string, jsonObject::variantType>& value) { return value.first == "notes"; })->second
 								);
-							objectSmartPointer<jsonObject> newItem = json::utility::make_object<jsonObject>();
-							vector<objectSmartPointer<jsonObject>> newNotes;
+							jsonObject newItem;
+							vector<jsonObject> newNotes;
 
 							for (const auto& k : notes)
 							{
-								json::utility::appendArray(get<string>(k->data.back().second), newNotes);
+								json::utility::appendArray(get<string>(k.data.back().second), newNotes);
 							}
 
-							newItem->data.push_back({ "type"s, "item"s });
+							newItem.data.push_back({ "type"s, "item"s });
 
-							newItem->data.push_back({ "notes"s, move(newNotes) });
+							newItem.data.push_back({ "notes"s, move(newNotes) });
 
-							newObject->data.push_back({ j.first, move(newItem) });
+							newObject.data.push_back({ j.first, move(newItem) });
 						}
 					}
 
@@ -172,9 +171,9 @@ namespace utility
 			{
 				if (i->first == jsonCategoryName)
 				{
-					const json::utility::objectSmartPointer<json::utility::jsonObject>& category = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(i->second);
+					const json::utility::jsonObject& category = get<json::utility::jsonObject>(i->second);
 
-					for (const auto& j : category->data)
+					for (const auto& j : category.data)
 					{
 						if (j.second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
 						{
@@ -208,17 +207,17 @@ namespace utility
 			{
 				if (i->first == jsonCategoryName)
 				{
-					const json::utility::objectSmartPointer<json::utility::jsonObject>& category = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(i->second);
+					const json::utility::jsonObject& category = get<json::utility::jsonObject>(i->second);
 
-					for (const auto& j : category->data)
+					for (const auto& j : category.data)
 					{
 						if (j.second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONObject))
 						{
 							if (j.first == jsonElementName)
 							{
-								const json::utility::objectSmartPointer<json::utility::jsonObject>& element = get<json::utility::objectSmartPointer<json::utility::jsonObject>>(j.second);
+								const json::utility::jsonObject& element = get<json::utility::jsonObject>(j.second);
 
-								for (const auto& k : element->data)
+								for (const auto& k : element.data)
 								{
 									if (k.second.index() == static_cast<size_t>(json::utility::variantTypeEnum::jJSONArray))
 									{

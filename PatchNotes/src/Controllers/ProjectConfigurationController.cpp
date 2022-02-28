@@ -1,5 +1,7 @@
 #include "ProjectConfigurationController.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/ProjectConfigurationModel.h"
 #include "PatchNotesUtility.h"
 #include "Validation.h"

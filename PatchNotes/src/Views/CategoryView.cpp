@@ -1,7 +1,10 @@
 #include "CategoryView.h"
 
-#include "Composites/DialogBox.h"
-#include "Components/EditControl.h"
+#include "ComponentsHeader.h"
+#include "CompositesHeader.h"
+#include "Utility/AdditionalCreationData/StaticControlAdditionalCreationData.h"
+#include "Utility/AdditionalCreationData/EditControlAdditionalCreationData.h"
+#include "Utility/AdditionalCreationData/ButtonAdditionalCreationData.h"
 
 #include "Initializer.h"
 #include "Controllers/CategoryController.h"

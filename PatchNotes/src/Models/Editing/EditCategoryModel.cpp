@@ -1,5 +1,7 @@
 #include "EditCategoryModel.h"
 
+#include <fstream>
+
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"
 

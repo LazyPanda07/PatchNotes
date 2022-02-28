@@ -1,5 +1,7 @@
 #include "DeleteCategoryController.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/Deleting/DeleteCategoryModel.h"
 #include "PatchNotesUtility.h"
 #include "PatchNotesConstants.h"

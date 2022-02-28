@@ -1,5 +1,7 @@
 #include "EditNoteController.h"
 
+#include "ComponentsHeader.h"
+
 #include "Models/Editing/EditNoteModel.h"
 #include "PatchNotesUtility.h"
 

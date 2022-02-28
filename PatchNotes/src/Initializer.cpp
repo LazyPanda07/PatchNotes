@@ -1,7 +1,8 @@
 #include "Initializer.h"
 
 #include "GUIFramework.h"
-#include "Composites/DialogBox.h"
+#include "ComponentsHeader.h"
+#include "CompositesHeader.h"
 #include "MenuItems/MenuItem.h"
 #include "MenuItems/DropDownMenuItem.h"
 
@@ -307,11 +308,11 @@ void Initializer::initBackgroundPatchNotesColor()
 	{
 		try
 		{
-			colorFormat += to_string(std::get<int64_t>(i->data.front().second)) + ", ";
+			colorFormat += to_string(std::get<int64_t>(i.data.front().second)) + ", ";
 		}
 		catch (const bad_variant_access&)
 		{
-			colorFormat += to_string(std::get<double>(i->data.front().second)) + ", ";
+			colorFormat += to_string(std::get<double>(i.data.front().second)) + ", ";
 		}
 	}
 
