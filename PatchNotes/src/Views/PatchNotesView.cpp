@@ -33,8 +33,6 @@ namespace views
 		localization::WTextLocalization& textLocalization = localization::WTextLocalization::get();
 		gui_framework::utility::ComponentSettings componentSettings(sizes::patchNotesWidth / 4, 0, sizes::patchNotesWidth / 2, 20);
 
-		settings.styles.appendStyle(WS_VSCROLL);
-
 		patchNotesWindow->setAutoResize(true);
 
 		DropDownListComboBox* currentProject = new DropDownListComboBox(L"ProjectNameAndVersion", componentSettings, patchNotesWindow);
