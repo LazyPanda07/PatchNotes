@@ -1,6 +1,7 @@
 #include "PatchNotesUtility.h"
 
 #include <fstream>
+#include <map>
 
 #include <Windows.h>
 #include <shellapi.h>
@@ -117,18 +118,20 @@ namespace utility
 	vector<wstring> getAvailableProjectsFiles()
 	{
 		vector<wstring> result;
-		map<filesystem::file_time_type, wstring> lastTimeModifiedFiles;
-
+		multimap<filesystem::file_time_type, wstring, greater<filesystem::file_time_type>> lastTimeModifiedFiles;
 		filesystem::directory_iterator it(globals::dataFolder);
 
 		for (const auto& projectFile : it)
 		{
-			lastTimeModifiedFiles[filesystem::last_write_time(projectFile)] = projectFile.path().stem().wstring();
+			lastTimeModifiedFiles.insert(make_pair(filesystem::last_write_time(projectFile), projectFile.path().stem().wstring()));
 		}
 
 		result.reserve(lastTimeModifiedFiles.size());
 
-		for_each(lastTimeModifiedFiles.rbegin(), lastTimeModifiedFiles.rend(), [&result](const pair<filesystem::file_time_type, wstring>& value) { result.push_back(value.second); });
+		for (const auto& [key, value] : lastTimeModifiedFiles)
+		{
+			result.push_back(value);
+		}
 
 		return result;
 	}
